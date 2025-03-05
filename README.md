@@ -2,9 +2,9 @@
 
 Team Members:
 
-*
-*
-*
+* Erika Wallace
+* Ella Giere
+* Nicole Lucas
 *
 
 For each iteration you should answer the following:
