@@ -62,6 +62,7 @@ public class BankAccountTests {
 			fail();
 		} catch (IllegalArgumentException e) {
 			assertTrue(e != null);
+			assertEquals(account.getCurrentBalance(), 20.0, 0.005);
 		}
 	}
 	
@@ -75,6 +76,7 @@ public class BankAccountTests {
 			fail();
 		} catch (IllegalArgumentException e) {
 			assertTrue(e != null);
+			assertEquals(account.getCurrentBalance(), 20.0, 0.005);
 		}
 	}
 	
@@ -88,6 +90,7 @@ public class BankAccountTests {
 			fail();
 		} catch (InsufficientFundsException e) {
 			assertTrue(e != null);
+			assertEquals(account.getCurrentBalance(), 20.0, 0.005);
 		}
 	}
 }
