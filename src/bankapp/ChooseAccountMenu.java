@@ -7,7 +7,7 @@ public class ChooseAccountMenu {
 	   Scanner scanner = new Scanner(System.in);
        
       
-       System.out.println("Welcome, " + customer.getName() + "!");
+       
        System.out.println("Which type of account would you like to manage?");
        System.out.println("1: Checking");
        System.out.println("2: Savings");
@@ -21,7 +21,7 @@ public class ChooseAccountMenu {
        } else if(accountTypeSelection == 2) {
            accountType = "savings";
        } else {
-           System.out.println("Invalid selection. Exiting.");
+           System.out.println("Invalid selection.");
            scanner.close();
            return;
        }
@@ -29,7 +29,7 @@ public class ChooseAccountMenu {
     
        List<BankAccount> filteredAccounts = customer.getAccountsByType(accountType);
        if(filteredAccounts.isEmpty()) {
-           System.out.println("No " + accountType + " accounts available. Exiting.");
+           System.out.println("No " + accountType + " accounts available.");
            scanner.close();
            return;
        }
