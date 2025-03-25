@@ -3,6 +3,8 @@ import java.util.List;
 import java.util.Scanner;
 
 	public class Menu {
+		private List<BankAccount> accounts;
+		
 		 public static void findAccount(Customer customer) {
 		        Scanner scanner = new Scanner(System.in);
 		        
@@ -45,6 +47,14 @@ import java.util.Scanner;
 		        for (int i = 0; i < accounts.size(); i++) {
 		            System.out.println((i + 1));
 		        }
-		    }  
+		        
+		    } 
+		    
+		    public BankAccount openAccount(double initialDeposit) {
+		        BankAccount newAccount = new BankAccount(initialDeposit);
+		        accounts.add(newAccount);
+		        return newAccount;
+		     }
+		    
 		}
 	
