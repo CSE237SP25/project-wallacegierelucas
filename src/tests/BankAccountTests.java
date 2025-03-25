@@ -24,6 +24,19 @@ public class BankAccountTests {
 	}
 	
 	@Test
+	public void testZeroDeposit() {
+		BankAccount account = new BankAccount();
+
+		try {
+			account.deposit(0);
+			fail();
+		} catch (IllegalArgumentException e) {
+			assertTrue(e != null);
+			assertEquals(account.getCurrentBalance(), 0, 0.005);
+		}
+	}
+	
+	@Test
 	public void testNegativeDeposit() {
 		//1. Create object to be tested
 		BankAccount account = new BankAccount();
@@ -33,6 +46,7 @@ public class BankAccountTests {
 			fail();
 		} catch (IllegalArgumentException e) {
 			assertTrue(e != null);
+			assertEquals(account.getCurrentBalance(), 0, 0.005);
 		}
 	}
 	
