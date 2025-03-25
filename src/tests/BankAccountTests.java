@@ -107,4 +107,16 @@ public class BankAccountTests {
 			assertEquals(account.getCurrentBalance(), 20.0, 0.005);
 		}
 	}
+	
+	@Test 
+	public void TestNegativeInitialBalance() { 
+		
+		try { 
+			BankAccount account = new BankAccount(-3);
+			fail(); 
+		}
+		catch(IllegalArgumentException e) { 
+			assertTrue(e != null); 
+		}
+	}
 }
