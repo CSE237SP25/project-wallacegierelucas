@@ -3,7 +3,8 @@ package bankapp;
 import exceptions.InsufficientFundsException;
 
 public class BankAccount {
-    private double balance;
+    
+	private double balance;
     private Customer owner;
 
     public BankAccount(double initialBalance) {
@@ -12,14 +13,7 @@ public class BankAccount {
         }
         this.balance = initialBalance;
     }
-
-    @Override
-    public String toString() {
-        return "BankAccount{balance=" + balance + "}";
-    }
-  
-	private double balance;
-	
+  	
 	public BankAccount() {
 		this.balance = 0;
 	}
@@ -46,4 +40,9 @@ public class BankAccount {
 	public double getCurrentBalance() {
 		return this.balance;
 	}
+	
+    @Override
+    public String toString() {
+        return "BankAccount{balance=" + balance + "}";
+    }
 }
