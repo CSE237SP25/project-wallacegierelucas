@@ -14,11 +14,6 @@ public class Customer {
         this.accounts = new ArrayList<>();
     }
 
-    public BankAccount openAccount(double initialDeposit) {
-        BankAccount newAccount = new BankAccount(initialDeposit);
-        accounts.add(newAccount);
-        return newAccount;
-    }
 
     public List<BankAccount> getAccounts() {
         return accounts;
