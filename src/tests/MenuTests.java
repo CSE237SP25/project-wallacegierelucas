@@ -14,6 +14,7 @@ public class MenuTests {
 	  private final InputStream originalIn = System.in;
 	  private ByteArrayOutputStream testOut;
 
+
 	  
 	@Test
     public void testInvalidSelection() {
@@ -54,6 +55,30 @@ public class MenuTests {
         System.setOut(originalOut);
         System.setIn(originalIn);
     }
+    
+    @Test
+    void testOpenAccount() {
+    	Customer customer = new Customer();
+        BankAccount account = customer.openAccount(500.0);
+
+        assertNotNull(account);
+        assertEquals(500.0, account.getCurrentBalance(), 0.01);
+        assertEquals(1, customer.getAccounts().size(), "Customer should have one account after opening.");
+        assertTrue(customer.getAccounts().contains(account), "Customer's account list should include the new account.");
+    }
+    
+    @Test
+    void testMultipleAccounts() {
+    	Customer customer = new Customer();
+        BankAccount account1 = customer.openAccount(200.0);
+        BankAccount account2 = customer.openAccount(300.0);
+
+        List<BankAccount> accounts = customer.getAccounts();
+        assertEquals(2, accounts.size(), "Customer should have two accounts.");
+        assertTrue(accounts.contains(account1));
+        assertTrue(accounts.contains(account2));
+    }
+}
 
 
 }
