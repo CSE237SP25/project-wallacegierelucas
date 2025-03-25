@@ -14,6 +14,7 @@ public class MenuTests {
 	  private final InputStream originalIn = System.in;
 	  private ByteArrayOutputStream testOut;
 
+
 	  
 	@Test
     public void testInvalidSelection() {
@@ -57,6 +58,7 @@ public class MenuTests {
     
     @Test
     void testOpenAccount() {
+    	Customer customer = new Customer();
         BankAccount account = customer.openAccount(500.0);
 
         assertNotNull(account);
@@ -67,6 +69,7 @@ public class MenuTests {
     
     @Test
     void testMultipleAccounts() {
+    	Customer customer = new Customer();
         BankAccount account1 = customer.openAccount(200.0);
         BankAccount account2 = customer.openAccount(300.0);
 
