@@ -12,14 +12,14 @@ import java.io.PrintStream;
 import org.junit.jupiter.api.Test;
 
 import bankapp.BankAccount;
-import bankapp.Menu;
+import bankapp.BankAccountMenu;
 import exceptions.InvalidMenuOptionException;
 
-public class MenuTests {
+public class BankAccountMenuTests {
 	
 	@Test
 	public void testUserDeposit() {
-		Menu menu = new Menu();
+		BankAccountMenu menu = new BankAccountMenu();
 		
 		menu.processDeposit(20);
 		
@@ -29,7 +29,7 @@ public class MenuTests {
 	
 	@Test
 	public void testUserWithdrawal() {
-		Menu menu = new Menu();
+		BankAccountMenu menu = new BankAccountMenu();
 		
 		menu.processDeposit(50);
 		menu.processWithdrawal(20);
@@ -44,7 +44,7 @@ public class MenuTests {
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(outputStream));
 		
-		Menu menu = new Menu();
+		BankAccountMenu menu = new BankAccountMenu();
 		menu.processDeposit(50);
 		menu.processCheckBalance();
 		
@@ -66,7 +66,7 @@ public class MenuTests {
 		PrintStream originalOutputStream = System.out;
 		System.setOut(new PrintStream(new ByteArrayOutputStream()));
 		
-		Menu menu = new Menu();
+		BankAccountMenu menu = new BankAccountMenu();
 		menu.processUserOptionInput(2);
 		
 		System.setIn(originalInputStream);
@@ -88,7 +88,7 @@ public class MenuTests {
 		PrintStream originalOutputStream = System.out;
 		System.setOut(new PrintStream(new ByteArrayOutputStream()));
 		
-		Menu menu = new Menu();
+		BankAccountMenu menu = new BankAccountMenu();
 		menu.processDeposit(50);
 		menu.processUserOptionInput(3);
 
@@ -101,7 +101,7 @@ public class MenuTests {
 	
 	@Test
 	public void testInvalidMenuOption() {
-		Menu menu = new Menu();
+		BankAccountMenu menu = new BankAccountMenu();
 		
 		try {
 			menu.processUserOptionInput(4);

@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 import exceptions.InvalidMenuOptionException;
 
-public class Menu {
+public class BankAccountMenu {
 	private static final int CHECK_BALANCE = 1;
 	private static final int DEPOSIT = 2;
 	private static final int WITHDRAW = 3;
@@ -12,7 +12,7 @@ public class Menu {
 	private BankAccount account;
 	private Scanner keyboardInput;
 	
-	public Menu() {
+	public BankAccountMenu() {
 		this.account =  new BankAccount();
 		this.keyboardInput = new Scanner(System.in);
 	}
