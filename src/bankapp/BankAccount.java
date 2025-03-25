@@ -1,5 +1,7 @@
 package bankapp;
 
+import exceptions.InsufficientFundsException;
+
 public class BankAccount {
 
 	private double balance;
@@ -13,6 +15,18 @@ public class BankAccount {
 			throw new IllegalArgumentException();
 		}
 		this.balance += amount;
+	}
+	
+	public void withdraw(double amount) {
+		if(amount <= 0) {
+			throw new IllegalArgumentException("Must withdraw a positive amount.");
+		}
+		
+		if(balance < amount) {
+			throw new InsufficientFundsException("Insufficient funds.");
+		}
+		
+		this.balance -= amount;
 	}
 	
 	public double getCurrentBalance() {
