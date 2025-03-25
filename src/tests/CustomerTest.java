@@ -1,12 +1,11 @@
 package tests;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import bankapp.Customer;
 import bankapp.BankAccount;
 
 import java.util.List;
@@ -29,7 +28,7 @@ class CustomerTest {
     @Test
     void testOpenAccount() {
         BankAccount account = customer.openAccount(500.0);
-        
+
         assertNotNull(account);
         assertEquals(500.0, account.getCurrentBalance(), 0.01);
         assertEquals(1, customer.getAccounts().size(), "Customer should have one account after opening.");
