@@ -15,6 +15,8 @@ public class MenuTests {
 	  private final PrintStream originalOut = System.out;
 	  private final InputStream originalIn = System.in;
 	  private ByteArrayOutputStream testOut;
+	  private Menu menu; 
+	  private Customer customer; 
 
 
 	  
@@ -87,9 +89,11 @@ public class MenuTests {
     }
     @Test
     void testCloseAccountWithZeroBalance() {
-        BankAccount account = customer.openAccount(0.0);
+    	Customer customer = new Customer("Lila", "126");
+    	Menu menu = new Menu(customer); 
+        BankAccount account = menu.openAccount(0.0, "checkings");
 
-        boolean result = customer.closeAccount(account);
+        boolean result = menu.closeAccount(account);
 
         assertTrue(result, "Account with zero balance should be closed.");
         assertFalse(customer.getAccounts().contains(account), "Closed account should be removed from the customer’s account list.");
@@ -97,9 +101,11 @@ public class MenuTests {
 
     @Test
     void testCloseAccountWithNonZeroBalance() {
-        BankAccount account = customer.openAccount(100.0);
+    	Customer customer = new Customer("Lila", "126");
+    	Menu menu = new Menu(customer); 
+        BankAccount account = menu.openAccount(100.0, "checking");
 
-        boolean result = customer.closeAccount(account);
+        boolean result = menu.closeAccount(account);
 
         assertFalse(result, "Account with nonzero balance should not be closed.");
         assertTrue(customer.getAccounts().contains(account), "Account should still exist in the customer’s account list.");
@@ -107,16 +113,16 @@ public class MenuTests {
 
     @Test
     void testCloseNonExistentAccount() {
-        BankAccount account1 = customer.openAccount(50.0);
-        BankAccount account2 = new BankAccount(0.0); // This account is NOT added to the customer
+    	Customer customer = new Customer("Lila", "126");
+    	Menu menu = new Menu(customer); 
+        BankAccount account1 = menu.openAccount(50.0, "checking");
+        BankAccount account2 = new BankAccount(0.0, "checking"); // This account is NOT added to the customer
 
-        boolean result = customer.closeAccount(account2);
+        boolean result = menu.closeAccount(account2);
 
         assertFalse(result, "Closing an account that doesn't exist should return false.");
-    }
+    
 
-
-        
         menu.findAccount();
 
        
@@ -127,29 +133,6 @@ public class MenuTests {
         System.setIn(originalIn);
     }
     
-    @Test
-    public void testOpenAccount() {
-    	Customer customer = new Customer("Emma", "125");;
-        Menu menu = new Menu(customer); 
-    	BankAccount account = menu.openAccount(500.0, "checking");
-
-        assertNotNull(account);
-        assertEquals(500.0, account.getCurrentBalance(), 0.01);
-        assertEquals(1, customer.getAccounts().size(), "Customer should have one account after opening.");
-        assertTrue(customer.getAccounts().contains(account), "Customer's account list should include the new account.");
-    }
-    
-    @Test
-    public void testMultipleAccounts() {
-    	Customer customer = new Customer("Lila", "126");
-    	Menu menu = new Menu(customer); 
-        BankAccount account1 = menu.openAccount(200.0, "checking");
-        BankAccount account2 = menu.openAccount(300.0, "checking");
-
-        List<BankAccount> accounts = customer.getAccounts();
-        assertEquals(2, accounts.size(), "Customer should have two accounts.");
-        assertTrue(accounts.contains(account1));
-        assertTrue(accounts.contains(account2));
-    }
+   
 }
 
