@@ -39,7 +39,7 @@ public class BankAccountTests {
 	public void TestNegativeInitialBalance() { 
 		
 		try { 
-			BankAccount account = new BankAccount(-3);
+			BankAccount account = new BankAccount(-3, "checking");
 			fail(); 
 		}
 		catch(IllegalArgumentException e) { 
