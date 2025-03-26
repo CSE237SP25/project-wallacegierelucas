@@ -6,12 +6,14 @@ public class BankAccount {
     
 	private double balance;
     private Customer owner;
+    private String type;
 
-    public BankAccount(double initialBalance) {
+    public BankAccount(double initialBalance, String type) {
         if (initialBalance < 0) {
             throw new IllegalArgumentException("Initial balance cannot be negative.");
         }
         this.balance = initialBalance;
+        this.type = type;
     }
   	
 	public BankAccount() {
@@ -45,4 +47,16 @@ public class BankAccount {
     public String toString() {
         return "BankAccount{balance=" + balance + "}";
     }
-}
+
+	public String getType() {
+		return this.type;	
+	}
+	 
+	   
+	public void setCustomer(Customer owner) {
+	        this.owner = owner;
+	    }
+
+	    
+	}
+

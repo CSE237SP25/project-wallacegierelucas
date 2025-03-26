@@ -31,4 +31,17 @@ public class Customer {
     public String toString() {
         return "Customer{name='" + name + "', customerId='" + customerId + "', accounts=" + accounts + "}";
     }
+    
+    public List<BankAccount> getAccountsByType(String accountType) {
+        List<BankAccount> filtered = new ArrayList<>();
+        for (BankAccount account : accounts) {
+            if (account.getType().equalsIgnoreCase(accountType)) {
+                filtered.add(account);
+            }
+        }
+        return filtered;
+    }
+    public void addAccount(BankAccount account) {
+        accounts.add(account);
+    }
 }

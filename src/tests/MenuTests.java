@@ -1,8 +1,10 @@
 package tests;
 import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.*;
 
 import bankapp.BankAccount;
+import bankapp.Customer;
 import bankapp.Menu;
 
 import java.io.*;
@@ -23,10 +25,10 @@ public class MenuTests {
 	
         String input = "3\n"; 
         System.setIn(new ByteArrayInputStream(input.getBytes()));
-        Customer customer = new Customer();
+        Customer customer = new Customer("Abba", "123");
 
         
-        Menu.manageAccount(customer);
+        Menu.findAccount(customer);
 
         
         String output = testOut.toString();
@@ -43,10 +45,10 @@ public class MenuTests {
     	
         String input = "1\n"; 
         System.setIn(new ByteArrayInputStream(input.getBytes()));
-        Customer customer = new Customer();
+        Customer customer = new Customer("Abba", "123");
 
         
-        Menu.manageAccount(customer);
+        Menu.findAccount(customer);
 
        
         String output = testOut.toString();
@@ -57,9 +59,10 @@ public class MenuTests {
     }
     
     @Test
-    void testOpenAccount() {
-    	Customer customer = new Customer();
-        BankAccount account = customer.openAccount(500.0);
+    public void testOpenAccount() {
+    	Customer customer = new Customer("Abba", "123");;
+        Menu menu = new Menu(); 
+    	BankAccount account = menu.openAccount(500.0, "checking");
 
         assertNotNull(account);
         assertEquals(500.0, account.getCurrentBalance(), 0.01);
@@ -68,10 +71,11 @@ public class MenuTests {
     }
     
     @Test
-    void testMultipleAccounts() {
-    	Customer customer = new Customer();
-        BankAccount account1 = customer.openAccount(200.0);
-        BankAccount account2 = customer.openAccount(300.0);
+    public void testMultipleAccounts() {
+    	Customer customer = new Customer("Abba", "123");
+    	Menu menu = new Menu(); 
+        BankAccount account1 = menu.openAccount(200.0, "checking");
+        BankAccount account2 = menu.openAccount(300.0, "checking");
 
         List<BankAccount> accounts = customer.getAccounts();
         assertEquals(2, accounts.size(), "Customer should have two accounts.");
@@ -81,4 +85,4 @@ public class MenuTests {
 }
 
 
-}
+

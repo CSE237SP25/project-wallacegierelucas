@@ -1,11 +1,21 @@
 package bankapp;
+
+import java.util.ArrayList;
 import java.util.List;
+
+
 import java.util.Scanner;
 
 	public class Menu {
-		private List<BankAccount> accounts;
+	    private List<BankAccount> accounts;
+	    private Customer customer; 
 		
-		 public static void findAccount(Customer customer) {
+		 public Menu(Customer customer) {
+		        this.accounts = new ArrayList<>();
+		        this.customer = customer;
+		    
+		    }
+		 public static void findAccount() {
 		        Scanner scanner = new Scanner(System.in);
 		        
 		        String accountType = getAccountType(scanner);
@@ -50,11 +60,12 @@ import java.util.Scanner;
 		        
 		    } 
 		    
-		    public BankAccount openAccount(double initialDeposit) {
-		        BankAccount newAccount = new BankAccount(initialDeposit);
+		    public BankAccount openAccount(double initialDeposit, String type) {
+	 
+		        BankAccount newAccount = new BankAccount(initialDeposit, type);
 		        accounts.add(newAccount);
+		        customer.addAccount(newAccount); 
 		        return newAccount;
 		     }
 		    
-		}
-	
+	}
