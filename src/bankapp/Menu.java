@@ -15,7 +15,7 @@ import java.util.Scanner;
 		        this.customer = customer;
 		    
 		    }
-		 public static void findAccount() {
+		 public void findAccount() {
 		        Scanner scanner = new Scanner(System.in);
 		        
 		        String accountType = getAccountType(scanner);

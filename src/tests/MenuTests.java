@@ -22,13 +22,14 @@ public class MenuTests {
     public void testInvalidSelection() {
 		testOut = new ByteArrayOutputStream();
 	    System.setOut(new PrintStream(testOut));
+	    Customer customer = new Customer("Ella", "123");
+	    Menu menu = new Menu(customer);
 	
         String input = "3\n"; 
         System.setIn(new ByteArrayInputStream(input.getBytes()));
-        Customer customer = new Customer("Abba", "123");
-
         
-        Menu.findAccount(customer);
+        
+        menu.findAccount();
 
         
         String output = testOut.toString();
@@ -42,13 +43,15 @@ public class MenuTests {
     public void testNoAccountsAvailable() {
     	testOut = new ByteArrayOutputStream();
 	    System.setOut(new PrintStream(testOut));
+	    Customer customer = new Customer("Emily", "124");
+	    Menu menu = new Menu(customer);
     	
         String input = "1\n"; 
         System.setIn(new ByteArrayInputStream(input.getBytes()));
-        Customer customer = new Customer("Abba", "123");
+        
 
         
-        Menu.findAccount(customer);
+        menu.findAccount();
 
        
         String output = testOut.toString();
@@ -60,8 +63,8 @@ public class MenuTests {
     
     @Test
     public void testOpenAccount() {
-    	Customer customer = new Customer("Abba", "123");;
-        Menu menu = new Menu(); 
+    	Customer customer = new Customer("Emma", "125");;
+        Menu menu = new Menu(customer); 
     	BankAccount account = menu.openAccount(500.0, "checking");
 
         assertNotNull(account);
@@ -72,8 +75,8 @@ public class MenuTests {
     
     @Test
     public void testMultipleAccounts() {
-    	Customer customer = new Customer("Abba", "123");
-    	Menu menu = new Menu(); 
+    	Customer customer = new Customer("Lila", "126");
+    	Menu menu = new Menu(customer); 
         BankAccount account1 = menu.openAccount(200.0, "checking");
         BankAccount account2 = menu.openAccount(300.0, "checking");
 
