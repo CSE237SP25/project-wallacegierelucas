@@ -17,6 +17,7 @@ This iteration, we added funtionality for a bank customer to:
 * view the balance of their account(s)
 * transfer money between accounts
 
+
 What user stories do you intend to complete next iteration?
 Next iteration, we'd like to add the ability to:
 * view and filter transaction history
@@ -25,5 +26,6 @@ Next iteration, we'd like to add the ability to:
 * handle large deposits/withdrawals
 
 Is there anything that you implemented but doesn't currently work?
+* We tried merging the transfer money branch to development, but encountered multiple merge conflicts. We were up late trying to fix them, but were unsuccessful. In the next iteration, we will work to fix this. 
 
 What commands are needed to compile and run your code from the command line (please provide a script that users can run to launch your program)?
