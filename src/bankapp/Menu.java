@@ -6,6 +6,8 @@ import java.util.List;
 
 import java.util.Scanner;
 
+import exceptions.InsufficientFundsException;
+
 	public class Menu {
 	    private List<BankAccount> accounts;
 	    private Customer customer; 
@@ -76,5 +78,20 @@ import java.util.Scanner;
 		        return accounts.remove(account);
 		    }
 		    
+		    public static void transfer(BankAccount from, BankAccount to, double amount) {
+		        System.out.println("\nInitiating transfer of " + amount + " from account " 
+		                           + from + " to account " + to);
+		        
+		        
+		        try {
+		        	from.withdraw(amount);
+		        	to.deposit(amount);
+		            System.out.println("Transfer completed successfully.");
+		        }
+		        catch(InsufficientFundsException e) {
+		        	 System.out.println("Transfer failed due to insufficient funds.");
+		        }
+		        
+		    }
 
 	}

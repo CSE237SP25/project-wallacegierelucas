@@ -106,6 +106,7 @@ public class MenuTests {
         BankAccount account = menu.openAccount(100.0, "checking");
 
         boolean result = menu.closeAccount(account);
+        
 
         assertFalse(result, "Account with nonzero balance should not be closed.");
         assertTrue(customer.getAccounts().contains(account), "Account should still exist in the customer’s account list.");
@@ -131,6 +132,23 @@ public class MenuTests {
         
         System.setOut(originalOut);
         System.setIn(originalIn);
+    }
+    
+    @Test
+    public void testSuccessfulTransfer() {
+    	Customer customer = new Customer("Lila", "126");
+    	Menu menu = new Menu(customer); 
+        BankAccount account1 = menu.openAccount(150.0, "checking");
+        BankAccount account2 = new BankAccount(500.0, "checking");
+        
+        double transferAmount = 100.0;
+
+
+        menu.transfer(account1, account2, transferAmount);
+
+        
+        assertEquals(700.0, account1.getCurrentBalance(), 0.001, "Account1 balance should be $50.0 after transfer");
+        assertEquals(800.0, account2.getCurrentBalance(), 0.001, "Account2 balance should be $600.0 after transfer");
     }
     
    
