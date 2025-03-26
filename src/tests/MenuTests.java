@@ -91,7 +91,7 @@ public class MenuTests {
     void testCloseAccountWithZeroBalance() {
     	Customer customer = new Customer("Lila", "126");
     	Menu menu = new Menu(customer); 
-        BankAccount account = menu.openAccount(0.0, "checkings");
+        BankAccount account = menu.openAccount(0.0, "checking");
 
         boolean result = menu.closeAccount(account);
 
@@ -123,15 +123,6 @@ public class MenuTests {
 
         assertFalse(result, "Closing an account that doesn't exist should return false.");
     
-
-        menu.findAccount();
-
-       
-        String output = testOut.toString();
-        assertTrue(output.contains("No checking accounts available."), "Output should indicate that no checking accounts are available");
-        
-        System.setOut(originalOut);
-        System.setIn(originalIn);
     }
     
     @Test

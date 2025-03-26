@@ -71,11 +71,22 @@ import exceptions.InsufficientFundsException;
 		     }
 		    
 		    public boolean closeAccount(BankAccount account) {
-		        if (account.getCurrentBalance() != 0) {
-		            System.out.println("Cannot close account. Please withdraw all funds first.");
-		            return false;
-		        }
-		        return accounts.remove(account);
+		    	 if (account == null) {
+		    	        System.out.println("Invalid account.");
+		    	        return false;
+		    	    }
+
+		    	    if (!accounts.contains(account)) {
+		    	        System.out.println("Account not found.");
+		    	        return false;
+		    	    }
+
+		    	    if (account.getCurrentBalance() != 0) {
+		    	        System.out.println("Cannot close account. Please withdraw all funds first.");
+		    	        return false;
+		    	    }
+
+		    	    return accounts.remove(account);
 		    }
 		    
 		    public static void transfer(BankAccount from, BankAccount to, double amount) {
