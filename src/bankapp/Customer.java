@@ -13,25 +13,11 @@ public class Customer {
         this.customerId = customerId;
         this.accounts = new ArrayList<>();
     }
-
-    public BankAccount openAccount(double initialDeposit) {
-        BankAccount newAccount = new BankAccount(initialDeposit);
-        accounts.add(newAccount);
-        return newAccount;
-    }
-
-    public boolean closeAccount(BankAccount account) {
-        if (account.getCurrentBalance() != 0) {
-            System.out.println("Cannot close account. Please withdraw all funds first.");
-            return false;
-        }
-        return accounts.remove(account);
-    }
-
+    
     public List<BankAccount> getAccounts() {
         return accounts;
     }
-
+    
     public String getName() {
         return name;
     }
@@ -43,5 +29,18 @@ public class Customer {
     @Override
     public String toString() {
         return "Customer{name='" + name + "', customerId='" + customerId + "', accounts=" + accounts + "}";
+    }
+    
+    public List<BankAccount> getAccountsByType(String accountType) {
+        List<BankAccount> filtered = new ArrayList<>();
+        for (BankAccount account : accounts) {
+            if (account.getType().equalsIgnoreCase(accountType)) {
+                filtered.add(account);
+            }
+        }
+        return filtered;
+    }
+    public void addAccount(BankAccount account) {
+        accounts.add(account);
     }
 }
