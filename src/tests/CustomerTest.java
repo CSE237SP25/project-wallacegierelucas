@@ -24,4 +24,6 @@ class CustomerTest {
         assertEquals("CUST123", customer.getCustomerId());
         assertTrue(customer.getAccounts().isEmpty(), "New customer should have no accounts initially.");
     }
+
 }
+

@@ -34,4 +34,16 @@ public class BankAccountTests {
 			assertTrue(e != null);
 		}
 	}
+	
+	@Test 
+	public void TestNegativeInitialBalance() { 
+		
+		try { 
+			BankAccount account = new BankAccount(-3, "checking");
+			fail(); 
+		}
+		catch(IllegalArgumentException e) { 
+			assertTrue(e != null); 
+		}
+	}
 }
