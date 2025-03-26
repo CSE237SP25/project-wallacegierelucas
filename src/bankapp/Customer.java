@@ -13,12 +13,15 @@ public class Customer {
         this.customerId = customerId;
         this.accounts = new ArrayList<>();
     }
-
-
+    
     public List<BankAccount> getAccounts() {
         return accounts;
     }
 
+    public void addAccount(BankAccount account) {
+        accounts.add(account);
+    }
+    
     public String getName() {
         return name;
     }
