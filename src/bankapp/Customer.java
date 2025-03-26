@@ -43,6 +43,9 @@ public class Customer {
     public void addAccount(BankAccount account) {
         accounts.add(account);
     }
+    public void removeAccount(BankAccount account) {
+    	accounts.remove(account);
+    }
 
 }
 

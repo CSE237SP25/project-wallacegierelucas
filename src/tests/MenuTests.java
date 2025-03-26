@@ -114,18 +114,38 @@ public class MenuTests {
 
     @Test
     void testCloseNonExistentAccount() {
+		String input = "1\n";
+	    InputStream originalIn = System.in;
+	    InputStream testIn = new ByteArrayInputStream(input.getBytes());
+	    System.setIn(testIn);
+	    
     	Customer customer = new Customer("Lila", "126");
     	Menu menu = new Menu(customer); 
-        BankAccount account1 = menu.openAccount(50.0, "checking");
-        BankAccount account2 = new BankAccount(0.0, "checking"); // This account is NOT added to the customer
+        BankAccount account = new BankAccount(0.0, "checking"); // This account is NOT added to the customer
 
-        boolean result = menu.closeAccount(account2);
+        boolean result = menu.closeAccount(account);
 
         assertFalse(result, "Closing an account that doesn't exist should return false.");
+
+        System.setIn(originalIn);
+    }
     
-
+    @Test
+    public void testFindAccount() {
+		String input = "1\n";
+	    InputStream originalIn = System.in;
+	    InputStream testIn = new ByteArrayInputStream(input.getBytes());
+	    System.setIn(testIn);
+	    
+    	Customer customer = new Customer("Lila", "126");
+    	Menu menu = new Menu(customer); 
+        BankAccount account = new BankAccount(0.0, "checking"); // This account is NOT added to the customer
+        
+		PrintStream originalOut = System.out;
+		ByteArrayOutputStream testOut = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(testOut));
+		
         menu.findAccount();
-
        
         String output = testOut.toString();
         assertTrue(output.contains("No checking accounts available."), "Output should indicate that no checking accounts are available");
@@ -139,7 +159,7 @@ public class MenuTests {
     	Customer customer = new Customer("Lila", "126");
     	Menu menu = new Menu(customer); 
         BankAccount account1 = menu.openAccount(150.0, "checking");
-        BankAccount account2 = new BankAccount(500.0, "checking");
+        BankAccount account2 = menu.openAccount(500.0, "checking");
         
         double transferAmount = 100.0;
 
@@ -147,8 +167,8 @@ public class MenuTests {
         menu.transfer(account1, account2, transferAmount);
 
         
-        assertEquals(700.0, account1.getCurrentBalance(), 0.001, "Account1 balance should be $50.0 after transfer");
-        assertEquals(800.0, account2.getCurrentBalance(), 0.001, "Account2 balance should be $600.0 after transfer");
+        assertEquals(50.0, account1.getCurrentBalance(), 0.001, "Account1 balance should be $50.0 after transfer");
+        assertEquals(600.0, account2.getCurrentBalance(), 0.001, "Account2 balance should be $600.0 after transfer");
     }
     
    

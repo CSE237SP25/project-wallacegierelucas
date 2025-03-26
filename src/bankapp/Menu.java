@@ -75,6 +75,7 @@ import exceptions.InsufficientFundsException;
 		            System.out.println("Cannot close account. Please withdraw all funds first.");
 		            return false;
 		        }
+		        customer.removeAccount(account);
 		        return accounts.remove(account);
 		    }
 		    
