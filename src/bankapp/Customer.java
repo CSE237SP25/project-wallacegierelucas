@@ -43,4 +43,6 @@ public class Customer {
     public void addAccount(BankAccount account) {
         accounts.add(account);
     }
+
 }
+

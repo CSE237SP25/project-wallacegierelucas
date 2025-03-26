@@ -68,4 +68,13 @@ import java.util.Scanner;
 		        return newAccount;
 		     }
 		    
+		    public boolean closeAccount(BankAccount account) {
+		        if (account.getCurrentBalance() != 0) {
+		            System.out.println("Cannot close account. Please withdraw all funds first.");
+		            return false;
+		        }
+		        return accounts.remove(account);
+		    }
+		    
+
 	}
