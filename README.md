@@ -5,13 +5,24 @@ Team Members:
 * Erika Wallace
 * Ella Giere
 * Nicole Lucas
-*
 
-For each iteration you should answer the following:
+# Iteration 1:
 
 What user stories were completed this iteration?
+This iteration, we added funtionality for a bank customer to:
+* open and close an account
+* have multiple accounts
+* choose an account to manage
+* deposit and withdraw money from an account
+* view the balance of their account(s)
+* transfer money between accounts
 
 What user stories do you intend to complete next iteration?
+Next iteration, we'd like to add the ability to:
+* view and filter transaction history
+* add interest for savings accounts
+* add a nickname to an account
+* handle large deposits/withdrawals
 
 Is there anything that you implemented but doesn't currently work?
 
