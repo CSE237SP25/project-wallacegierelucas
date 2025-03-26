@@ -6,6 +6,8 @@ import java.util.List;
 
 import java.util.Scanner;
 
+import exceptions.InsufficientFundsException;
+
 	public class Menu {
 	    private List<BankAccount> accounts;
 	    private Customer customer; 
@@ -69,12 +71,38 @@ import java.util.Scanner;
 		     }
 		    
 		    public boolean closeAccount(BankAccount account) {
-		        if (account.getCurrentBalance() != 0) {
-		            System.out.println("Cannot close account. Please withdraw all funds first.");
-		            return false;
-		        }
-		        return accounts.remove(account);
+		    	 if (account == null) {
+		    	        System.out.println("Invalid account.");
+		    	        return false;
+		    	    }
+
+		    	    if (!accounts.contains(account)) {
+		    	        System.out.println("Account not found.");
+		    	        return false;
+		    	    }
+
+		    	    if (account.getCurrentBalance() != 0) {
+		    	        System.out.println("Cannot close account. Please withdraw all funds first.");
+		    	        return false;
+		    	    }
+					customer.removeAccount(account);
+		    	    return accounts.remove(account);
 		    }
 		    
+		    public static void transfer(BankAccount from, BankAccount to, double amount) {
+		        System.out.println("\nInitiating transfer of " + amount + " from account " 
+		                           + from + " to account " + to);
+		        
+		        
+		        try {
+		        	from.withdraw(amount);
+		        	to.deposit(amount);
+		            System.out.println("Transfer completed successfully.");
+		        }
+		        catch(InsufficientFundsException e) {
+		        	 System.out.println("Transfer failed due to insufficient funds.");
+		        }
+		        
+		    }
 
 	}
