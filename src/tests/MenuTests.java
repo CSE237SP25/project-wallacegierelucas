@@ -24,7 +24,7 @@ public class MenuTests {
     public void testInvalidSelection() {
 		testOut = new ByteArrayOutputStream();
 	    System.setOut(new PrintStream(testOut));
-	    Customer customer = new Customer("Ella", "123");
+	    Customer customer = new Customer("Ella");
 	    Menu menu = new Menu(customer);
 	
         String input = "3\n"; 
@@ -45,7 +45,7 @@ public class MenuTests {
     public void testNoAccountsAvailable() {
     	testOut = new ByteArrayOutputStream();
 	    System.setOut(new PrintStream(testOut));
-	    Customer customer = new Customer("Emily", "124");
+	    Customer customer = new Customer("Emily");
 	    Menu menu = new Menu(customer);
     	
         String input = "1\n"; 
@@ -65,7 +65,7 @@ public class MenuTests {
     
     @Test
     public void testOpenAccount() {
-    	Customer customer = new Customer("Emma", "125");;
+    	Customer customer = new Customer("Emma");;
         Menu menu = new Menu(customer); 
     	BankAccount account = menu.openAccount(500.0, "checking");
 
@@ -77,7 +77,7 @@ public class MenuTests {
     
     @Test
     public void testMultipleAccounts() {
-    	Customer customer = new Customer("Lila", "126");
+    	Customer customer = new Customer("Lila");
     	Menu menu = new Menu(customer); 
         BankAccount account1 = menu.openAccount(200.0, "checking");
         BankAccount account2 = menu.openAccount(300.0, "checking");
@@ -89,7 +89,7 @@ public class MenuTests {
     }
     @Test
     void testCloseAccountWithZeroBalance() {
-    	Customer customer = new Customer("Lila", "126");
+    	Customer customer = new Customer("Lila");
     	Menu menu = new Menu(customer); 
         BankAccount account = menu.openAccount(0.0, "checking");
 
@@ -101,7 +101,7 @@ public class MenuTests {
 
     @Test
     void testCloseAccountWithNonZeroBalance() {
-    	Customer customer = new Customer("Lila", "126");
+    	Customer customer = new Customer("Lila");
     	Menu menu = new Menu(customer); 
         BankAccount account = menu.openAccount(100.0, "checking");
 
@@ -119,7 +119,7 @@ public class MenuTests {
 	    InputStream testIn = new ByteArrayInputStream(input.getBytes());
 	    System.setIn(testIn);
 	    
-    	Customer customer = new Customer("Lila", "126");
+    	Customer customer = new Customer("Lila");
     	Menu menu = new Menu(customer); 
         BankAccount account = new BankAccount(0.0, "checking"); // This account is NOT added to the customer
 
@@ -137,7 +137,7 @@ public class MenuTests {
 	    InputStream testIn = new ByteArrayInputStream(input.getBytes());
 	    System.setIn(testIn);
 	    
-    	Customer customer = new Customer("Lila", "126");
+    	Customer customer = new Customer("Lila");
     	Menu menu = new Menu(customer); 
         BankAccount account = new BankAccount(0.0, "checking"); // This account is NOT added to the customer
         
@@ -156,7 +156,7 @@ public class MenuTests {
     
     @Test
     public void testSuccessfulTransfer() {
-    	Customer customer = new Customer("Lila", "126");
+    	Customer customer = new Customer("Lila");
     	Menu menu = new Menu(customer); 
         BankAccount account1 = menu.openAccount(150.0, "checking");
         BankAccount account2 = menu.openAccount(500.0, "checking");

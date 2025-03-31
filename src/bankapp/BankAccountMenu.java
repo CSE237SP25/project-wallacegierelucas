@@ -12,9 +12,15 @@ public class BankAccountMenu {
 	private BankAccount account;
 	private Scanner keyboardInput;
 	
-	public BankAccountMenu() {
-		this.account =  new BankAccount();
+	public BankAccountMenu(BankAccount account) {
+		this.account = account;
 		this.keyboardInput = new Scanner(System.in);
+	}
+	
+	public void manageAccount() {
+		displayOptions();
+		int optionInput = getUserOptionInput();
+		processUserOptionInput(optionInput);
 	}
 	
 	public void displayOptions() {
