@@ -1,49 +1,21 @@
 package bankapp;
 
-import exceptions.InsufficientFundsException;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        Scanner userInput = new Scanner(System.in);
         
-        Customer customer = new Customer("Taylor Swift", "001");
+        System.out.println("Hey, what's your name?");
+        String name = userInput.nextLine();
         
-   
+        Customer customer = new Customer(name);
+        
         Menu menu = new Menu(customer);
-        
-    
-        BankAccount account = menu.openAccount(1000.0, "savings");
-        System.out.println("Opened account: " + account);
-        
-       
-        account.deposit(500.0);
-        System.out.println("After depositing $500, balance is: $" + account.getCurrentBalance());
-        
-      
-        try {
-            account.withdraw(300.0);
-            System.out.println("After withdrawing $300, balance is: $" + account.getCurrentBalance());
-        } catch (InsufficientFundsException e) {
-            System.out.println("Withdrawal error: " + e.getMessage());
+        for(int i = 0; i < 2; i++) {
+            menu.displayMenuOptions();
         }
         
-      
-        boolean closed = menu.closeAccount(account);
-        System.out.println("Attempt to close account with non-zero balance: " + closed);
-        
-      
-        try {
-            double remainingBalance = account.getCurrentBalance();
-            account.withdraw(remainingBalance);
-            System.out.println("After withdrawing all funds, balance is: $" + account.getCurrentBalance());
-        } catch (InsufficientFundsException e) {
-            System.out.println("Error withdrawing funds: " + e.getMessage());
-        }
-        
-      
-        closed = menu.closeAccount(account);
-        System.out.println("Attempt to close account after zeroing balance: " + closed);
-        
-      
-        System.out.println("Customer info: " + customer);
+        userInput.close();
     }
 }

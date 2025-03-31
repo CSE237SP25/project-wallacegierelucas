@@ -5,12 +5,10 @@ import java.util.List;
 
 public class Customer {
     private String name;
-    private String customerId;
     private List<BankAccount> accounts;
 
-    public Customer(String name, String customerId) {
+    public Customer(String name) {
         this.name = name;
-        this.customerId = customerId;
         this.accounts = new ArrayList<>();
     }
     
@@ -22,13 +20,9 @@ public class Customer {
         return name;
     }
 
-    public String getCustomerId() {
-        return customerId;
-    }
-
     @Override
     public String toString() {
-        return "Customer{name='" + name + "', customerId='" + customerId + "', accounts=" + accounts + "}";
+        return "Customer{name='" + name + "', accounts=" + accounts + "}";
     }
     
     public List<BankAccount> getAccountsByType(String accountType) {

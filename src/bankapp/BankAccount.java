@@ -3,17 +3,19 @@ package bankapp;
 import exceptions.InsufficientFundsException;
 
 public class BankAccount {
-    
+	
 	private double balance;
     private Customer owner;
     private String type;
+    private String accountId;
 
-    public BankAccount(double initialBalance, String type) {
+    public BankAccount(double initialBalance, String type, String accountId) {
         if (initialBalance < 0) {
             throw new IllegalArgumentException("Initial balance cannot be negative.");
         }
         this.balance = initialBalance;
         this.type = type;
+        this.accountId = accountId;
     }
   	
 	public BankAccount() {
@@ -45,14 +47,17 @@ public class BankAccount {
 	
     @Override
     public String toString() {
-        return "BankAccount{balance=" + balance + "}";
+        return "BankAccount{accountId=" + accountId + "}" ;
     }
 
 	public String getType() {
 		return this.type;	
 	}
 	 
-	   
+	public String getAccountId() {
+		return this.accountId;
+	}
+	
 	public void setCustomer(Customer owner) {
 	        this.owner = owner;
 	    }
