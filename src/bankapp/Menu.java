@@ -132,11 +132,11 @@ public class Menu {
 		System.out.println("2. Close an account");
 		System.out.println("3. Transfer between accounts");
 		System.out.println("4. Choose an account to manage");
+		System.out.println("5. Exit");
 		
-		getMenuOptionInput();
 	}
 	
-	public void getMenuOptionInput() {
+	public boolean getMenuOptionInput() {
 		int menuOptionSelection = scanner.nextInt();
 		scanner.nextLine();
 
@@ -152,8 +152,12 @@ public class Menu {
 			BankAccountMenu bankAccountMenu = new BankAccountMenu(account);
 			bankAccountMenu.manageAccount();
 		}
+		else if(menuOptionSelection == 5) {
+			 return true; 
+		}
 		else {
 			throw new IllegalArgumentException();
 		}
+		return false; 
 	}
 }
