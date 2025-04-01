@@ -126,7 +126,7 @@ public class Menu {
 		}
 	}
 	
-	public boolean displayMenuOptions() {
+	public void displayMenuOptions() {
 		System.out.println("What would you like to do?");
 		System.out.println("1. Open an account");
 		System.out.println("2. Close an account");
@@ -134,7 +134,6 @@ public class Menu {
 		System.out.println("4. Choose an account to manage");
 		System.out.println("5. Exit");
 		
-		return getMenuOptionInput();
 	}
 	
 	public boolean getMenuOptionInput() {
