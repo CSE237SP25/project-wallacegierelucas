@@ -15,9 +15,8 @@ public class Main {
         
         boolean exitCommand = false; 
         
-        while(!exitCommand)
-        {
-        	exitCommand = menu.displayMenuOptions();
+        while(!exitCommand){
+        	exitCommand = menu.run();
         }
         System.out.println("You have exited the program. Have a good day!");
         userInput.close();
