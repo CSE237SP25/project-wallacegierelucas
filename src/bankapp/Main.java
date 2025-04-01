@@ -12,8 +12,11 @@ public class Main {
         Customer customer = new Customer(name);
         
         Menu menu = new Menu(customer);
-        for(int i = 0; i < 2; i++) {
-            menu.displayMenuOptions();
+        
+        int i = 0;
+        while(i < 10) {
+            menu.run();
+            ++i;
         }
         
         userInput.close();

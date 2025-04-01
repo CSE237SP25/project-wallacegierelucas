@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import exceptions.InsufficientFundsException;
+import exceptions.InvalidMenuOptionException;
 
 public class Menu {
 	private List<BankAccount> accounts;
@@ -18,7 +19,7 @@ public class Menu {
 		this.customer = customer;
 		this.scanner = new Scanner(System.in);
 	}
-	
+
 	public BankAccount findAccount(String accountId) {
 		for(int i = 0; i < accounts.size(); i++) {
 			BankAccount account = accounts.get(i);
@@ -26,8 +27,8 @@ public class Menu {
 				return account;
 			}
 		}
-		
-		throw new IllegalArgumentException("Invalid account id");
+
+		throw new IllegalArgumentException("Invalid account id.");
 	}
 
 	private String getAccountType() {
@@ -35,6 +36,7 @@ public class Menu {
 		System.out.println("1: Checking");
 		System.out.println("2: Savings");
 		System.out.print("Enter your selection (1 or 2): ");
+		
 		int accountTypeSelection = scanner.nextInt();
 		scanner.nextLine();
 
@@ -43,27 +45,32 @@ public class Menu {
 		} else if (accountTypeSelection == 2) {
 			return "savings";
 		} else {
-			throw new IllegalArgumentException("Invalid selection");
+			throw new IllegalArgumentException("Invalid account type.");
 		}
 	}
 
 	private void displayAccounts(String accountType) {
 		System.out.println("Your " + accountType + " accounts:");
 		for (int i = 0; i < accounts.size(); i++) {
-			System.out.println(accounts.get(i).toString());
+			BankAccount account = accounts.get(i);
+			if(account.getType() == accountType) {
+				System.out.println(accounts.get(i).toString());	
+			}
 		}
 	} 
 
 	public BankAccount openAccount() {
 		String type = getAccountType();
-		
+
 		System.out.println("Enter a unique id for this account.");
 		String accountId = scanner.nextLine();
+		
+		checkForUniqueId(accountId);
 
 		System.out.println("How much would you like to deposit initially?");
 		int initialDeposit = scanner.nextInt();
 		scanner.nextLine();
-		
+
 		BankAccount newAccount = new BankAccount(initialDeposit, type, accountId);
 
 		accounts.add(newAccount);
@@ -71,58 +78,85 @@ public class Menu {
 		return newAccount;
 	}
 
+	public void checkForUniqueId(String id) {
+		for(int i = 0; i < accounts.size(); ++i) {
+			BankAccount account = accounts.get(i);
+			
+			if(id.compareTo(account.getAccountId()) == 0) {
+				throw new IllegalArgumentException("Account ID must be unique.");
+			}
+		}
+	}
+	
 	public BankAccount selectAccount() {
 		String type = getAccountType();
 		displayAccounts(type);
-		
+
 		System.out.println("Enter the account id.");
 		String closeAccountId = scanner.nextLine();
 		return findAccount(closeAccountId);
 	}
-	
+
 	public boolean closeAccount() {
-		BankAccount account = selectAccount();
-		
-		if (account == null) {
-			System.out.println("Invalid account.");
-			return false;
-		}
+		if(accounts.size() > 0){
+			BankAccount account = selectAccount();
 
-		if (!accounts.contains(account)) {
-			System.out.println("Account not found.");
-			return false;
-		}
+			if (account == null) {
+				System.out.println("Invalid account.");
+				return false;
+			}
 
-		if (account.getCurrentBalance() != 0) {
-			System.out.println("Cannot close account. Please withdraw all funds first.");
-			return false;
+			if (!accounts.contains(account)) {
+				System.out.println("Account not found.");
+				return false;
+			}
+
+			if (account.getCurrentBalance() != 0) {
+				System.out.println("Cannot close account. Please withdraw all funds first.");
+				return false;
+			}
+			customer.removeAccount(account);
+			return accounts.remove(account);
 		}
-		customer.removeAccount(account);
-		return accounts.remove(account);
+		else{
+			throw new IllegalArgumentException("No accounts to manage.");
+		}
 	}
 
 	public void transfer() {
-		System.out.println("Enter the id of the account to transfer money from:");
-		String transferFromId = scanner.nextLine();
-		BankAccount transferFromAccount = findAccount(transferFromId);
-		
-		System.out.println("Enter the id of the account to transfer money to:");
-		String transferToId = scanner.nextLine();
-		BankAccount transferToAccount = findAccount(transferToId);
-		
-		System.out.println("How much would you like to transfer?");
-		int transferAmount = scanner.nextInt();
-		scanner.nextLine();
-		
-		System.out.println("\nInitiating transfer of " + transferAmount + " from account " 
-				+ transferFromAccount + " to account " + transferToAccount);
-		try {
+		if(accounts.size() > 0){
+			System.out.println("Enter the id of the account to transfer money from:");
+			String transferFromId = scanner.nextLine();
+			BankAccount transferFromAccount = findAccount(transferFromId);
+
+			System.out.println("Enter the id of the account to transfer money to:");
+			String transferToId = scanner.nextLine();
+			BankAccount transferToAccount = findAccount(transferToId);
+
+			System.out.println("How much would you like to transfer?");
+			int transferAmount = scanner.nextInt();
+			scanner.nextLine();
+
+			System.out.println("\nInitiating transfer of " + transferAmount + " from account " 
+					+ transferFromAccount + " to account " + transferToAccount);
+
 			transferFromAccount.withdraw(transferAmount);
 			transferToAccount.deposit(transferAmount);
 			System.out.println("Transfer completed successfully.");
 		}
-		catch(InsufficientFundsException e) {
-			System.out.println("Transfer failed due to insufficient funds.");
+		else{
+			throw new IllegalArgumentException("No accounts to manage.");
+		}
+	}
+
+	public void manageAccount() {
+		if(accounts.size() > 0) {
+			BankAccount account = selectAccount();
+			BankAccountMenu bankAccountMenu = new BankAccountMenu(account);
+			bankAccountMenu.manageAccount();
+		}
+		else {
+			throw new IllegalArgumentException("No accounts to manage.");
 		}
 	}
 	
@@ -132,10 +166,9 @@ public class Menu {
 		System.out.println("2. Close an account");
 		System.out.println("3. Transfer between accounts");
 		System.out.println("4. Choose an account to manage");
-		
-		getMenuOptionInput();
+		System.out.println("Enter your selection (1-4):");
 	}
-	
+
 	public void getMenuOptionInput() {
 		int menuOptionSelection = scanner.nextInt();
 		scanner.nextLine();
@@ -148,12 +181,20 @@ public class Menu {
 			transfer();
 		}
 		else if(menuOptionSelection == 4) {
-			BankAccount account = selectAccount();
-			BankAccountMenu bankAccountMenu = new BankAccountMenu(account);
-			bankAccountMenu.manageAccount();
+			manageAccount();
 		}
 		else {
-			throw new IllegalArgumentException();
+			throw new InvalidMenuOptionException("Invalid menu option.");
+		}
+	}
+
+	public void run() {
+		try {
+			displayMenuOptions();
+			getMenuOptionInput();
+		}
+		catch(Exception e) {
+			System.out.println("Attempt failed: " + e.getMessage());
 		}
 	}
 }
