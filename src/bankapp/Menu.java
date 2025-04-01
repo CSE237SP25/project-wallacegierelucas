@@ -126,17 +126,18 @@ public class Menu {
 		}
 	}
 	
-	public void displayMenuOptions() {
+	public boolean displayMenuOptions() {
 		System.out.println("What would you like to do?");
 		System.out.println("1. Open an account");
 		System.out.println("2. Close an account");
 		System.out.println("3. Transfer between accounts");
 		System.out.println("4. Choose an account to manage");
+		System.out.println("5. Exit");
 		
-		getMenuOptionInput();
+		return getMenuOptionInput();
 	}
 	
-	public void getMenuOptionInput() {
+	public boolean getMenuOptionInput() {
 		int menuOptionSelection = scanner.nextInt();
 		scanner.nextLine();
 
@@ -152,8 +153,12 @@ public class Menu {
 			BankAccountMenu bankAccountMenu = new BankAccountMenu(account);
 			bankAccountMenu.manageAccount();
 		}
+		else if(menuOptionSelection == 5) {
+			 return true; 
+		}
 		else {
 			throw new IllegalArgumentException();
 		}
+		return false; 
 	}
 }

@@ -12,10 +12,14 @@ public class Main {
         Customer customer = new Customer(name);
         
         Menu menu = new Menu(customer);
-        for(int i = 0; i < 2; i++) {
-            menu.displayMenuOptions();
-        }
         
+        boolean exitCommand = false; 
+        
+        while(!exitCommand)
+        {
+        	exitCommand = menu.displayMenuOptions();
+        }
+        System.out.println("You have exited the program. Have a good day!");
         userInput.close();
     }
 }
