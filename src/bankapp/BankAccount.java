@@ -5,7 +5,6 @@ import exceptions.InsufficientFundsException;
 public class BankAccount {
 	
 	private double balance;
-    private Customer owner;
     private String type;
     private String accountId;
 
@@ -58,10 +57,6 @@ public class BankAccount {
 		return this.accountId;
 	}
 	
-	public void setCustomer(Customer owner) {
-	        this.owner = owner;
-	    }
-
 	    
 	}
 

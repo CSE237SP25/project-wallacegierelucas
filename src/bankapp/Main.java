@@ -13,12 +13,12 @@ public class Main {
         
         Menu menu = new Menu(customer);
         
-        int i = 0;
-        while(i < 10) {
-            menu.run();
-            ++i;
-        }
+        boolean exitCommand = false; 
         
+        while(!exitCommand){
+        	exitCommand = menu.run();
+        }
+        System.out.println("You have exited the program. Have a good day!");
         userInput.close();
     }
 }

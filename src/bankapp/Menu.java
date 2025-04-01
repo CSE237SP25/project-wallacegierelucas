@@ -166,10 +166,12 @@ public class Menu {
 		System.out.println("2. Close an account");
 		System.out.println("3. Transfer between accounts");
 		System.out.println("4. Choose an account to manage");
-		System.out.println("Enter your selection (1-4):");
+		System.out.println("5. Exit");
+		
+		System.out.println("Enter your selection (1-5):");
 	}
 
-	public void getMenuOptionInput() {
+	public boolean getMenuOptionInput() {
 		int menuOptionSelection = scanner.nextInt();
 		scanner.nextLine();
 
@@ -183,18 +185,24 @@ public class Menu {
 		else if(menuOptionSelection == 4) {
 			manageAccount();
 		}
+		else if(menuOptionSelection == 5) {
+			return true;
+		}
 		else {
 			throw new InvalidMenuOptionException("Invalid menu option.");
 		}
+
+		return false;
 	}
 
-	public void run() {
+	public boolean run() {
 		try {
 			displayMenuOptions();
-			getMenuOptionInput();
+			return getMenuOptionInput();
 		}
 		catch(Exception e) {
 			System.out.println("Attempt failed: " + e.getMessage());
+			return false;
 		}
 	}
 }
