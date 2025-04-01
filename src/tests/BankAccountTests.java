@@ -13,19 +13,13 @@ public class BankAccountTests {
 
 	@Test
 	public void testSimpleDeposit() {
-		//1. Create objects to be tested
 		BankAccount account = new BankAccount();
-		
-		//2. Call the method being tested
 		account.deposit(25);
-		
-		//3. Use assertions to verify results
-		assertEquals(account.getCurrentBalance(), 25.0, 0.005);
+		assertEquals(25.0, account.getCurrentBalance(), 0.005);
 	}
 	
 	@Test
 	public void testNegativeDeposit() {
-		//1. Create object to be tested
 		BankAccount account = new BankAccount();
 
 		try {
@@ -37,10 +31,11 @@ public class BankAccountTests {
 	}
 	
 	@Test 
-	public void TestNegativeInitialBalance() { 
+	public void testNegativeInitialBalance() { 
 		
 		try { 
-			BankAccount account = new BankAccount(-3, "checking");
+			//public BankAccount(double initialBalance, String type, String accountId)
+			BankAccount account = new BankAccount(-3, "checking", "checking1");
 			fail(); 
 		}
 		catch(IllegalArgumentException e) { 
@@ -49,23 +44,23 @@ public class BankAccountTests {
 	}
 	
 	@Test
-	public void testSimpleWithdrawl() {
+	public void testSimpleWithdrawal() {
 		BankAccount account = new BankAccount();
 		account.deposit(20);
 		account.withdraw(5);
-		assertEquals(account.getCurrentBalance(), 15.0, 0.005);
+		assertEquals(15.0, account.getCurrentBalance(), 0.005);
 	}
 	
 	@Test
-	public void testExactWithdrawl() {
+	public void testExactWithdrawal() {
 		BankAccount account = new BankAccount();
 		account.deposit(20);
 		account.withdraw(20);
-		assertEquals(account.getCurrentBalance(), 0, 0.005);
+		assertEquals(0.0, account.getCurrentBalance(), 0.005);
 	}
 	
 	@Test
-	public void testZeroWithdrawl() {
+	public void testZeroWithdrawal() {
 		BankAccount account = new BankAccount();
 
 		try {
@@ -79,7 +74,7 @@ public class BankAccountTests {
 	}
 	
 	@Test
-	public void testNegativeWithdrawl() {
+	public void testNegativeWithdrawal() {
 		BankAccount account = new BankAccount();
 
 		try {
@@ -88,12 +83,12 @@ public class BankAccountTests {
 			fail();
 		} catch (IllegalArgumentException e) {
 			assertTrue(e != null);
-			assertEquals(account.getCurrentBalance(), 20.0, 0.005);
+			assertEquals(20.0, account.getCurrentBalance(), 0.005);
 		}
 	}
 	
 	@Test
-	public void testOverdraftWithdrawl() {
+	public void testOverdraftWithdrawal() {
 		BankAccount account = new BankAccount();
 
 		try {
@@ -102,7 +97,25 @@ public class BankAccountTests {
 			fail();
 		} catch (InsufficientFundsException e) {
 			assertTrue(e != null);
-			assertEquals(account.getCurrentBalance(), 20.0, 0.005);
+			assertEquals(20.0, account.getCurrentBalance(), 0.005);
 		}
 	}
+	
+	@Test
+	public void testGetType() {
+	        BankAccount account = new BankAccount(100, "savings", "12345");
+	        assertEquals("savings", account.getType());
+	    }
+	 
+	 @Test
+	 public void testGetAccountId() {
+	        BankAccount account = new BankAccount(100, "checking", "acc123");
+	        assertEquals("acc123", account.getAccountId());
+	    }
+
+	 @Test
+	 public void testToString() {
+	        BankAccount account = new BankAccount(100, "checking", "acc456");
+	        assertEquals("BankAccount{accountId=acc456}", account.toString());
+	    }
 }
