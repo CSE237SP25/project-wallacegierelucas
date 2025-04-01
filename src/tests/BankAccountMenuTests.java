@@ -19,43 +19,44 @@ public class BankAccountMenuTests {
 	
 	@Test
 	public void testUserDeposit() {
-		BankAccountMenu menu = new BankAccountMenu();
-		
-		menu.processDeposit(20);
-		
-		BankAccount account = menu.getAccount();
-		assertEquals(account.getCurrentBalance(), 20.0, 0.005);
+		BankAccount account = new BankAccount(0, "checking", "acc1");
+	    BankAccountMenu menu = new BankAccountMenu(account);
+	    
+	    menu.processDeposit(20);
+	    
+	    assertEquals(20.0, account.getCurrentBalance(), 0.005);
 	}
 	
 	@Test
-	public void testUserWithdrawal() {
-		BankAccountMenu menu = new BankAccountMenu();
-		
-		menu.processDeposit(50);
-		menu.processWithdrawal(20);
-		
-		BankAccount account = menu.getAccount();
-		assertEquals(account.getCurrentBalance(), 30.0, 0.005);
+	public void testUserWithdrawl() {
+		BankAccount account = new BankAccount(0, "checking", "acc2");
+	    BankAccountMenu menu = new BankAccountMenu(account);
+	    
+	    menu.processDeposit(50);
+	    menu.processWithdrawal(20);
+	    
+	    assertEquals(30.0, account.getCurrentBalance(), 0.005);
 	}
 	
 	@Test
 	public void testUserCheckBalance() {
+		BankAccount account = new BankAccount(50, "savings", "acc3");
+	    BankAccountMenu menu = new BankAccountMenu(account);
+		
 		PrintStream originalOutputStream = System.out;
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(outputStream));
 		
-		BankAccountMenu menu = new BankAccountMenu();
-		menu.processDeposit(50);
 		menu.processCheckBalance();
 		
 		System.setOut(originalOutputStream);
-		
 		
 		assertEquals("Current Balance: 50.0", outputStream.toString().trim());
 	}
 	
 	@Test
 	void testProcessUserOptionInput_Deposit() {		
+		BankAccount account = new BankAccount(0, "checking", "acc4");
 		String input = "20\n";
 	    
 	    InputStream originalInputStream = System.in;
@@ -66,18 +67,18 @@ public class BankAccountMenuTests {
 		PrintStream originalOutputStream = System.out;
 		System.setOut(new PrintStream(new ByteArrayOutputStream()));
 		
-		BankAccountMenu menu = new BankAccountMenu();
+		BankAccountMenu menu = new BankAccountMenu(account);
 		menu.processUserOptionInput(2);
 		
 		System.setIn(originalInputStream);
 		System.setOut(originalOutputStream);
 
-		BankAccount account = menu.getAccount();
-	    assertEquals(20.0, account.getCurrentBalance(), 0.005);
+		assertEquals(20.0, account.getCurrentBalance(), 0.005);
 	}
 	
 	@Test
-	void testProcessUserOptionInput_Withdrawal() {
+	void testProcessUserOptionInput_Withdrawl() {
+		BankAccount account = new BankAccount(50, "checking", "acc5");
 	    String input = "20\n";
 	    
 	    InputStream originalInputStream = System.in;
@@ -88,20 +89,19 @@ public class BankAccountMenuTests {
 		PrintStream originalOutputStream = System.out;
 		System.setOut(new PrintStream(new ByteArrayOutputStream()));
 		
-		BankAccountMenu menu = new BankAccountMenu();
-		menu.processDeposit(50);
+		BankAccountMenu menu = new BankAccountMenu(account);
 		menu.processUserOptionInput(3);
 
 		System.setIn(originalInputStream);
 		System.setOut(originalOutputStream);
 		
-		BankAccount account = menu.getAccount();
 	    assertEquals(30.0, account.getCurrentBalance(), 0.005);
 	}
 	
 	@Test
 	public void testInvalidMenuOption() {
-		BankAccountMenu menu = new BankAccountMenu();
+		BankAccount account = new BankAccount(100, "checking", "acc6");
+	    BankAccountMenu menu = new BankAccountMenu(account);
 		
 		try {
 			menu.processUserOptionInput(4);
