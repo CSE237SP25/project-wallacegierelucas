@@ -160,15 +160,38 @@ public class Menu {
 		}
 	}
 	
+	public void viewTransactionHistory() {
+	    Scanner scanner = new Scanner(System.in);
+	    System.out.println("Enter account ID to view transaction history:");
+	    String accountId = scanner.nextLine();
+
+	    try {
+	        BankAccount account = findAccount(accountId);
+	        List<String> history = account.getTransactionHistory();
+
+	        if (history.isEmpty()) {
+	            System.out.println("No transactions yet.");
+	        } else {
+	            System.out.println("Transaction history for account " + accountId + ":");
+	            for (String record : history) {
+	                System.out.println(record);
+	            }
+	        }
+	    } catch (IllegalArgumentException e) {
+	        System.out.println(e.getMessage());
+	    }
+	}
+	
 	public void displayMenuOptions() {
 		System.out.println("What would you like to do?");
 		System.out.println("1. Open an account");
 		System.out.println("2. Close an account");
 		System.out.println("3. Transfer between accounts");
 		System.out.println("4. Choose an account to manage");
-		System.out.println("5. Exit");
+		System.out.println("5. View transaction history");
+		System.out.println("6. Exit");
 		
-		System.out.println("Enter your selection (1-5):");
+		System.out.println("Enter your selection (1-6):");
 	}
 
 	public boolean getMenuOptionInput() {
@@ -186,6 +209,9 @@ public class Menu {
 			manageAccount();
 		}
 		else if(menuOptionSelection == 5) {
+			viewTransactionHistory();
+		}
+		else if(menuOptionSelection == 6) { 
 			return true;
 		}
 		else {
@@ -205,4 +231,5 @@ public class Menu {
 			return false;
 		}
 	}
+	
 }
