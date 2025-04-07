@@ -196,13 +196,22 @@ public class Menu {
 	}
 
 	public boolean run() {
-		try {
-			displayMenuOptions();
-			return getMenuOptionInput();
+		boolean success = false;
+		
+		while(!success) {
+			try {
+				displayMenuOptions();
+				
+				boolean exit = getMenuOptionInput();
+				
+				success = true;
+				return exit;
+			}
+			catch(InvalidMenuOptionException e) {
+				System.out.println("Error: " + e.getMessage() + " Try again.");
+			}
 		}
-		catch(Exception e) {
-			System.out.println("Attempt failed: " + e.getMessage());
-			return false;
-		}
+		
+		return false;
 	}
 }
