@@ -1,13 +1,10 @@
 package bankapp;
 
-import java.util.Scanner;
-
 public class Main {
     public static void main(String[] args) {
-        Scanner userInput = new Scanner(System.in);
-        
-        System.out.println("Hey, what's your name?");
-        String name = userInput.nextLine();
+    	LoginMenu loginMenu = new LoginMenu();
+    	
+    	String name = loginMenu.getUser();
         
         Customer customer = new Customer(name);
         
@@ -19,6 +16,5 @@ public class Main {
         	exitCommand = menu.run();
         }
         System.out.println("You have exited the program. Have a good day!");
-        userInput.close();
     }
 }
