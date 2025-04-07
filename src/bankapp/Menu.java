@@ -178,10 +178,34 @@ public class Menu {
         System.out.println("3. Transfer between accounts");
         System.out.println("4. Choose an account to manage");
         System.out.println("5. Update profile");
-        System.out.println("6. Exit");
+        System.out.println("6. View transaction history");
+        System.out.println("7. Exit");
         
-        System.out.println("Enter your selection (1-6):");
+        System.out.println("Enter your selection (1-7):");
     }
+
+	public void viewTransactionHistory() {
+	    Scanner scanner = new Scanner(System.in);
+	    System.out.println("Enter account ID to view transaction history:");
+	    String accountId = scanner.nextLine();
+
+	    try {
+	        BankAccount account = findAccount(accountId);
+	        List<String> history = account.getTransactionHistory();
+
+	        if (history.isEmpty()) {
+	            System.out.println("No transactions yet.");
+	        } else {
+	            System.out.println("Transaction history for account " + accountId + ":");
+	            for (String record : history) {
+	                System.out.println(record);
+	            }
+	        }
+	    } catch (IllegalArgumentException e) {
+	        System.out.println(e.getMessage());
+	    }
+	}
+	
 
 	public boolean getMenuOptionInput() {
 		int menuOptionSelection = scanner.nextInt();
@@ -199,10 +223,12 @@ public class Menu {
 		}
 		else if (menuOptionSelection == 5) {
             updateProfile();
-        } else if (menuOptionSelection == 6) {
+    } else if (menuOptionSelection == 6) {
+           viewTransactionHistory();
+    } else if (menuOptionSelection == 7) {
             return true;
-        }else {
-			throw new InvalidMenuOptionException("Invalid menu option.");
+        } else {
+			    throw new InvalidMenuOptionException("Invalid menu option.");
 		}
 
 		return false;
@@ -218,4 +244,5 @@ public class Menu {
 			return false;
 		}
 	}
+	
 }
