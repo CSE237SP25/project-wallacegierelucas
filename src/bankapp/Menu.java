@@ -160,16 +160,28 @@ public class Menu {
 		}
 	}
 	
-	public void displayMenuOptions() {
-		System.out.println("What would you like to do?");
-		System.out.println("1. Open an account");
-		System.out.println("2. Close an account");
-		System.out.println("3. Transfer between accounts");
-		System.out.println("4. Choose an account to manage");
-		System.out.println("5. Exit");
-		
-		System.out.println("Enter your selection (1-5):");
-	}
+	public void updateProfile() {
+        System.out.println("Enter your occupation:");
+        String occupation = scanner.nextLine();
+        System.out.println("Enter your address:");
+        String address = scanner.nextLine();
+    
+        CustomerProfile profile = new CustomerProfile(occupation, address);
+        customer.setProfile(profile);
+        System.out.println("Profile updated: " + profile);
+    }
+    
+    public void displayMenuOptions() {
+        System.out.println("What would you like to do?");
+        System.out.println("1. Open an account");
+        System.out.println("2. Close an account");
+        System.out.println("3. Transfer between accounts");
+        System.out.println("4. Choose an account to manage");
+        System.out.println("5. Update profile");
+        System.out.println("6. Exit");
+        
+        System.out.println("Enter your selection (1-6):");
+    }
 
 	public boolean getMenuOptionInput() {
 		int menuOptionSelection = scanner.nextInt();
@@ -185,10 +197,11 @@ public class Menu {
 		else if(menuOptionSelection == 4) {
 			manageAccount();
 		}
-		else if(menuOptionSelection == 5) {
-			return true;
-		}
-		else {
+		else if (menuOptionSelection == 5) {
+            updateProfile();
+        } else if (menuOptionSelection == 6) {
+            return true;
+        }else {
 			throw new InvalidMenuOptionException("Invalid menu option.");
 		}
 
