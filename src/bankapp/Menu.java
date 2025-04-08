@@ -6,6 +6,7 @@ import java.util.List;
 
 import java.util.Scanner;
 
+import exceptions.InsufficientFundsException;
 import exceptions.InvalidMenuOptionException;
 
 public class Menu {
@@ -17,6 +18,7 @@ public class Menu {
 		this.accounts = new ArrayList<>();
 		this.customer = customer;
 		this.scanner = new Scanner(System.in);
+		this.accounts = customer.getAccounts();
 	}
 
 	public BankAccount findAccount(String accountId) {
@@ -121,32 +123,36 @@ public class Menu {
 			throw new IllegalArgumentException("No accounts to manage.");
 		}
 	}
-
+	
 	public void transfer() {
-		if(accounts.size() > 0){
-			System.out.println("Enter the id of the account to transfer money from:");
-			String transferFromId = scanner.nextLine();
-			BankAccount transferFromAccount = findAccount(transferFromId);
+	    if (accounts.size() > 0) {
+	        System.out.println("Enter the id of the account to transfer money from:");
+	        String transferFromId = scanner.nextLine();
+	        BankAccount transferFromAccount = findAccount(transferFromId);
 
-			System.out.println("Enter the id of the account to transfer money to:");
-			String transferToId = scanner.nextLine();
-			BankAccount transferToAccount = findAccount(transferToId);
+	        System.out.println("Enter the id of the account to transfer money to:");
+	        String transferToId = scanner.nextLine();
+	        BankAccount transferToAccount = findAccount(transferToId);
 
-			System.out.println("How much would you like to transfer?");
-			int transferAmount = scanner.nextInt();
-			scanner.nextLine();
+	        System.out.println("How much would you like to transfer?");
+	        int transferAmount = scanner.nextInt();
+	        scanner.nextLine();
 
-			System.out.println("\nInitiating transfer of " + transferAmount + " from account " 
-					+ transferFromAccount + " to account " + transferToAccount);
+	        System.out.println("\nInitiating transfer of " + transferAmount + " from account " 
+	                + transferFromAccount + " to account " + transferToAccount);
 
-			transferFromAccount.withdraw(transferAmount);
-			transferToAccount.deposit(transferAmount);
-			System.out.println("Transfer completed successfully.");
-		}
-		else{
-			throw new IllegalArgumentException("No accounts to manage.");
-		}
+	        try {
+	            transferFromAccount.withdraw(transferAmount);
+	            transferToAccount.deposit(transferAmount);
+	            System.out.println("Transfer completed successfully.");
+	        } catch (InsufficientFundsException e) {
+	            System.out.println("Transfer failed due to insufficient funds.");
+	        }
+	    } else {
+	        throw new IllegalArgumentException("No accounts to manage.");
+	    }
 	}
+
 
 	public void manageAccount() {
 		if(accounts.size() > 0) {
