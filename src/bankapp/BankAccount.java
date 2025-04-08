@@ -9,7 +9,7 @@ public class BankAccount {
 	private double balance;
     private String type;
     private String accountId;
-    private List<String> transactionHistory;
+    private List<Transaction> transactionHistory;
 
     public BankAccount(double initialBalance, String type, String accountId) {
         if (initialBalance < 0) {
@@ -19,7 +19,7 @@ public class BankAccount {
         this.type = type;
         this.accountId = accountId;
         this.transactionHistory = new ArrayList<>(); 
-        addTransaction("Account created with ID: " + accountId);
+        //addTransaction("Account created with ID: " + accountId);
     }
   	
 	public BankAccount() {
@@ -31,7 +31,7 @@ public class BankAccount {
 			throw new IllegalArgumentException("Must deposit a positive amount.");
 		}
 		this.balance += amount;
-		addTransaction("Deposited $ "+ amount + " | New Balance: $" + balance);
+		transactionHistory.add(new Transaction("deposit", amount));
 	}
 	
 	public void withdraw(double amount) {
@@ -44,20 +44,13 @@ public class BankAccount {
 		}
 		
 		this.balance -= amount;
-		addTransaction("Withdrew $" + amount + " | New Balance: $" + balance);
+		transactionHistory.add(new Transaction("withdrawal", amount));
 	}
 	
 	public double getCurrentBalance() {
 		return this.balance;
 	}
 	
-	public void addTransaction(String description) { 
-		transactionHistory.add(description);
-	}
-	
-	public List<String> getTransactionHistory(){ 
-		return transactionHistory;
-	}
 	
     @Override
     public String toString() {
@@ -72,7 +65,6 @@ public class BankAccount {
 		return this.accountId;
 	}
 	
-	    
-	}
+}
 
 
