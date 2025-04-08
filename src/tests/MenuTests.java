@@ -147,7 +147,7 @@ public class MenuTests {
 		assertEquals(300, account2.getCurrentBalance());
 	}
 	
-	
+
 	
 	//not used
 //

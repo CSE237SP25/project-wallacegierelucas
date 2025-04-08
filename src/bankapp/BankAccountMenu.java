@@ -2,6 +2,7 @@ package bankapp;
 
 import java.util.Scanner;
 
+import exceptions.InsufficientFundsException;
 import exceptions.InvalidMenuOptionException;
 
 public class BankAccountMenu {
@@ -18,9 +19,20 @@ public class BankAccountMenu {
 	}
 	
 	public void manageAccount() {
-		displayOptions();
-		int optionInput = getUserOptionInput();
-		processUserOptionInput(optionInput);
+		boolean success = false;
+
+		while (!success) {
+		    try {
+				displayOptions();
+				
+		    	int optionInput = getUserOptionInput();
+				processUserOptionInput(optionInput);
+				
+		        success = true;
+		    } catch (InvalidMenuOptionException e) {
+		        System.out.println("Error: " + e.getMessage() + " Try again.");
+		    }
+		}
 	}
 	
 	public void displayOptions() {
@@ -41,20 +53,33 @@ public class BankAccountMenu {
 	}
 	
 	public void processUserOptionInput(int option) {
-		switch(option) {
-			case CHECK_BALANCE:
-				processCheckBalance();
-				break;
-			case DEPOSIT:
-				double depositAmount = getUserAmountInput("Enter deposit amount:");
-				processDeposit(depositAmount);
-				break;
-			case WITHDRAW:
-				double withdrawalAmount = getUserAmountInput("Enter withdrawal amount:");
-				processWithdrawal(withdrawalAmount);
-				break;
-			default:
-				throw new InvalidMenuOptionException("Must enter a valid menu option.");
+		boolean success = false;
+		
+		while(!success) {
+			try {
+				switch(option) {
+					case CHECK_BALANCE:
+						processCheckBalance();
+						break;
+					case DEPOSIT:
+						double depositAmount = getUserAmountInput("Enter deposit amount:");
+						processDeposit(depositAmount);
+						break;
+					case WITHDRAW:
+						double withdrawalAmount = getUserAmountInput("Enter withdrawal amount:");
+						processWithdrawal(withdrawalAmount);
+						break;
+					default:
+						throw new InvalidMenuOptionException("Must enter a valid menu option.");
+				}
+				success = true;
+			}
+			catch(IllegalArgumentException e) {
+		        System.out.println("Error: " + e.getMessage() + " Try again.");
+			}	
+			catch(InsufficientFundsException e) {
+		        System.out.println("Error: " + e.getMessage() + " Try again.");
+			}
 		}
 	}	
 	

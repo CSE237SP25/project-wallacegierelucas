@@ -6,7 +6,6 @@ import java.util.List;
 
 import java.util.Scanner;
 
-import exceptions.InsufficientFundsException;
 import exceptions.InvalidMenuOptionException;
 
 public class Menu {
@@ -160,23 +159,37 @@ public class Menu {
 		}
 	}
 	
+	public void updateProfile() {
+        System.out.println("Enter your occupation:");
+        String occupation = scanner.nextLine();
+        System.out.println("Enter your address:");
+        String address = scanner.nextLine();
+    
+        CustomerProfile profile = new CustomerProfile(occupation, address);
+        customer.setProfile(profile);
+        System.out.println("Profile updated: " + profile);
+    }
+    
+    public void displayMenuOptions() {
+        System.out.println("What would you like to do?");
+        System.out.println("1. Open an account");
+        System.out.println("2. Close an account");
+        System.out.println("3. Transfer between accounts");
+        System.out.println("4. Choose an account to manage");
+        System.out.println("5. Update profile");
+        System.out.println("6. View transaction history");
+        System.out.println("7. Exit");
+        
+        System.out.println("Enter your selection (1-7):");
+    }
+
 	public void viewTransactionHistory() {
 	    Scanner scanner = new Scanner(System.in);
 	    System.out.println("Enter account ID to view transaction history:");
 	    String accountId = scanner.nextLine();
+
 	}
 	
-	public void displayMenuOptions() {
-		System.out.println("What would you like to do?");
-		System.out.println("1. Open an account");
-		System.out.println("2. Close an account");
-		System.out.println("3. Transfer between accounts");
-		System.out.println("4. Choose an account to manage");
-		System.out.println("5. View transaction history");
-		System.out.println("6. Exit");
-		
-		System.out.println("Enter your selection (1-6):");
-	}
 
 	public boolean getMenuOptionInput() {
 		int menuOptionSelection = scanner.nextInt();
@@ -192,28 +205,40 @@ public class Menu {
 		else if(menuOptionSelection == 4) {
 			manageAccount();
 		}
-		else if(menuOptionSelection == 5) {
-			viewTransactionHistory();
-		}
-		else if(menuOptionSelection == 6) { 
-			return true;
-		}
-		else {
-			throw new InvalidMenuOptionException("Invalid menu option.");
+		else if (menuOptionSelection == 5) {
+            updateProfile();
+    } else if (menuOptionSelection == 6) {
+           viewTransactionHistory();
+    } else if (menuOptionSelection == 7) {
+            return true;
+        } else {
+			    throw new InvalidMenuOptionException("Invalid menu option.");
 		}
 
 		return false;
 	}
 
 	public boolean run() {
-		try {
-			displayMenuOptions();
-			return getMenuOptionInput();
+		boolean success = false;
+		
+		while(!success) {
+			try {
+				displayMenuOptions();
+				
+				boolean exit = getMenuOptionInput();
+				
+				success = true;
+				return exit;
+			}
+			catch(InvalidMenuOptionException e) {
+				System.out.println("Error: " + e.getMessage() + " Try again.");
+			}
+			catch(IllegalArgumentException e) {
+				System.out.println("Error: " + e.getMessage() + " Try again.");
+			}
 		}
-		catch(Exception e) {
-			System.out.println("Attempt failed: " + e.getMessage());
-			return false;
-		}
+		
+		return false;
 	}
 	
 }
