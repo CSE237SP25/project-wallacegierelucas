@@ -182,18 +182,45 @@ public class Menu {
         System.out.println("3. Transfer between accounts");
         System.out.println("4. Choose an account to manage");
         System.out.println("5. Update profile");
-        System.out.println("6. View transaction history");
+        System.out.println("6. View (or filter) transaction history");
         System.out.println("7. Exit");
         
         System.out.println("Enter your selection (1-7):");
     }
 
-	public void viewTransactionHistory() {
-	    Scanner scanner = new Scanner(System.in);
-	    System.out.println("Enter account ID to view transaction history:");
-	    String accountId = scanner.nextLine();
+    public void viewTransactionHistory() {
+        System.out.println("Enter account ID to view transaction history:");
+        String accountId = scanner.nextLine();
 
-	}
+        try {
+            BankAccount account = findAccount(accountId);
+            System.out.println("Would you like to filter the history? (yes/no)");
+            String response = scanner.nextLine();
+
+            List<Transaction> history;
+
+            if (response.equalsIgnoreCase("yes")) {
+                System.out.println("Enter filter type (Deposit or Withdrawal):");
+                String type = scanner.nextLine();
+                history = account.getFilteredTransactions(type);
+            } else {
+                history = account.getTransactions();
+            }
+
+            if (history.isEmpty()) {
+                System.out.println("No transactions found.");
+            } else {
+                System.out.println("Transaction history for account " + accountId + ":");
+                for (Transaction t : history) {
+                    System.out.println(t);
+                }
+            }
+
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
 	
 
 	public boolean getMenuOptionInput() {

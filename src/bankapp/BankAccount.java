@@ -44,7 +44,7 @@ public class BankAccount {
 		        }
 		 }
 		this.balance += amount;
-		transactionHistory.add(new Transaction("deposit", amount));
+		transactionHistory.add(new Transaction("Deposit", amount));
 
 	}
 	
@@ -86,6 +86,21 @@ public class BankAccount {
 	 
 	public String getAccountId() {
 		return this.accountId;
+	}
+	
+	//Note: for Transactions 
+	public List <Transaction> getTransactions(){ 
+		return transactionHistory; 
+	}
+	
+	public List<Transaction> getFilteredTransactions(String type){
+		List<Transaction> filtered = new ArrayList<>();
+		for (Transaction t : transactionHistory) { 
+			if(t.getType().equalsIgnoreCase(type)) { 
+				filtered.add(t);
+			}
+		}
+		return filtered; 
 	}
 	
 }

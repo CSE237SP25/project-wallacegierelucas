@@ -39,10 +39,8 @@ public class MenuTests {
 	public void testOpenAccount() {
 
 		String input = "1\n12345\n500\n"; 
-		InputStream originalInputStream = System.in;
-		InputStream testInputStream = new ByteArrayInputStream(input.getBytes());
-		System.setIn(testInputStream);
 
+<<<<<<< HEAD
 		Customer newCustomer = new Customer("Lila");
 		Menu newMenu = new Menu(newCustomer);
 		BankAccount account = newMenu.openAccount();
@@ -50,6 +48,23 @@ public class MenuTests {
 		System.out.println(newCustomer.getAccounts().toString()); 
 
 		System.setIn(originalInputStream);
+=======
+
+	    InputStream originalInputStream = System.in;
+	    InputStream testInputStream = new ByteArrayInputStream(input.getBytes());
+	    System.setIn(testInputStream);
+	    
+		PrintStream originalOutputStream = System.out;
+		System.setOut(new PrintStream(new ByteArrayOutputStream()));
+
+		Customer customer = new Customer("Lila");
+		Menu menu = new Menu(customer);
+		BankAccount account = menu.openAccount();
+
+
+		System.setIn(originalInputStream);
+		System.setOut(originalOutputStream);
+>>>>>>> c8b286ae0778b972cab8956d765851160fd9f906
 
 		assertNotNull(account);
 		assertEquals(500, account.getCurrentBalance(), 0.01);
@@ -203,6 +218,5 @@ public class MenuTests {
 		
 		System.setIn(originalInputStream);
 	}
-
 }
 
