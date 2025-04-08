@@ -110,4 +110,74 @@ public class BankAccountMenuTests {
 			assertTrue(e != null);
 		}
 	}
+	@Test
+	public void testLargeDepositConfirmed() {
+	    InputStream originalInput = System.in;
+	    try {
+	        String simulatedUserInput = "yes\n";
+	        ByteArrayInputStream testIn = new ByteArrayInputStream(simulatedUserInput.getBytes());
+	        System.setIn(testIn);
+
+	        BankAccount account = new BankAccount(100, "savings", "largeAccount1");
+	        account.deposit(1500);
+
+
+	        assertEquals(1600.0, account.getCurrentBalance(), 0.005);
+	    } finally {
+	        System.setIn(originalInput);
+	    }
+	}
+
+	@Test
+	public void testLargeDepositCancel() {
+	    InputStream originalInput = System.in;
+	    try {
+	        String simulatedUserInput = "no\n";
+	        ByteArrayInputStream testIn = new ByteArrayInputStream(simulatedUserInput.getBytes());
+	        System.setIn(testIn);
+
+	        BankAccount account = new BankAccount(100, "savings", "largeAccount2");
+	        account.deposit(1500);
+
+
+	        assertEquals(100.0, account.getCurrentBalance(), 0.005);
+	    } finally {
+	        System.setIn(originalInput);
+	    }
+	}
+	@Test
+    public void testLargeWithdrawalConfirm() {
+        InputStream originalInput = System.in;
+        try {
+            String simulatedUserInput = "yes\n";
+            ByteArrayInputStream testIn = new ByteArrayInputStream(simulatedUserInput.getBytes());
+            System.setIn(testIn);
+
+            BankAccount account = new BankAccount(2000, "savings", "largeAccount3");
+            account.withdraw(1500);
+
+
+            assertEquals(500.0, account.getCurrentBalance(), 0.005);
+        } finally {     
+            System.setIn(originalInput);
+        }
+    }
+
+    @Test
+    public void testLargeWithdrawalCancel() {
+        InputStream originalInput = System.in;
+        try {
+            String simulatedUserInput = "no\n";
+            ByteArrayInputStream testIn = new ByteArrayInputStream(simulatedUserInput.getBytes());
+            System.setIn(testIn);
+
+            BankAccount account = new BankAccount(2000, "savings", "largeAccount4");
+            account.withdraw(1500);
+
+
+            assertEquals(2000.0, account.getCurrentBalance(), 0.005);
+        } finally {
+            System.setIn(originalInput);
+        }
+    }
 }
