@@ -10,6 +10,7 @@ import bankapp.BankAccount;
 import bankapp.Customer;
 import bankapp.Menu;
 import exceptions.InsufficientFundsException;
+import exceptions.InvalidMenuOptionException;
 
 import java.io.*;
 import java.util.List;
@@ -26,12 +27,11 @@ public class MenuTests {
 		String input = "3\n"; 
 		System.setIn(new ByteArrayInputStream(input.getBytes()));
 
-		menu.findAccount("acc123");
-
-		Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-			menu.openAccount();
+		assertThrows(InvalidMenuOptionException.class, () -> {
+			menu.run();
 		});
-		assertEquals("Invalid selection", exception.getMessage());
+		
+//		
 	}
 
 
@@ -39,16 +39,6 @@ public class MenuTests {
 	public void testOpenAccount() {
 
 		String input = "1\n12345\n500\n"; 
-
-<<<<<<< HEAD
-		Customer newCustomer = new Customer("Lila");
-		Menu newMenu = new Menu(newCustomer);
-		BankAccount account = newMenu.openAccount();
-		
-		System.out.println(newCustomer.getAccounts().toString()); 
-
-		System.setIn(originalInputStream);
-=======
 
 	    InputStream originalInputStream = System.in;
 	    InputStream testInputStream = new ByteArrayInputStream(input.getBytes());
@@ -64,12 +54,11 @@ public class MenuTests {
 
 		System.setIn(originalInputStream);
 		System.setOut(originalOutputStream);
->>>>>>> c8b286ae0778b972cab8956d765851160fd9f906
 
 		assertNotNull(account);
 		assertEquals(500, account.getCurrentBalance(), 0.01);
-		assertEquals(1, newCustomer.getAccounts().size());
-		assertTrue(newCustomer.getAccounts().contains(account));
+		assertEquals(1, customer.getAccounts().size());
+		assertTrue(customer.getAccounts().contains(account));
 	}
 
 	@Test
@@ -162,41 +151,11 @@ public class MenuTests {
 		assertEquals(400, account2.getCurrentBalance(), 0.001);
 	}
 
-	//@Test
-	//public void testTransferInsufficientFunds() {
-
-	//Customer customer = new Customer("Lila");
-	//	Menu menu = new Menu(customer);
-
-	//	BankAccount account1 = new BankAccount(50, "checking", "acc1"); 
-	//BankAccount account2 = new BankAccount(300, "checking", "acc2");
-
-	//	customer.addAccount(account1);
-	//	customer.addAccount(account2);
-
-	//	String input = "acc1\nacc2\n100\n"; 
-	//	InputStream originalInputStream = System.in;
-	//	InputStream testInputStream = new ByteArrayInputStream(input.getBytes());
-	//	System.setIn(testInputStream);
-
-	//	PrintStream originalOutputStream = System.out;
-	//	System.setOut(new PrintStream(new ByteArrayOutputStream()));
-
-	//	menu.transfer();
-
-	//	System.setIn(originalInputStream);
-	//	System.setOut(originalOutputStream);
-
-	//	assertTrue(output.contains("Transfer failed due to insufficient funds."));
-	//	assertEquals(50, account1.getCurrentBalance());
-	//	assertEquals(300, account2.getCurrentBalance());
-
-
-	//}
-
 	@Test
 	public void testTransferInsufficientFunds() {
-		String input = "1\n123456\n50\n1\n1234567\n300\n123456\n1234567\n100\n";
+		String input = "1\nacct1\n50\n"
+				+ "1\nacct2\n300\n"
+				+ "acct1\nacct2\n100\n";
 		InputStream originalInputStream = System.in;
 		InputStream testInputStream = new ByteArrayInputStream(input.getBytes());
 		System.setIn(testInputStream);
@@ -210,12 +169,11 @@ public class MenuTests {
 			newMenu.transfer(); 
 			fail();
 		} catch (InsufficientFundsException e) {
-			assertTrue(e != null, "Assertion1");
+			assertTrue(e !=  null, "Assertion1");
 			assertEquals(50, account1.getCurrentBalance(), 0.001, "Assertion2");
 			assertEquals(300, account2.getCurrentBalance(), 0.001, "Assertion3");
 		}
 	
-		
 		System.setIn(originalInputStream);
 	}
 }
