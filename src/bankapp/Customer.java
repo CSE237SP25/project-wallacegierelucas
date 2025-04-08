@@ -6,7 +6,8 @@ import java.util.List;
 public class Customer {
     private String name;
     private List<BankAccount> accounts;
-
+    private CustomerProfile profile;
+    
     public Customer(String name) {
         this.name = name;
         this.accounts = new ArrayList<>();
@@ -19,10 +20,21 @@ public class Customer {
     public String getName() {
         return name;
     }
+    public CustomerProfile getProfile() {
+        return profile;
+    }
 
+    public void setProfile(CustomerProfile profile) {
+        this.profile = profile;
+    }
+    
     @Override
     public String toString() {
-        return "Customer{name='" + name + "', accounts=" + accounts + "}";
+        return "Customer{" +
+               "name='" + name + '\'' +
+               ", accounts=" + accounts +
+               ", profile=" + profile +
+               '}';
     }
     
     public List<BankAccount> getAccountsByType(String accountType) {
