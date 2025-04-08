@@ -6,7 +6,6 @@ import java.util.List;
 
 import java.util.Scanner;
 
-import exceptions.InsufficientFundsException;
 import exceptions.InvalidMenuOptionException;
 
 public class Menu {
@@ -175,21 +174,31 @@ public class Menu {
 		int menuOptionSelection = scanner.nextInt();
 		scanner.nextLine();
 
-		if (menuOptionSelection == 1) {
-			openAccount();
-		} else if (menuOptionSelection == 2) {
-			closeAccount();
-		} else if(menuOptionSelection == 3) {
-			transfer();
-		}
-		else if(menuOptionSelection == 4) {
-			manageAccount();
-		}
-		else if(menuOptionSelection == 5) {
-			return true;
-		}
-		else {
-			throw new InvalidMenuOptionException("Invalid menu option.");
+		boolean success = false;
+		
+		while(!success) {
+			try {
+				if (menuOptionSelection == 1) {
+					openAccount();
+				} else if (menuOptionSelection == 2) {
+					closeAccount();
+				} else if(menuOptionSelection == 3) {
+					transfer();
+				}
+				else if(menuOptionSelection == 4) {
+					manageAccount();
+				}
+				else if(menuOptionSelection == 5) {
+					return true;
+				}
+				else {
+					throw new InvalidMenuOptionException("Invalid menu option.");
+				}
+				success = true;
+			}
+			catch(IllegalArgumentException e) {
+				System.out.println("Error: " + e.getMessage() + " Try again.");
+			}
 		}
 
 		return false;
