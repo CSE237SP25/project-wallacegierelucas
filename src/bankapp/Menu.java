@@ -35,7 +35,7 @@ public class Menu {
 		System.out.println("1: Checking");
 		System.out.println("2: Savings");
 		System.out.print("Enter your selection (1 or 2): ");
-		
+
 		int accountTypeSelection = scanner.nextInt();
 		scanner.nextLine();
 
@@ -63,7 +63,7 @@ public class Menu {
 
 		System.out.println("Enter a unique id for this account.");
 		String accountId = scanner.nextLine();
-		
+
 		checkForUniqueId(accountId);
 
 		System.out.println("How much would you like to deposit initially?");
@@ -80,13 +80,13 @@ public class Menu {
 	public void checkForUniqueId(String id) {
 		for(int i = 0; i < accounts.size(); ++i) {
 			BankAccount account = accounts.get(i);
-			
+
 			if(id.compareTo(account.getAccountId()) == 0) {
 				throw new IllegalArgumentException("Account ID must be unique.");
 			}
 		}
 	}
-	
+
 	public BankAccount selectAccount() {
 		String type = getAccountType();
 		displayAccounts(type);
@@ -158,65 +158,65 @@ public class Menu {
 			throw new IllegalArgumentException("No accounts to manage.");
 		}
 	}
-	
+
 	public void updateProfile() {
-        System.out.println("Enter your occupation:");
-        String occupation = scanner.nextLine();
-        System.out.println("Enter your address:");
-        String address = scanner.nextLine();
-    
-        CustomerProfile profile = new CustomerProfile(occupation, address);
-        customer.setProfile(profile);
-        System.out.println("Profile updated: " + profile);
-    }
-    
-    public void displayMenuOptions() {
-        System.out.println("What would you like to do?");
-        System.out.println("1. Open an account");
-        System.out.println("2. Close an account");
-        System.out.println("3. Transfer between accounts");
-        System.out.println("4. Choose an account to manage");
-        System.out.println("5. Update profile");
-        System.out.println("6. View (or filter) transaction history");
-        System.out.println("7. Exit");
-        
-        System.out.println("Enter your selection (1-7):");
-    }
+		System.out.println("Enter your occupation:");
+		String occupation = scanner.nextLine();
+		System.out.println("Enter your address:");
+		String address = scanner.nextLine();
 
-    public void viewTransactionHistory() {
-        System.out.println("Enter account ID to view transaction history:");
-        String accountId = scanner.nextLine();
+		CustomerProfile profile = new CustomerProfile(occupation, address);
+		customer.setProfile(profile);
+		System.out.println("Profile updated: " + profile);
+	}
 
-        try {
-            BankAccount account = findAccount(accountId);
-            System.out.println("Would you like to filter the history? (yes/no)");
-            String response = scanner.nextLine();
+	public void displayMenuOptions() {
+		System.out.println("What would you like to do?");
+		System.out.println("1. Open an account");
+		System.out.println("2. Close an account");
+		System.out.println("3. Transfer between accounts");
+		System.out.println("4. Choose an account to manage");
+		System.out.println("5. Update profile");
+		System.out.println("6. View (or filter) transaction history");
+		System.out.println("7. Exit");
 
-            List<Transaction> history;
+		System.out.println("Enter your selection (1-7):");
+	}
 
-            if (response.equalsIgnoreCase("yes")) {
-                System.out.println("Enter filter type (Deposit or Withdrawal):");
-                String type = scanner.nextLine();
-                history = account.getFilteredTransactions(type);
-            } else {
-                history = account.getTransactions();
-            }
+	public void viewTransactionHistory() {
+		System.out.println("Enter account ID to view transaction history:");
+		String accountId = scanner.nextLine();
 
-            if (history.isEmpty()) {
-                System.out.println("No transactions found.");
-            } else {
-                System.out.println("Transaction history for account " + accountId + ":");
-                for (Transaction t : history) {
-                    System.out.println(t);
-                }
-            }
+		try {
+			BankAccount account = findAccount(accountId);
+			System.out.println("Would you like to filter the history? (yes/no)");
+			String response = scanner.nextLine();
 
-        } catch (IllegalArgumentException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-    }
+			List<Transaction> history;
 
-	
+			if (response.equalsIgnoreCase("yes")) {
+				System.out.println("Enter filter type (Deposit or Withdrawal):");
+				String type = scanner.nextLine();
+				history = account.getFilteredTransactions(type);
+			} else {
+				history = account.getTransactions();
+			}
+
+			if (history.isEmpty()) {
+				System.out.println("No transactions found.");
+			} else {
+				System.out.println("Transaction history for account " + accountId + ":");
+				for (Transaction t : history) {
+					System.out.println(t);
+				}
+			}
+
+		} catch (IllegalArgumentException e) {
+			System.out.println("Error: " + e.getMessage());
+		}
+	}
+
+
 
 	public boolean getMenuOptionInput() {
 		int menuOptionSelection = scanner.nextInt();
@@ -233,13 +233,13 @@ public class Menu {
 			manageAccount();
 		}
 		else if (menuOptionSelection == 5) {
-            updateProfile();
-    } else if (menuOptionSelection == 6) {
-           viewTransactionHistory();
-    } else if (menuOptionSelection == 7) {
-            return true;
-        } else {
-			    throw new InvalidMenuOptionException("Invalid menu option.");
+			updateProfile();
+		} else if (menuOptionSelection == 6) {
+			viewTransactionHistory();
+		} else if (menuOptionSelection == 7) {
+			return true;
+		} else {
+			throw new InvalidMenuOptionException("Invalid menu option.");
 		}
 
 		return false;
@@ -247,13 +247,13 @@ public class Menu {
 
 	public boolean run() {
 		boolean success = false;
-		
+
 		while(!success) {
 			try {
 				displayMenuOptions();
-				
+
 				boolean exit = getMenuOptionInput();
-				
+
 				success = true;
 				return exit;
 			}
@@ -264,8 +264,8 @@ public class Menu {
 				System.out.println("Error: " + e.getMessage() + " Try again.");
 			}
 		}
-		
+
 		return false;
 	}
-	
+
 }

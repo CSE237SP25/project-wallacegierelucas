@@ -3,32 +3,32 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Transaction {
-	
+
 	private String type; 
-    private double amount;
-    private LocalDateTime timestamp;
+	private double amount;
+	private LocalDateTime timestamp;
 
-    public Transaction(String type, double amount) {
-        this.type = type;
-        this.amount = amount;
-        this.timestamp = LocalDateTime.now(); 
-    }
+	public Transaction(String type, double amount) {
+		this.type = type;
+		this.amount = amount;
+		this.timestamp = LocalDateTime.now(); 
+	}
 
-    public String getType() {
-        return type;
-    }
+	public String getType() {
+		return type;
+	}
 
-    public double getAmount() {
-        return amount;
-    }
+	public double getAmount() {
+		return amount;
+	}
 
-    public String getFormattedTimestamp() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        return timestamp.format(formatter);
-    }
+	public String getFormattedTimestamp() {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		return timestamp.format(formatter);
+	}
 
-    @Override
-    public String toString() {
-        return getFormattedTimestamp() + " - " + type + ": $" + amount;
-    }
+	@Override
+	public String toString() {
+		return getFormattedTimestamp() + " - " + type + ": $" + amount;
+	}
 }

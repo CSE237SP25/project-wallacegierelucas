@@ -17,18 +17,18 @@ public class LoginMenu {
 
 	public String getUser() {
 		boolean success = false;
-		
+
 		while(!success) {
 			try {
 				displayOptions();
-				
+
 				int optionInput = getUserOptionInput();
 				String username = processUserInput(optionInput);
-				
+
 				success = true;
-				
+
 				return username;
-				
+
 			}
 			catch(IllegalArgumentException e) {
 				System.out.println("Attempt failed: " + e.getMessage());
@@ -37,7 +37,7 @@ public class LoginMenu {
 				System.out.println("Attempt failed: " + e.getMessage());
 			}
 		}
-		
+
 		return null;
 	}
 
@@ -71,7 +71,7 @@ public class LoginMenu {
 	public String register() {
 		System.out.println("Choose a username: ");
 		String username = userInput.nextLine();
-		
+
 		if (userExists(username)) {
 			throw new IllegalArgumentException("Username already exists.");
 		}
@@ -89,10 +89,10 @@ public class LoginMenu {
 		catch(Exception e) {
 			System.out.println("Error: " + e.getMessage());
 		}
-		
+
 		return null;
 	}
-	
+
 	public String logIn() {
 		System.out.println("Enter username: ");
 		String username = userInput.nextLine();
@@ -115,7 +115,7 @@ public class LoginMenu {
 
 			while(fileReader.hasNextLine()) {
 				String[] loginInfo = fileReader.nextLine().split(",");
-				
+
 				if (loginInfo.length > 0 && loginInfo[0].equals(username)) {
 					return true;
 				}
@@ -127,14 +127,14 @@ public class LoginMenu {
 
 		return false;
 	}
-	
+
 	public boolean checkCredentials(String username, String password) {
 		try {
 			Scanner fileReader = new Scanner(new File(LOGIN_FILE));
 
 			while(fileReader.hasNextLine()) {
 				String[] loginInfo = fileReader.nextLine().split(",");
-				
+
 				if (loginInfo.length > 0 && loginInfo[0].equals(username) && loginInfo[1].equals(password)) {
 					return true;
 				}
