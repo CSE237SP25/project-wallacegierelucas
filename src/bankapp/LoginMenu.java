@@ -30,9 +30,12 @@ public class LoginMenu {
 				return username;
 				
 			}
-			catch(Exception e) {
+			catch(IllegalArgumentException e) {
 				System.out.println("Attempt failed: " + e.getMessage());
 			}	
+			catch(InvalidMenuOptionException e) {
+				System.out.println("Attempt failed: " + e.getMessage());
+			}
 		}
 		
 		return null;
@@ -41,7 +44,8 @@ public class LoginMenu {
 	public void displayOptions() {
 		System.out.println("Welcome!");
 		System.out.println("1. Register");
-		System.out.println("Choose an option: ");
+		System.out.println("2. Log In");
+		System.out.println("Choose an option (1 or 2): ");
 	}
 
 	public int getUserOptionInput() {
@@ -55,7 +59,11 @@ public class LoginMenu {
 	private String processUserInput(int option) {
 		if (option == 1) {
 			return register();
-		} else {
+		} 
+		else if(option == 2) {
+			return logIn();
+		}
+		else {
 			throw new InvalidMenuOptionException("Must enter a valid menu option.");
 		}
 	}
@@ -73,7 +81,7 @@ public class LoginMenu {
 
 		try {
 			FileWriter fileWriter = new FileWriter(LOGIN_FILE, true);
-			fileWriter.append(username + "," + password + "\n");
+			fileWriter.write(username + "," + password + "\n");
 			System.out.println("User registered successfully.");
 			fileWriter.close();
 			return username;
@@ -84,6 +92,22 @@ public class LoginMenu {
 		
 		return null;
 	}
+	
+	public String logIn() {
+		System.out.println("Enter username: ");
+		String username = userInput.nextLine();
+
+		System.out.println("Enter password: ");
+		String password = userInput.nextLine();
+
+		if(checkCredentials(username, password)) {
+			System.out.println("Log in successful!");
+			return username;
+		}
+		else {
+			throw new IllegalArgumentException("Invalid username or password.");
+		}
+	}
 
 	public boolean userExists(String username) {
 		try {
@@ -93,6 +117,25 @@ public class LoginMenu {
 				String[] loginInfo = fileReader.nextLine().split(",");
 				
 				if (loginInfo.length > 0 && loginInfo[0].equals(username)) {
+					return true;
+				}
+			}
+		}
+		catch(Exception e) {
+			System.out.println("Error: " + e.getMessage());
+		}
+
+		return false;
+	}
+	
+	public boolean checkCredentials(String username, String password) {
+		try {
+			Scanner fileReader = new Scanner(new File(LOGIN_FILE));
+
+			while(fileReader.hasNextLine()) {
+				String[] loginInfo = fileReader.nextLine().split(",");
+				
+				if (loginInfo.length > 0 && loginInfo[0].equals(username) && loginInfo[1].equals(password)) {
 					return true;
 				}
 			}
