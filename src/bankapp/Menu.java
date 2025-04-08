@@ -18,7 +18,6 @@ public class Menu {
 		this.accounts = new ArrayList<>();
 		this.customer = customer;
 		this.scanner = new Scanner(System.in);
-		this.accounts = customer.getAccounts();
 	}
 
 	public BankAccount findAccount(String accountId) {
