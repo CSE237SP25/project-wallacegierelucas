@@ -18,7 +18,7 @@ public class BankAccountTests {
 		account.deposit(25);
 		assertEquals(25.0, account.getCurrentBalance(), 0.005);
 	}
-	
+
 	@Test
 	public void testNegativeDeposit() {
 		BankAccount account = new BankAccount();
@@ -30,10 +30,10 @@ public class BankAccountTests {
 			assertTrue(e != null);
 		}
 	}
-	
+
 	@Test 
 	public void testNegativeInitialBalance() { 
-		
+
 		try { 
 			//public BankAccount(double initialBalance, String type, String accountId)
 			BankAccount account = new BankAccount(-3, "checking", "checking1");
@@ -43,7 +43,7 @@ public class BankAccountTests {
 			assertTrue(e != null); 
 		}
 	}
-	
+
 	@Test
 	public void testSimpleWithdrawal() {
 		BankAccount account = new BankAccount();
@@ -51,7 +51,7 @@ public class BankAccountTests {
 		account.withdraw(5);
 		assertEquals(15.0, account.getCurrentBalance(), 0.005);
 	}
-	
+
 	@Test
 	public void testExactWithdrawal() {
 		BankAccount account = new BankAccount();
@@ -59,7 +59,7 @@ public class BankAccountTests {
 		account.withdraw(20);
 		assertEquals(0.0, account.getCurrentBalance(), 0.005);
 	}
-	
+
 	@Test
 	public void testZeroWithdrawal() {
 		BankAccount account = new BankAccount();
@@ -73,7 +73,7 @@ public class BankAccountTests {
 			assertEquals(account.getCurrentBalance(), 20.0, 0.005);
 		}
 	}
-	
+
 	@Test
 	public void testNegativeWithdrawal() {
 		BankAccount account = new BankAccount();
@@ -87,7 +87,7 @@ public class BankAccountTests {
 			assertEquals(20.0, account.getCurrentBalance(), 0.005);
 		}
 	}
-	
+
 	@Test
 	public void testOverdraftWithdrawal() {
 		BankAccount account = new BankAccount();
@@ -101,23 +101,23 @@ public class BankAccountTests {
 			assertEquals(20.0, account.getCurrentBalance(), 0.005);
 		}
 	}
-	
+
 	@Test
 	public void testGetType() {
-	        BankAccount account = new BankAccount(100, "savings", "12345");
-	        assertEquals("savings", account.getType());
-	    }
-	 
-	 @Test
-	 public void testGetAccountId() {
-	        BankAccount account = new BankAccount(100, "checking", "acc123");
-	        assertEquals("acc123", account.getAccountId());
-	    }
+		BankAccount account = new BankAccount(100, "savings", "12345");
+		assertEquals("savings", account.getType());
+	}
 
-	 @Test
-	 public void testToString() {
-	        BankAccount account = new BankAccount(100, "checking", "acc456");
-	        assertEquals("BankAccount{accountId=acc456}", account.toString());
-	    }
-	
+	@Test
+	public void testGetAccountId() {
+		BankAccount account = new BankAccount(100, "checking", "acc123");
+		assertEquals("acc123", account.getAccountId());
+	}
+
+	@Test
+	public void testToString() {
+		BankAccount account = new BankAccount(100, "checking", "acc456");
+		assertEquals("BankAccount{accountId=acc456}", account.toString());
+	}
+
 }
