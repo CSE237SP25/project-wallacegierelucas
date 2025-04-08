@@ -9,31 +9,14 @@ import bankapp.Menu;
 import exceptions.InsufficientFundsException;
 
 import java.io.*;
-import java.util.*;
+import java.util.List;
 
 public class MenuTests {
-
 	private final PrintStream originalOut = System.out;
 	private final InputStream originalIn = System.in;
 	private ByteArrayOutputStream testOut;
-	private Menu menu; 
-	private Customer customer; 
-
-
-
-	@BeforeEach
-	void setUp() {
-		testOut = new ByteArrayOutputStream();
-		System.setOut(new PrintStream(testOut));
-		customer = new Customer("Ella");
-		menu = new Menu(customer);
-	}
-
-	@AfterEach
-	void restoreStreams() {
-		System.setOut(originalOut);
-		System.setIn(originalIn);
-	}
+	private Customer customer = new Customer("Erika"); 
+	private Menu menu = new Menu(customer);
 
 	@Test
 	public void testInvalidSelection() {
@@ -53,9 +36,19 @@ public class MenuTests {
 	public void testOpenAccount() {
 		
 		String input = "1\n12345\n500\n"; 
-		System.setIn(new ByteArrayInputStream(input.getBytes()));
+	    InputStream originalInputStream = System.in;
+	    InputStream testInputStream = new ByteArrayInputStream(input.getBytes());
+	    System.setIn(testInputStream);
+	    
+		PrintStream originalOutputStream = System.out;
+		System.setOut(new PrintStream(new ByteArrayOutputStream()));
 
+		Customer customer = new Customer("Lila");
+		Menu menu = new Menu(customer);
 		BankAccount account = menu.openAccount();
+
+		System.setIn(originalInputStream);
+		System.setOut(originalOutputStream);
 
 		assertNotNull(account);
 		assertEquals(500, account.getCurrentBalance(), 0.01);
@@ -77,7 +70,7 @@ public class MenuTests {
 		Exception exception = assertThrows(IllegalArgumentException.class, () -> {
 			menu.findAccount("nonexistent");
 		});
-		assertEquals("Invalid account id", exception.getMessage());
+		assertEquals("Invalid account id.", exception.getMessage());
 	}
 	
 	@Test
@@ -146,23 +139,5 @@ public class MenuTests {
 		assertEquals(50, account1.getCurrentBalance());
 		assertEquals(300, account2.getCurrentBalance());
 	}
-	
-
-	
-	//not used
-//
-//	@Test
-//	public void testMultipleAccounts() {
-//		Customer customer = new Customer("Lila");
-//		Menu menu = new Menu(customer); 
-//		BankAccount account1 = menu.openAccount();
-//		BankAccount account2 = menu.openAccount();
-//
-//		List<BankAccount> accounts = customer.getAccounts();
-//		assertEquals(2, accounts.size(), "Customer should have two accounts.");
-//		assertTrue(accounts.contains(account1));
-//		assertTrue(accounts.contains(account2));
-//	}
-
 }
 
