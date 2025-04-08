@@ -1,5 +1,6 @@
 package bankapp;
 import java.time.LocalDateTime; 
+import java.time.format.DateTimeFormatter;
 
 public class Transaction {
 	
@@ -21,12 +22,13 @@ public class Transaction {
         return amount;
     }
 
-    public LocalDateTime getTimestamp() {
-        return timestamp;
+    public String getFormattedTimestamp() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return timestamp.format(formatter);
     }
 
     @Override
     public String toString() {
-        return timestamp + " - " + type + ": $" + String.format("%.2f", amount);
+        return getFormattedTimestamp() + " - " + type + ": $" + amount;
     }
 }
