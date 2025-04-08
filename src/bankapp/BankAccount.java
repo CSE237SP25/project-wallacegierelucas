@@ -1,5 +1,7 @@
 package bankapp;
 
+import java.util.Scanner;
+
 import exceptions.InsufficientFundsException;
 import java.util.ArrayList; 
 import java.util.List;
@@ -30,6 +32,16 @@ public class BankAccount {
 		if(amount <= 0) {
 			throw new IllegalArgumentException("Must deposit a positive amount.");
 		}
+		 if (amount > 1000) {
+		        Scanner userInputDeposit = new Scanner(System.in);
+		        System.out.println("Attention: You are about to deposit a large amount: $" + amount);
+		        System.out.print("Do you want to proceed? (yes/no): ");
+		        String response = userInputDeposit.nextLine();
+		        if (!response.equalsIgnoreCase("yes")) {
+		            System.out.println("Deposit canceled.");
+		            return;
+		        }
+		 }
 		this.balance += amount;
 		addTransaction("Deposited $ "+ amount + " | New Balance: $" + balance);
 	}
@@ -38,7 +50,16 @@ public class BankAccount {
 		if(amount <= 0) {
 			throw new IllegalArgumentException("Must withdraw a positive amount.");
 		}
-		
+		 if (amount > 1000) {
+	            Scanner userInputWithdraw = new Scanner(System.in);
+	            System.out.println("Attention: You are about to withdraw a large amount: $" + amount);
+	            System.out.print("Do you want to proceed? (yes/no): ");
+	            String response = userInputWithdraw.nextLine();
+	            if (!response.equalsIgnoreCase("yes")) {
+	                System.out.println("Withdrawal canceled.");
+	                return;
+	            }
+	        }
 		if(balance < amount) {
 			throw new InsufficientFundsException("Insufficient funds.");
 		}
