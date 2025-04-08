@@ -7,6 +7,7 @@ import static org.junit.Assert.fail;
 import org.junit.jupiter.api.Test;
 
 import bankapp.BankAccount;
+import bankapp.Transaction;
 import exceptions.InsufficientFundsException;
 
 public class BankAccountTests {
@@ -118,4 +119,5 @@ public class BankAccountTests {
 	        BankAccount account = new BankAccount(100, "checking", "acc456");
 	        assertEquals("BankAccount{accountId=acc456}", account.toString());
 	    }
+	
 }
