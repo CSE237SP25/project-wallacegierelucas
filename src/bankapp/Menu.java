@@ -188,21 +188,6 @@ public class Menu {
 	    System.out.println("Enter account ID to view transaction history:");
 	    String accountId = scanner.nextLine();
 
-	    try {
-	        BankAccount account = findAccount(accountId);
-	        List<String> history = account.getTransactionHistory();
-
-	        if (history.isEmpty()) {
-	            System.out.println("No transactions yet.");
-	        } else {
-	            System.out.println("Transaction history for account " + accountId + ":");
-	            for (String record : history) {
-	                System.out.println(record);
-	            }
-	        }
-	    } catch (IllegalArgumentException e) {
-	        System.out.println(e.getMessage());
-	    }
 	}
 	
 

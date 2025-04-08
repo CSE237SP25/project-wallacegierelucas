@@ -147,63 +147,7 @@ public class MenuTests {
 		assertEquals(300, account2.getCurrentBalance());
 	}
 	
-	
-	//transaction tests 
-	@Test
-    public void testTransactionHistoryAfterDeposit() {
-        BankAccount account = new BankAccount(0, "checking", "acc1");
-        account.deposit(100);
 
-        List<String> history = account.getTransactionHistory();
-        assertEquals(1, history.size());
-        assertTrue(history.get(0).contains("Deposited $100"));
-    }
-	
-	@Test
-    public void testTransactionHistoryAfterWithdraw() throws InsufficientFundsException {
-        BankAccount account = new BankAccount(200, "checking", "acc2");
-        account.withdraw(50);
-
-        List<String> history = account.getTransactionHistory();
-        assertEquals(1, history.size());
-        assertTrue(history.get(0).contains("Withdrew $50"));
-    }
-	
-	@Test
-    public void testTransactionHistoryWithdrawInsufficientFunds() {
-        BankAccount account = new BankAccount(30, "checking", "acc3");
-
-        Exception exception = assertThrows(InsufficientFundsException.class, () -> {
-            account.withdraw(100);
-        });
-
-        List<String> history = account.getTransactionHistory();
-        assertEquals(1, history.size());
-        assertTrue(history.get(0).contains("Attempted to withdraw $100"));
-        assertTrue(history.get(0).contains("Failed"));
-    }
-
-    @Test
-    public void testMultipleTransactionsHistory() throws InsufficientFundsException {
-        BankAccount account = new BankAccount(500, "checking", "acc4");
-
-        account.deposit(200);
-        account.withdraw(100);
-        account.deposit(50);
-
-        List<String> history = account.getTransactionHistory();
-        assertEquals(3, history.size());
-        assertTrue(history.get(0).contains("Deposited $200"));
-        assertTrue(history.get(1).contains("Withdrew $100"));
-        assertTrue(history.get(2).contains("Deposited $50"));
-    }
-
-    @Test
-    public void testEmptyTransactionHistory() {
-        BankAccount account = new BankAccount(0, "checking", "acc5");
-        List<String> history = account.getTransactionHistory();
-        assertTrue(history.isEmpty());
-    }
 	
 	//not used
 //
