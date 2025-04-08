@@ -26,6 +26,7 @@ public class BankAccount {
   	
 	public BankAccount() {
 		this.balance = 0;
+		this.transactionHistory = new ArrayList<>();
 	}
 	
 	public void deposit(double amount) {
