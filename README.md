@@ -6,29 +6,37 @@ Team Members:
 * Ella Giere
 * Nicole Lucas
 
-# Iteration 1:
+# Iteration 2:
 
 What user stories were completed this iteration?
-This iteration, we added funtionality for a bank customer to:
-* open and close an account
-* have multiple accounts
-* choose an account to manage
-* deposit and withdraw money from an account
-* view the balance of their account(s)
-* transfer money between accounts
+This iteration, we added functionality for a bank customer to:
+* create a detailed profile
+* confirm large deposits and withdrawals(over $1,000)
+* log in to the app using a username and password
+* register using a username and password
+* filter the transaction history for each of their accounts 
+* view the transaction history for each of their accounts
 
 
 What user stories do you intend to complete next iteration?
 Next iteration, we'd like to add the ability to:
-* allow an actual user to input custom information
-* view and filter transaction history
 * add interest for savings accounts
-* add a nickname to an account
-* handle large deposits/withdrawals
+* export transaction history 
+* view a balance summary dashboard 
+* access an in-app help and FAQ section
+* reset their password
 
 Is there anything that you implemented but doesn't currently work?
-* We tried merging the transfer money branch to development, but encountered multiple merge conflicts. We were up late trying to fix them, but were unsuccessful. In the next iteration, we will work to fix this.
-* Also, our main method runs based on test input, instead of live user input. This is something we will fix in the next iteration.
+Everything we implemented in Iteration 2 works. 
 
 What commands are needed to compile and run your code from the command line (please provide a script that users can run to launch your program)?
-We're still working on this. Right now, if you run the program in Eclipse, you can see the output.
+
+If you are using a Mac, please use the following commands: 
+cd src
+chmod +x ./RunBankApp.sh
+./RunBankApp
+
+If you are using a PC, please use the following commands: 
+cd src 
+./RunBankApp.sh 
+
