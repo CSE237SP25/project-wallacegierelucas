@@ -6,133 +6,163 @@ import org.junit.jupiter.api.*;
 import bankapp.BankAccount;
 import bankapp.Customer;
 import bankapp.Menu;
+import exceptions.InsufficientFundsException;
+import exceptions.InvalidMenuOptionException;
 
 import java.io.*;
-import java.util.*;
+import java.util.List;
 
 public class MenuTests {
-	
-	  private final PrintStream originalOut = System.out;
-	  private final InputStream originalIn = System.in;
-	  private ByteArrayOutputStream testOut;
-	  private Menu menu; 
-	  private Customer customer; 
+	private Customer customer = new Customer("Erika"); 
+	private Menu menu = new Menu(customer);
 
-
-	  
 	@Test
-    public void testInvalidSelection() {
-		testOut = new ByteArrayOutputStream();
-	    System.setOut(new PrintStream(testOut));
-	    Customer customer = new Customer("Ella", "123");
-	    Menu menu = new Menu(customer);
-	
-        String input = "3\n"; 
-        System.setIn(new ByteArrayInputStream(input.getBytes()));
-        
-        
-        menu.findAccount();
+	public void testInvalidSelection() {
+		String input = "12\n"; 
+		System.setIn(new ByteArrayInputStream(input.getBytes()));
 
-        
-        String output = testOut.toString();
-        assertTrue(output.contains("Invalid selection."), "Output should indicate an invalid selection");
-        
-        System.setOut(originalOut);
-        System.setIn(originalIn);
-    }
+		Customer customer = new Customer("Lila");
+		Menu menu = new Menu(customer);
 
-    @Test
-    public void testNoAccountsAvailable() {
-    	testOut = new ByteArrayOutputStream();
-	    System.setOut(new PrintStream(testOut));
-	    Customer customer = new Customer("Emily", "124");
-	    Menu menu = new Menu(customer);
-    	
-        String input = "1\n"; 
-        System.setIn(new ByteArrayInputStream(input.getBytes()));
-        
+		Exception exception = assertThrows(InvalidMenuOptionException.class, () -> {
+			menu.getMenuOptionInput();
+		});
+		assertEquals("Invalid menu option.", exception.getMessage());
+	}
 
-        
-        menu.findAccount();
 
-       
-        String output = testOut.toString();
-        assertTrue(output.contains("No checking accounts available."), "Output should indicate that no checking accounts are available");
-        
-        System.setOut(originalOut);
-        System.setIn(originalIn);
-    }
-    
-    @Test
-    public void testOpenAccount() {
-    	Customer customer = new Customer("Emma", "125");;
-        Menu menu = new Menu(customer); 
-    	BankAccount account = menu.openAccount(500.0, "checking");
+	@Test
+	public void testOpenAccount() {
 
-        assertNotNull(account);
-        assertEquals(500.0, account.getCurrentBalance(), 0.01);
-        assertEquals(1, customer.getAccounts().size(), "Customer should have one account after opening.");
-        assertTrue(customer.getAccounts().contains(account), "Customer's account list should include the new account.");
-    }
-    
-    @Test
-    public void testMultipleAccounts() {
-    	Customer customer = new Customer("Lila", "126");
-    	Menu menu = new Menu(customer); 
-        BankAccount account1 = menu.openAccount(200.0, "checking");
-        BankAccount account2 = menu.openAccount(300.0, "checking");
+		String input = "1\n12345\n500\n"; 
+		InputStream originalInputStream = System.in;
+		InputStream testInputStream = new ByteArrayInputStream(input.getBytes());
+		System.setIn(testInputStream);
 
-        List<BankAccount> accounts = customer.getAccounts();
-        assertEquals(2, accounts.size(), "Customer should have two accounts.");
-        assertTrue(accounts.contains(account1));
-        assertTrue(accounts.contains(account2));
-    }
-    @Test
-    void testCloseAccountWithZeroBalance() {
-    	Customer customer = new Customer("Lila", "126");
-    	Menu menu = new Menu(customer); 
-        BankAccount account = menu.openAccount(0.0, "checkings");
+		PrintStream originalOutputStream = System.out;
+		System.setOut(new PrintStream(new ByteArrayOutputStream()));
 
-        boolean result = menu.closeAccount(account);
+		Customer customer = new Customer("Lila");
+		Menu menu = new Menu(customer);
+		BankAccount account = menu.openAccount();
 
-        assertTrue(result, "Account with zero balance should be closed.");
-        assertFalse(customer.getAccounts().contains(account), "Closed account should be removed from the customer’s account list.");
-    }
+		System.setIn(originalInputStream);
+		System.setOut(originalOutputStream);
 
-    @Test
-    void testCloseAccountWithNonZeroBalance() {
-    	Customer customer = new Customer("Lila", "126");
-    	Menu menu = new Menu(customer); 
-        BankAccount account = menu.openAccount(100.0, "checking");
+		assertNotNull(account);
+		assertEquals(500, account.getCurrentBalance(), 0.01);
+		assertEquals(1, customer.getAccounts().size());
+		assertTrue(customer.getAccounts().contains(account));
+	}
 
-        boolean result = menu.closeAccount(account);
+	@Test
+	public void testFindAccount() {
+		String input = "1\n12345\n500\n"; 
+		InputStream originalInputStream = System.in;
+		InputStream testInputStream = new ByteArrayInputStream(input.getBytes());
+		System.setIn(testInputStream);
 
-        assertFalse(result, "Account with nonzero balance should not be closed.");
-        assertTrue(customer.getAccounts().contains(account), "Account should still exist in the customer’s account list.");
-    }
+		Customer newCustomer = new Customer("Lila");
+		Menu menu = new Menu(newCustomer);
+		BankAccount account = menu.openAccount();
 
-    @Test
-    void testCloseNonExistentAccount() {
-    	Customer customer = new Customer("Lila", "126");
-    	Menu menu = new Menu(customer); 
-        BankAccount account1 = menu.openAccount(50.0, "checking");
-        BankAccount account2 = new BankAccount(0.0, "checking"); // This account is NOT added to the customer
+		System.setIn(originalInputStream);
 
-        boolean result = menu.closeAccount(account2);
+		BankAccount found = menu.findAccount("12345");
+		assertEquals(account, found, "The correct account should be found");
+	}
 
-        assertFalse(result, "Closing an account that doesn't exist should return false.");
-    
+	@Test
+	public void testFindNonExistentAccount() {
+		Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+			menu.findAccount("nonexistent");
+		});
+		assertEquals("Invalid account id.", exception.getMessage());
+	}
 
-        menu.findAccount();
+	@Test
+	public void testCloseAccountWithZeroBalance() {
+		String input = "1\nacc123\n0\n" + "1\nacc123\n";
+		System.setIn(new ByteArrayInputStream(input.getBytes()));
 
-       
-        String output = testOut.toString();
-        assertTrue(output.contains("No checking accounts available."), "Output should indicate that no checking accounts are available");
-        
-        System.setOut(originalOut);
-        System.setIn(originalIn);
-    }
-    
-   
+		Customer newCustomer = new Customer("Lila");
+		Menu menu = new Menu(newCustomer);
+		BankAccount account = menu.openAccount();
+		boolean result = menu.closeAccount();
+
+		assertTrue(result);
+		assertFalse(customer.getAccounts().contains(account));
+	}
+
+	@Test
+	public void testCloseAccountWithNonZeroBalance() {
+		String input = "1\nacc123\n500\n" + "1\nacc123\n"; 
+		System.setIn(new ByteArrayInputStream(input.getBytes()));
+
+		Customer newCustomer = new Customer("Lila");
+		Menu menu = new Menu(newCustomer);
+		BankAccount account = menu.openAccount();
+		boolean result = menu.closeAccount();
+
+		assertFalse(result);
+		assertTrue(newCustomer.getAccounts().contains(account));
+	}
+
+	@Test
+	public void testCloseNonExistentAccount() {
+		String input = "1\n"; 
+		System.setIn(new ByteArrayInputStream(input.getBytes()));
+
+		Customer newCustomer = new Customer("Lila");
+		Menu menu = new Menu(newCustomer);
+
+		Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+			menu.closeAccount();
+		});
+		assertEquals("No accounts to manage.", exception.getMessage());
+	}
+
+	@Test
+	public void testSuccessfulTransfer() throws InsufficientFundsException {
+		String input = "1\nacct1\n50\n" + "1\nacct2\n300\n" + "acct1\nacct2\n25\n";
+		InputStream originalInputStream = System.in;
+		System.setIn(new ByteArrayInputStream(input.getBytes()));
+
+		Customer newCustomer = new Customer("Erika");
+		Menu newMenu = new Menu(newCustomer);
+		BankAccount account1 = newMenu.openAccount();
+		BankAccount account2 = newMenu.openAccount();
+
+		newMenu.transfer();
+
+		System.setIn(originalInputStream);
+
+		assertEquals(25, account1.getCurrentBalance(), 0.001);
+		assertEquals(325, account2.getCurrentBalance(), 0.001);
+	}
+
+	@Test
+	public void testTransferInsufficientFunds() {
+		String input = "1\nacct1\n50\n" + "1\nacct2\n300\n" + "acct1\nacct2\n100\n";
+		InputStream originalInputStream = System.in;
+		InputStream testInputStream = new ByteArrayInputStream(input.getBytes());
+		System.setIn(testInputStream);
+
+		Customer newCustomer = new Customer("Erika");
+		Menu newMenu = new Menu(newCustomer);
+		BankAccount account1 = newMenu.openAccount();
+		BankAccount account2 = newMenu.openAccount();
+
+		try {
+			newMenu.transfer(); 
+			fail();
+		} catch (InsufficientFundsException e) {
+			assertTrue(e !=  null, "Assertion1");
+			assertEquals(50, account1.getCurrentBalance(), 0.001, "Assertion2");
+			assertEquals(300, account2.getCurrentBalance(), 0.001, "Assertion3");
+		}
+
+		System.setIn(originalInputStream);
+	}
 }
 

@@ -11,19 +11,18 @@ import bankapp.BankAccount;
 import java.util.List;
 
 class CustomerTest {
-    private Customer customer;
+	private Customer customer;
 
-    @BeforeEach
-    void setUp() {
-        customer = new Customer("Nicole Lucas", "CUST123");
-    }
+	@BeforeEach
+	void setUp() {
+		customer = new Customer("Nicole Lucas");
+	}
 
-    @Test
-    void testCustomerCreation() {
-        assertEquals("Nicole Lucas", customer.getName());
-        assertEquals("CUST123", customer.getCustomerId());
-        assertTrue(customer.getAccounts().isEmpty(), "New customer should have no accounts initially.");
-    }
+	@Test
+	void testCustomerCreation() {
+		assertEquals("Nicole Lucas", customer.getName());
+		assertTrue(customer.getAccounts().isEmpty(), "New customer should have no accounts initially.");
+	}
 
 }
 
