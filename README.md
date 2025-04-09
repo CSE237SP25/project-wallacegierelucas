@@ -41,7 +41,9 @@ chmod +x ./RunBankApp.sh
 If you are using a PC, please use the following commands: 
 
 ```bash 
-cd src 
+bash
+cd src
+chmod +x ./RunBankApp.sh
 ./RunBankApp.sh 
 ```
 
