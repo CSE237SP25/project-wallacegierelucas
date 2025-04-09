@@ -43,6 +43,7 @@ If you are using a PC, please use the following commands:
 ```bash 
 bash
 cd src
+sed -i -e 's/\r$//' RunBankApp.sh
 chmod +x ./RunBankApp.sh
 ./RunBankApp.sh 
 ```
