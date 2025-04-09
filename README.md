@@ -27,16 +27,21 @@ Next iteration, we'd like to add the ability to:
 * reset their password
 
 Is there anything that you implemented but doesn't currently work?
-Everything we implemented in Iteration 2 works. 
+* Everything we implemented in Iteration 2 works. 
 
 What commands are needed to compile and run your code from the command line (please provide a script that users can run to launch your program)?
 
 If you are using a Mac, please use the following commands: 
+
+```bash 
 cd src
 chmod +x ./RunBankApp.sh
 ./RunBankApp
-
+```
 If you are using a PC, please use the following commands: 
+
+```bash 
 cd src 
 ./RunBankApp.sh 
+```
 
