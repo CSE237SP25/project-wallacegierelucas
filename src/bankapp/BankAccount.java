@@ -33,6 +33,9 @@ public class BankAccount {
 		if(amount <= 0) {
 			throw new IllegalArgumentException("Must deposit a positive amount.");
 		}
+		if ("checking".equalsIgnoreCase(this.type) && (this.balance + amount > 5000)) {
+		    throw new IllegalArgumentException("Deposit would exceed checking account limit of $5000.");
+		}
 		if (amount > 1000) {
 			Scanner userInputDeposit = new Scanner(System.in);
 			System.out.println("Attention: You are about to deposit a large amount: $" + amount);
@@ -68,7 +71,6 @@ public class BankAccount {
 
 		this.balance -= amount;
 		transactionHistory.add(new Transaction("withdrawal", amount));
-
 	}
 
 	public double getCurrentBalance() {
