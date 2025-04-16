@@ -12,6 +12,7 @@ public class Menu {
 	private List<BankAccount> accounts;
 	private Customer customer; 
 	private Scanner scanner;
+	private AccountActivity activity; 
 
 	public Menu(Customer customer) {
 		this.accounts = new ArrayList<>();
@@ -151,7 +152,7 @@ public class Menu {
 	public void manageAccount() {
 		if(accounts.size() > 0) {
 			BankAccount account = selectAccount();
-			BankAccountMenu bankAccountMenu = new BankAccountMenu(account);
+			BankAccountMenu bankAccountMenu = new BankAccountMenu(account, activity);
 			bankAccountMenu.manageAccount();
 		}
 		else {
