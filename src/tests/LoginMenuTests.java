@@ -94,7 +94,7 @@ public class LoginMenuTests {
 
 	@Test
 	public void testCheckCredentials() {
-		String input = "test_user\npw123\ntest_user\npw123\n";
+		String input = "test_user\npw123\n";
 
 		InputStream originalInputStream = System.in;
 		InputStream testInputStream = new ByteArrayInputStream(input.getBytes());

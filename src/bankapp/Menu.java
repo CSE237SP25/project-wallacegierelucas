@@ -178,7 +178,7 @@ public class Menu {
 		System.out.println("4. Choose an account to manage");
 		System.out.println("5. Update profile");
 		System.out.println("6. View (or filter) transaction history");
-		System.out.println("7. Exit");
+		System.out.println("7. Log Out");
 
 		System.out.println("Enter your selection (1-7):");
 	}
