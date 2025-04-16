@@ -75,6 +75,7 @@ public class Menu {
 
 		accounts.add(newAccount);
 		customer.addAccount(newAccount); 
+		activity.addAccountFreeze(newAccount); 
 		return newAccount;
 	}
 
@@ -152,6 +153,7 @@ public class Menu {
 	public void manageAccount() {
 		if(accounts.size() > 0) {
 			BankAccount account = selectAccount();
+			//Note: modified this 
 			BankAccountMenu bankAccountMenu = new BankAccountMenu(account, activity);
 			bankAccountMenu.manageAccount();
 		}
