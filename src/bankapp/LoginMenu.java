@@ -79,9 +79,16 @@ public class LoginMenu {
 		System.out.println("Choose a password: ");
 		String password = userInput.nextLine();
 
+		//security question 
+		System.out.println("Set a security question (e.g What is your pet's name?: ");
+		String securityQuestion = userInput.nextLine();
+		
+		System.out.println("Answer to the secruity question: ");
+		String securityAnswer = userInput.nextLine(); 
+		
 		try {
 			FileWriter fileWriter = new FileWriter(LOGIN_FILE, true);
-			fileWriter.write(username + "," + password + "\n");
+			fileWriter.write(username + "," + password + "," + securityQuestion + "," + securityAnswer + "\n");
 			System.out.println("User registered successfully.");
 			fileWriter.close();
 			return username;
@@ -145,5 +152,73 @@ public class LoginMenu {
 		}
 
 		return false;
+	}
+	
+	public void resetPassword() {
+		System.out.println("Enter your username: ");
+		String username = userInput.nextLine();
+
+		if (!userExists(username)) {
+			System.out.println("User does not exist.");
+			return;
+		}
+
+		File file = new File(LOGIN_FILE);
+		StringBuilder updatedContent = new StringBuilder();
+		boolean resetSuccess = false;
+
+		try (Scanner fileReader = new Scanner(file)) {
+			while (fileReader.hasNextLine()) {
+				String line = fileReader.nextLine();
+				String[] loginInfo = line.split(",");
+
+				if (loginInfo[0].equals(username)) {
+					String storedPassword = loginInfo[1];
+					String question = loginInfo.length > 2 ? loginInfo[2] : null;
+					String answer = loginInfo.length > 3 ? loginInfo[3] : null;
+
+					if (question == null || answer == null) {
+						System.out.println("Security question not set for this user.");
+						updatedContent.append(line).append("\n");
+						continue;
+					}
+
+					System.out.println("Security Question: " + question);
+					System.out.print("Your Answer: ");
+					String userAnswer = userInput.nextLine();
+
+					if (!userAnswer.equalsIgnoreCase(answer)) {
+						System.out.println("Incorrect answer. Password reset failed.");
+						updatedContent.append(line).append("\n");
+						continue;
+					}
+
+					System.out.print("Enter your new password: ");
+					String newPassword = userInput.nextLine();
+
+					if (newPassword.equals(storedPassword)) {
+						System.out.println("New password cannot be the same as the old one.");
+						updatedContent.append(line).append("\n");
+						continue;
+					}
+
+					updatedContent.append(username).append(",").append(newPassword).append(",")
+								  .append(question).append(",").append(answer).append("\n");
+					System.out.println("Password reset successful.");
+					resetSuccess = true;
+				} else {
+					updatedContent.append(line).append("\n");
+				}
+			}
+
+			if (resetSuccess) {
+				FileWriter writer = new FileWriter(LOGIN_FILE);
+				writer.write(updatedContent.toString());
+				writer.close();
+			}
+		}
+		catch (Exception e) {
+			System.out.println("Error: " + e.getMessage());
+		}
 	}
 }

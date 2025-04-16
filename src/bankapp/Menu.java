@@ -178,7 +178,8 @@ public class Menu {
 		System.out.println("4. Choose an account to manage");
 		System.out.println("5. Update profile");
 		System.out.println("6. View (or filter) transaction history");
-		System.out.println("7. Exit");
+		System.out.println("7. Reset Password");
+		System.out.println("8. Exit");
 
 		System.out.println("Enter your selection (1-7):");
 	}
@@ -234,11 +235,15 @@ public class Menu {
 		}
 		else if (menuOptionSelection == 5) {
 			updateProfile();
-		} else if (menuOptionSelection == 6) {
+		} 
+		else if (menuOptionSelection == 6) {
 			viewTransactionHistory();
 		} else if (menuOptionSelection == 7) {
+			LoginMenu loginMenu = new LoginMenu();
+			loginMenu.resetPassword();
+		} else if (menuOptionSelection == 8) {
 			return true;
-		} else {
+		}else {
 			throw new InvalidMenuOptionException("Invalid menu option.");
 		}
 
