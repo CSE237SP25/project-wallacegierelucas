@@ -78,6 +78,18 @@ public class LoginMenu {
 
 		System.out.println("Choose a password: ");
 		String password = userInput.nextLine();
+		
+		System.out.println("You entered:");
+	    System.out.println("  Username: " + username);
+	    System.out.println("  Password: " + password);
+	    System.out.print("Does this look correct? (yes/no): ");
+	    String confirmLogIn = userInput.nextLine().trim();
+	    
+	    if (!confirmLogIn.equalsIgnoreCase("yes")) {
+	        System.out.println("Okay, let’s start over.\n");
+	        return register();            
+	    }
+	    
 
 		try {
 			FileWriter fileWriter = new FileWriter(LOGIN_FILE, true);

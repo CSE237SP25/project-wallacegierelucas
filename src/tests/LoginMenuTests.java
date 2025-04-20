@@ -1,6 +1,7 @@
 package tests;
 
 import static org.junit.Assert.assertEquals;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -11,106 +12,105 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import bankapp.LoginMenu;
 
 public class LoginMenuTests {
 
-	@BeforeEach
-	public void clearUserFile() {
-		try {
-			FileWriter writer = new FileWriter("users.txt", false);
-			writer.write("");
-			writer.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+    public LoginMenuTests() {
+        try (FileWriter writer = new FileWriter("users.txt", false)) {
+          
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-	@Test
-	public void testRegister() {			    	    
-		String input = "test_user\npw123\n";
+    @Test
+    public void testRegister() {
+   
+        String input = "test_user\npw123\nyes\n";
 
-		InputStream originalInputStream = System.in;
-		InputStream testInputStream = new ByteArrayInputStream(input.getBytes());
-		System.setIn(testInputStream);
+        InputStream  originalIn  = System.in;
+        PrintStream originalOut = System.out;
 
-		PrintStream originalOutputStream = System.out;
-		System.setOut(new PrintStream(new ByteArrayOutputStream()));
+        System.setIn(new ByteArrayInputStream(input.getBytes()));
+        System.setOut(new PrintStream(new ByteArrayOutputStream()));
 
-		LoginMenu loginMenu = new LoginMenu();
-		String username = loginMenu.register();
+        LoginMenu loginMenu = new LoginMenu();
+        String username = loginMenu.register();
 
-		System.setIn(originalInputStream);
-		System.setOut(originalOutputStream);
+        System.setIn(originalIn);
+        System.setOut(originalOut);
 
-		assertEquals("test_user", username);
-	}
+        assertEquals("test_user", username);
+    }
 
-	@Test
-	public void testUserExists() {
-		String input = "test_user\npw123\n";
+    @Test
+    public void testUserExists() {
+        String input = "test_user\npw123\nyes\n";
 
-		InputStream originalInputStream = System.in;
-		InputStream testInputStream = new ByteArrayInputStream(input.getBytes());
-		System.setIn(testInputStream);
+        InputStream  originalIn  = System.in;
+        PrintStream originalOut = System.out;
 
-		PrintStream originalOutputStream = System.out;
-		System.setOut(new PrintStream(new ByteArrayOutputStream()));
+        System.setIn(new ByteArrayInputStream(input.getBytes()));
+        System.setOut(new PrintStream(new ByteArrayOutputStream()));
 
-		LoginMenu loginMenu = new LoginMenu();
-		String username = loginMenu.register();
+        LoginMenu loginMenu = new LoginMenu();
+        String username = loginMenu.register();
 
-		System.setIn(originalInputStream);
-		System.setOut(originalOutputStream);
+        System.setIn(originalIn);
+        System.setOut(originalOut);
 
-		assertTrue(loginMenu.userExists(username));
-		assertFalse(loginMenu.userExists("test_user123"));
-	}
+        assertTrue(loginMenu.userExists(username));
+        assertFalse(loginMenu.userExists("test_user123"));
+    }
 
-	@Test 
-	public void testValidLogIn() {
-		String input = "test_user\npw123\ntest_user\npw123\n";
+    @Test 
+    public void testValidLogIn() {
+    
+        String input = String.join("\n",
+            "test_user",   
+            "pw123",       
+            "yes",         
+            "test_user",   
+            "pw123"        
+        ) + "\n";
 
-		InputStream originalInputStream = System.in;
-		InputStream testInputStream = new ByteArrayInputStream(input.getBytes());
-		System.setIn(testInputStream);
+        InputStream  originalIn  = System.in;
+        PrintStream originalOut = System.out;
 
-		PrintStream originalOutputStream = System.out;
-		System.setOut(new PrintStream(new ByteArrayOutputStream()));
+        System.setIn(new ByteArrayInputStream(input.getBytes()));
+        System.setOut(new PrintStream(new ByteArrayOutputStream()));
 
-		LoginMenu loginMenu = new LoginMenu();
-		loginMenu.register();
-		String username = loginMenu.logIn();
+        LoginMenu loginMenu = new LoginMenu();
+        loginMenu.register();
+        String username = loginMenu.logIn();
 
-		System.setIn(originalInputStream);
-		System.setOut(originalOutputStream);
+        System.setIn(originalIn);
+        System.setOut(originalOut);
 
+        assertEquals("test_user", username);
+    }
 
-		assertEquals("test_user", username);
-	}
+    @Test
+    public void testCheckCredentials() {
+        String input = "test_user\npw123\nyes\n";
 
-	@Test
-	public void testCheckCredentials() {
-		String input = "test_user\npw123\ntest_user\npw123\n";
+        InputStream  originalIn  = System.in;
+        PrintStream originalOut = System.out;
 
-		InputStream originalInputStream = System.in;
-		InputStream testInputStream = new ByteArrayInputStream(input.getBytes());
-		System.setIn(testInputStream);
+        System.setIn(new ByteArrayInputStream(input.getBytes()));
+        System.setOut(new PrintStream(new ByteArrayOutputStream()));
 
-		PrintStream originalOutputStream = System.out;
-		System.setOut(new PrintStream(new ByteArrayOutputStream()));
+        LoginMenu loginMenu = new LoginMenu();
+        loginMenu.register();
 
-		LoginMenu loginMenu = new LoginMenu();
-		loginMenu.register();
+        System.setIn(originalIn);
+        System.setOut(originalOut);
 
-		System.setIn(originalInputStream);
-		System.setOut(originalOutputStream);
-
-		assertTrue(loginMenu.checkCredentials("test_user", "pw123"));
-		assertFalse(loginMenu.checkCredentials("test", "pw123"));
-		assertFalse(loginMenu.checkCredentials("test_user", "pw"));
-	}
+        assertTrue(loginMenu.checkCredentials("test_user", "pw123"));
+        assertFalse(loginMenu.checkCredentials("test",      "pw123"));
+        assertFalse(loginMenu.checkCredentials("test_user", "pw"));
+    }
 }
