@@ -1,2 +1,0 @@
-test_user,pw123
-nicky,1234

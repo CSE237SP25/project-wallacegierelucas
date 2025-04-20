@@ -30,7 +30,7 @@ public class LoginMenu {
 					logOut = menu.run();
 				}
 				
-				System.out.println(name + " successfully logged out.");
+				System.out.println(name + " was successfully logged out.");
 
 				exit = false;
 			}
