@@ -1,6 +1,5 @@
 package bankapp;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -14,7 +13,7 @@ public class Menu {
 	private Scanner scanner;
 
 	public Menu(Customer customer) {
-		this.accounts = new ArrayList<>();
+		this.accounts = customer.getAccounts();
 		this.customer = customer;
 		this.scanner = new Scanner(System.in);
 	}
@@ -52,7 +51,7 @@ public class Menu {
 		System.out.println("Your " + accountType + " accounts:");
 		for (int i = 0; i < accounts.size(); i++) {
 			BankAccount account = accounts.get(i);
-			if(account.getType() == accountType) {
+			if(account.getType().equals(accountType)) {
 				System.out.println(accounts.get(i).toString());	
 			}
 		}
@@ -73,7 +72,6 @@ public class Menu {
 		BankAccount newAccount = new BankAccount(initialDeposit, type, accountId);
 
 		accounts.add(newAccount);
-		customer.addAccount(newAccount); 
 		return newAccount;
 	}
 
@@ -114,7 +112,7 @@ public class Menu {
 				System.out.println("Cannot close account. Please withdraw all funds first.");
 				return false;
 			}
-			customer.removeAccount(account);
+
 			return accounts.remove(account);
 		}
 		else{
@@ -215,8 +213,6 @@ public class Menu {
 			System.out.println("Error: " + e.getMessage());
 		}
 	}
-
-
 
 	public boolean getMenuOptionInput() {
 		int menuOptionSelection = scanner.nextInt();

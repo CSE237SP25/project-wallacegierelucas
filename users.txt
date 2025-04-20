@@ -1,3 +1,2 @@
 test_user,pw123
-test,123
-erika,pw123
+erika_wall,123

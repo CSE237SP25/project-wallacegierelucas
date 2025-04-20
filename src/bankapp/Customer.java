@@ -1,9 +1,12 @@
 package bankapp;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Customer {
+public class Customer implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
 	private String name;
 	private List<BankAccount> accounts;
 	private CustomerProfile profile;
@@ -45,12 +48,6 @@ public class Customer {
 			}
 		}
 		return filtered;
-	}
-	public void addAccount(BankAccount account) {
-		accounts.add(account);
-	}
-	public void removeAccount(BankAccount account) {
-		accounts.remove(account);
 	}
 
 }

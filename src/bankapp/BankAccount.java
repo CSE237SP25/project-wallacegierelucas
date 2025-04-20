@@ -3,11 +3,14 @@ package bankapp;
 import java.util.Scanner;
 
 import exceptions.InsufficientFundsException;
+
+import java.io.Serializable;
 import java.util.ArrayList; 
 import java.util.List;
 
-public class BankAccount {
-
+public class BankAccount implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
 	private double balance;
 	private String type;
 	private String accountId;

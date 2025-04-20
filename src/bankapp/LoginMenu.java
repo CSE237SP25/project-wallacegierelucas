@@ -1,7 +1,12 @@
 package bankapp;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Scanner;
 
 import exceptions.InvalidMenuOptionException;
@@ -22,12 +27,13 @@ public class LoginMenu {
 			String name = getUser();
 			
 			if(name != null) {
-				Customer customer = new Customer(name);
+				Customer customer = retrieveCustomerInfo(name);
 				Menu menu = new Menu(customer);
 
 				boolean logOut = false;
 				while(!logOut) {
 					logOut = menu.run();
+					storeCustomerInfo(customer);
 				}
 				
 				System.out.println(name + " was successfully logged out.");
@@ -42,6 +48,35 @@ public class LoginMenu {
 		System.out.println("You have exited the program. Have a good day!");
 	}
 
+	public void storeCustomerInfo(Customer customer) {
+        try {
+        	ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("usersInfo/" + customer.getName() + ".ser"));
+        	oos.writeObject(customer);
+            oos.close();
+        }
+        catch(Exception e) {
+        	System.out.println("Error: " + e.getMessage());
+        }
+	}
+	
+	public Customer retrieveCustomerInfo(String name) {
+		try {
+			ObjectInputStream ois = new ObjectInputStream(new FileInputStream("usersInfo/" + name + ".ser"));
+	        Customer customer = (Customer) ois.readObject();
+	        System.out.println("Welcome back, " + customer.getName() + "!");
+	        ois.close();
+	        return customer;
+		}
+		catch(FileNotFoundException e) {
+			return new Customer(name);
+		}
+		catch(Exception e) {
+        	System.out.println("Error: " + e.getMessage());			
+		}
+		
+		return null;
+	}
+	
 	public String getUser() {
 		boolean success = false;
 
