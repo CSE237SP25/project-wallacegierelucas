@@ -80,10 +80,10 @@ public class LoginMenu {
 		String password = userInput.nextLine();
 
 		//security question 
-		System.out.println("Set a security question (e.g What is your pet's name?: ");
+		System.out.println("Set a security question (e.g pet's name/maiden name/home town ");
 		String securityQuestion = userInput.nextLine();
 		
-		System.out.println("Answer to the secruity question: ");
+		System.out.println("Answer to the security question: ");
 		String securityAnswer = userInput.nextLine(); 
 		
 		try {
