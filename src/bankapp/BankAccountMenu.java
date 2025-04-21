@@ -93,7 +93,7 @@ public class BankAccountMenu {
 	}
 
 	public void processDeposit(double amount) {
-		account.deposit(amount);
+		activity.deposit(account.getAccountId(), amount);
 	}
 
 	public void processWithdrawal(double amount) {
