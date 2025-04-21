@@ -7,8 +7,10 @@ public class Main {
 		String name = loginMenu.getUser();
 
 		Customer customer = new Customer(name);
+		
+		AccountActivity activity = new AccountActivity();
 
-		Menu menu = new Menu(customer);
+		Menu menu = new Menu(customer, activity);
 
 		boolean exitCommand = false; 
 

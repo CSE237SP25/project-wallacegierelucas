@@ -11,12 +11,14 @@ import exceptions.InvalidMenuOptionException;
 public class Menu {
 	private List<BankAccount> accounts;
 	private Customer customer; 
-	private Scanner scanner;
+	private Scanner scanner; 
+	private AccountActivity activity;
 
-	public Menu(Customer customer) {
+	public Menu(Customer customer, AccountActivity activity) {
 		this.accounts = new ArrayList<>();
 		this.customer = customer;
 		this.scanner = new Scanner(System.in);
+		this.activity = activity;
 	}
 
 	public BankAccount findAccount(String accountId) {
@@ -71,9 +73,12 @@ public class Menu {
 		scanner.nextLine();
 
 		BankAccount newAccount = new BankAccount(initialDeposit, type, accountId);
-
+	
+		
 		accounts.add(newAccount);
 		customer.addAccount(newAccount); 
+		activity.addAccount(newAccount);
+		
 		return newAccount;
 	}
 
@@ -151,7 +156,8 @@ public class Menu {
 	public void manageAccount() {
 		if(accounts.size() > 0) {
 			BankAccount account = selectAccount();
-			BankAccountMenu bankAccountMenu = new BankAccountMenu(account);
+			//Note: modified this 
+			BankAccountMenu bankAccountMenu = new BankAccountMenu(account, activity);
 			bankAccountMenu.manageAccount();
 		}
 		else {

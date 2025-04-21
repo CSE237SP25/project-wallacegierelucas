@@ -6,6 +6,8 @@ import org.junit.jupiter.api.*;
 import bankapp.BankAccount;
 import bankapp.Customer;
 import bankapp.Menu;
+import bankapp.Transaction;
+import bankapp.AccountActivity; 
 import exceptions.InsufficientFundsException;
 import exceptions.InvalidMenuOptionException;
 
@@ -14,7 +16,8 @@ import java.util.List;
 
 public class MenuTests {
 	private Customer customer = new Customer("Erika"); 
-	private Menu menu = new Menu(customer);
+	private AccountActivity activity = new AccountActivity();
+	private Menu menu = new Menu(customer,activity);
 
 	@Test
 	public void testInvalidSelection() {
@@ -22,7 +25,7 @@ public class MenuTests {
 		System.setIn(new ByteArrayInputStream(input.getBytes()));
 
 		Customer customer = new Customer("Lila");
-		Menu menu = new Menu(customer);
+		Menu menu = new Menu(customer,activity);
 
 		Exception exception = assertThrows(InvalidMenuOptionException.class, () -> {
 			menu.getMenuOptionInput();
@@ -43,7 +46,7 @@ public class MenuTests {
 		System.setOut(new PrintStream(new ByteArrayOutputStream()));
 
 		Customer customer = new Customer("Lila");
-		Menu menu = new Menu(customer);
+		Menu menu = new Menu(customer,activity);
 		BankAccount account = menu.openAccount();
 
 		System.setIn(originalInputStream);
@@ -63,7 +66,7 @@ public class MenuTests {
 		System.setIn(testInputStream);
 
 		Customer newCustomer = new Customer("Lila");
-		Menu menu = new Menu(newCustomer);
+		Menu menu = new Menu(newCustomer,activity);
 		BankAccount account = menu.openAccount();
 
 		System.setIn(originalInputStream);
@@ -86,7 +89,7 @@ public class MenuTests {
 		System.setIn(new ByteArrayInputStream(input.getBytes()));
 
 		Customer newCustomer = new Customer("Lila");
-		Menu menu = new Menu(newCustomer);
+		Menu menu = new Menu(newCustomer,activity);
 		BankAccount account = menu.openAccount();
 		boolean result = menu.closeAccount();
 
@@ -100,7 +103,7 @@ public class MenuTests {
 		System.setIn(new ByteArrayInputStream(input.getBytes()));
 
 		Customer newCustomer = new Customer("Lila");
-		Menu menu = new Menu(newCustomer);
+		Menu menu = new Menu(newCustomer,activity);
 		BankAccount account = menu.openAccount();
 		boolean result = menu.closeAccount();
 
@@ -114,7 +117,7 @@ public class MenuTests {
 		System.setIn(new ByteArrayInputStream(input.getBytes()));
 
 		Customer newCustomer = new Customer("Lila");
-		Menu menu = new Menu(newCustomer);
+		Menu menu = new Menu(newCustomer,activity);
 
 		Exception exception = assertThrows(IllegalArgumentException.class, () -> {
 			menu.closeAccount();
@@ -129,7 +132,7 @@ public class MenuTests {
 		System.setIn(new ByteArrayInputStream(input.getBytes()));
 
 		Customer newCustomer = new Customer("Erika");
-		Menu newMenu = new Menu(newCustomer);
+		Menu newMenu = new Menu(newCustomer,activity);
 		BankAccount account1 = newMenu.openAccount();
 		BankAccount account2 = newMenu.openAccount();
 
@@ -149,7 +152,7 @@ public class MenuTests {
 		System.setIn(testInputStream);
 
 		Customer newCustomer = new Customer("Erika");
-		Menu newMenu = new Menu(newCustomer);
+		Menu newMenu = new Menu(newCustomer,activity);
 		BankAccount account1 = newMenu.openAccount();
 		BankAccount account2 = newMenu.openAccount();
 
@@ -164,5 +167,41 @@ public class MenuTests {
 
 		System.setIn(originalInputStream);
 	}
+	 @Test
+	    public void testFreezeAccount() {
+	        AccountActivity activity = new AccountActivity();
+	        BankAccount account = new BankAccount(0, "checking", "account11");
+	        activity.addAccount(account);
+
+	        activity.freezeAccount("account11");
+
+	        activity.deposit("account11", 100);
+	        assertEquals(0, account.getCurrentBalance(), 0.001, "Frozen account should not accept deposits");
+
+	        List<Transaction> transactionReview = account.getTransactions();
+	        assertFalse(transactionReview.isEmpty(), "Transactions should not be empty after freezing");
+	        Transaction last = transactionReview.get(transactionReview.size() - 1);
+	        assertEquals("Freeze", last.getType(), "Last transaction type should be 'Freeze'");
+	        assertEquals(0, last.getAmount(), 0.001, "Freeze transaction amount should be 0");
+	    }
+
+	    @Test
+	    public void testUnfreezeAccount() {
+	    	 AccountActivity activity = new AccountActivity();
+	         BankAccount account = new BankAccount(0, "checking", "account1");
+	         activity.addAccount(account);
+
+	         activity.freezeAccount("account1");
+	         activity.unfreezeAccount("account1");
+
+	         List<Transaction> transactionReview = account.getTransactions();
+	         assertTrue(
+	        		 transactionReview.stream().anyMatch(t -> "Unfreeze".equals(t.getType())),
+	             "Transactions should include an 'Unfreeze' record"
+	         );
+
+	         activity.deposit("account1", 100);
+	         assertEquals(100, account.getCurrentBalance(), 0.001, "Unfrozen account should accept deposits");
+	    }
 }
 
