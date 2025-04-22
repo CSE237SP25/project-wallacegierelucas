@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class CustomerProfile implements Serializable{
 	private static final long serialVersionUID = 1L;
-	
+
 	private String occupation;
 	private String address;
 
