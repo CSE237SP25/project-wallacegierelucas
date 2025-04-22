@@ -18,6 +18,9 @@ public class BankAccount {
 		if (initialBalance < 0) {
 			throw new IllegalArgumentException("Initial balance cannot be negative.");
 		}
+		if(initialBalance > 5000){
+			throw new IllegalArgumentException("Deposit would exceed checking account limit of $5000.");
+		}
 		this.balance = initialBalance;
 		this.type = type;
 		this.accountId = accountId;
@@ -32,6 +35,9 @@ public class BankAccount {
 	public void deposit(double amount) {
 		if(amount <= 0) {
 			throw new IllegalArgumentException("Must deposit a positive amount.");
+		}
+		if ("checking".equalsIgnoreCase(this.type) && (this.balance + amount > 5000)) {
+		    throw new IllegalArgumentException("Deposit would exceed checking account limit of $5000.");
 		}
 		if (amount > 1000) {
 			Scanner userInputDeposit = new Scanner(System.in);
@@ -68,7 +74,6 @@ public class BankAccount {
 
 		this.balance -= amount;
 		transactionHistory.add(new Transaction("withdrawal", amount));
-
 	}
 
 	public double getCurrentBalance() {

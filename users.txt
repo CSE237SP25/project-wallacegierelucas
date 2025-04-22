@@ -1,3 +1,2 @@
-test_user,pw123
-test,123
-erika,pw123
+test_user,pw123,hometown,memphis
+test,new_pw,hometown,test

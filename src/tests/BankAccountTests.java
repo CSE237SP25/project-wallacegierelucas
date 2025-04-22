@@ -119,5 +119,19 @@ public class BankAccountTests {
 		BankAccount account = new BankAccount(100, "checking", "acc456");
 		assertEquals("BankAccount{accountId=acc456}", account.toString());
 	}
+	@Test
+	public void testDepositExceedAccountLimit() {
+	    BankAccount account = new BankAccount(100, "checking", "testChecking");
+	    
+	    try {
+	        account.deposit(5000);
+	        fail("Expected IllegalArgumentException when deposit exceeds checking account limit");
+	    } catch (IllegalArgumentException e) {
+	        assertEquals("Deposit would exceed checking account limit of $5000.", e.getMessage());
+	       
+	        assertEquals(100.0, account.getCurrentBalance(), 0.005);
+	    }
+	}
+
 
 }
