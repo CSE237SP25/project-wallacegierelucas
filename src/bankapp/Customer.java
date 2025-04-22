@@ -10,10 +10,12 @@ public class Customer implements Serializable{
 	private String name;
 	private List<BankAccount> accounts;
 	private CustomerProfile profile;
+	private AccountActivity activity;
 
 	public Customer(String name) {
 		this.name = name;
 		this.accounts = new ArrayList<>();
+		this.activity = new AccountActivity();
 	}
 
 	public List<BankAccount> getAccounts() {
@@ -29,6 +31,10 @@ public class Customer implements Serializable{
 
 	public void setProfile(CustomerProfile profile) {
 		this.profile = profile;
+	}
+	
+	public AccountActivity getActivity() {
+		return activity;
 	}
 
 	@Override

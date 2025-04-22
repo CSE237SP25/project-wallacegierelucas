@@ -161,7 +161,7 @@ public class LoginMenuTests {
 		String username = "test_user";
 		Customer customer = new Customer(username);
 
-		Menu menu = new Menu(customer, new AccountActivity());
+		Menu menu = new Menu(customer);
 		menu.updateProfile();
 		menu.openAccount();
 		menu.openAccount();
@@ -187,7 +187,7 @@ public class LoginMenuTests {
 		String username = "test_user";
 		Customer customer = new Customer(username);
 
-		Menu menu = new Menu(customer, new AccountActivity());
+		Menu menu = new Menu(customer);
 		menu.updateProfile();
 		menu.openAccount();
 

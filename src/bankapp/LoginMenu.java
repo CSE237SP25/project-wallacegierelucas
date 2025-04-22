@@ -28,8 +28,7 @@ public class LoginMenu {
 
 			if(name != null) {
 				Customer customer = retrieveCustomerInfo(name);
-				AccountActivity activity = new AccountActivity();
-				Menu menu = new Menu(customer, activity);
+				Menu menu = new Menu(customer);
 
 				boolean logOut = false;
 				while(!logOut) {

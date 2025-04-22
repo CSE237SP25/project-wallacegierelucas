@@ -13,11 +13,11 @@ public class Menu {
 	private Scanner scanner; 
 	private AccountActivity activity;
 
-	public Menu(Customer customer, AccountActivity activity) {
+	public Menu(Customer customer) {
 		this.accounts = customer.getAccounts();
 		this.customer = customer;
 		this.scanner = new Scanner(System.in);
-		this.activity = activity;
+		this.activity = customer.getActivity();
 	}
 
 	public BankAccount findAccount(String accountId) {
@@ -153,7 +153,6 @@ public class Menu {
 	public void manageAccount() {
 		if(accounts.size() > 0) {
 			BankAccount account = selectAccount();
-			//Note: modified this 
 			BankAccountMenu bankAccountMenu = new BankAccountMenu(account, activity);
 			bankAccountMenu.manageAccount();
 		}
