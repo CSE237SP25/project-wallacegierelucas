@@ -186,9 +186,9 @@ public class Menu {
 		System.out.println("6. View (or filter) transaction history");
 		System.out.println("7. Reset Password");
 		System.out.println("8. Help");
-		System.out.println("9. Exit");
+		System.out.println("9. Log Out");
 
-		System.out.println("Enter your selection (1-7):");
+		System.out.println("Enter your selection (1-9):");
 	}
 
 	public void viewTransactionHistory() {

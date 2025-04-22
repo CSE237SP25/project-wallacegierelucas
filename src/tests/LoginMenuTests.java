@@ -29,7 +29,7 @@ public class LoginMenuTests {
     @Test
     public void testRegister() {
    
-        String input = "test_user\npw123\nyes\n";
+        String input = "test_user\npw123\nyes\nhometown\nmemphis\n";
 
         InputStream  originalIn  = System.in;
         PrintStream originalOut = System.out;
@@ -48,7 +48,7 @@ public class LoginMenuTests {
 
     @Test
     public void testUserExists() {
-        String input = "test_user\npw123\nyes\n";
+        String input = "test_user\npw123\nyes\nhometown\nmemphis\n";
 
         InputStream  originalIn  = System.in;
         PrintStream originalOut = System.out;
@@ -72,7 +72,9 @@ public class LoginMenuTests {
         String input = String.join("\n",
             "test_user",   
             "pw123",       
-            "yes",         
+            "yes", 
+            "hometown",
+            "memphis",
             "test_user",   
             "pw123"        
         ) + "\n";
@@ -95,9 +97,9 @@ public class LoginMenuTests {
 
     @Test
     public void testCheckCredentials() {
-        String input = "test_user\npw123\nyes\n";
+        String input = "test_user\npw123\nyes\nhometown\nmemphis\n";
 
-        InputStream  originalIn  = System.in;
+        InputStream originalIn  = System.in;
         PrintStream originalOut = System.out;
 
         System.setIn(new ByteArrayInputStream(input.getBytes()));
@@ -110,7 +112,7 @@ public class LoginMenuTests {
         System.setOut(originalOut);
 
         assertTrue(loginMenu.checkCredentials("test_user", "pw123"));
-        assertFalse(loginMenu.checkCredentials("test",      "pw123"));
+        assertFalse(loginMenu.checkCredentials("test", "pw123"));
         assertFalse(loginMenu.checkCredentials("test_user", "pw"));
     }
 }

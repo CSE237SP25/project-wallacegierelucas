@@ -18,6 +18,9 @@ public class BankAccount {
 		if (initialBalance < 0) {
 			throw new IllegalArgumentException("Initial balance cannot be negative.");
 		}
+		if(initialBalance > 5000){
+			throw new IllegalArgumentException("Deposit would exceed checking account limit of $5000.");
+		}
 		this.balance = initialBalance;
 		this.type = type;
 		this.accountId = accountId;

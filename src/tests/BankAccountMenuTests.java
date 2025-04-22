@@ -29,7 +29,7 @@ public class BankAccountMenuTests {
 	}
 
 	@Test
-	public void testUserWithdrawl() {
+	public void testUserWithdrawal() {
 		BankAccount account = new BankAccount(0, "checking", "acc2");
 		BankAccountMenu menu = new BankAccountMenu(account, new AccountActivity());
 
@@ -78,7 +78,7 @@ public class BankAccountMenuTests {
 	}
 
 	@Test
-	void testProcessUserOptionInput_Withdrawl() {
+	void testProcessUserOptionInput_Withdrawal() {
 		BankAccount account = new BankAccount(50, "checking", "acc5");
 		String input = "20\n";
 

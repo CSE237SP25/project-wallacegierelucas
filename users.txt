@@ -1,6 +1,2 @@
-test_user,pw123
-nicole,123
-nicky,123
-sue,123
-sue1,tracy,What is my nickname?,nicole
-nicole ,123
+test_user,pw123,hometown,memphis
+test,new_pw,hometown,test
