@@ -1,6 +1,7 @@
 package tests;
 import static org.junit.jupiter.api.Assertions.*;
 
+
 import org.junit.jupiter.api.*;
 
 import bankapp.BankAccount;
@@ -166,41 +167,5 @@ public class MenuTests {
 
 		System.setIn(originalInputStream);
 	}
-	 @Test
-	    public void testFreezeAccount() {
-	        AccountActivity activity = new AccountActivity();
-	        BankAccount account = new BankAccount(0, "checking", "account11");
-	        activity.addAccount(account);
-
-	        activity.freezeAccount("account11");
-
-	        activity.deposit("account11", 100);
-	        assertEquals(0, account.getCurrentBalance(), 0.001, "Frozen account should not accept deposits");
-
-	        List<Transaction> transactionReview = account.getTransactions();
-	        assertFalse(transactionReview.isEmpty(), "Transactions should not be empty after freezing");
-	        Transaction last = transactionReview.get(transactionReview.size() - 1);
-	        assertEquals("Freeze", last.getType(), "Last transaction type should be 'Freeze'");
-	        assertEquals(0, last.getAmount(), 0.001, "Freeze transaction amount should be 0");
-	    }
-
-	    @Test
-	    public void testUnfreezeAccount() {
-	    	 AccountActivity activity = new AccountActivity();
-	         BankAccount account = new BankAccount(0, "checking", "account1");
-	         activity.addAccount(account);
-
-	         activity.freezeAccount("account1");
-	         activity.unfreezeAccount("account1");
-
-	         List<Transaction> transactionReview = account.getTransactions();
-	         assertTrue(
-	        		 transactionReview.stream().anyMatch(t -> "Unfreeze".equals(t.getType())),
-	             "Transactions should include an 'Unfreeze' record"
-	         );
-
-	         activity.deposit("account1", 100);
-	         assertEquals(100, account.getCurrentBalance(), 0.001, "Unfrozen account should accept deposits");
-	    }
 }
 

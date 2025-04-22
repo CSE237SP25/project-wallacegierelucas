@@ -5,6 +5,7 @@ import java.util.List;
 
 import java.util.Scanner;
 
+import exceptions.InsufficientFundsException;
 import exceptions.InvalidMenuOptionException;
 
 public class Menu {
@@ -124,7 +125,7 @@ public class Menu {
 		}
 	}
 
-	public void transfer() {
+	public void transfer() throws InsufficientFundsException {
 		if(accounts.size() > 0){
 			System.out.println("Enter the id of the account to transfer money from:");
 			String transferFromId = scanner.nextLine();
@@ -141,9 +142,10 @@ public class Menu {
 			System.out.println("\nInitiating transfer of " + transferAmount + " from account " 
 					+ transferFromAccount + " to account " + transferToAccount);
 
-			transferFromAccount.withdraw(transferAmount);
-			transferToAccount.deposit(transferAmount);
-			System.out.println("Transfer completed successfully.");
+			 activity.transfer(
+			            transferFromId.trim(),
+			            transferToId.trim(),
+			            transferAmount); 
 		}
 		else{
 			throw new IllegalArgumentException("No accounts to manage.");
