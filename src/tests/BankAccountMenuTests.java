@@ -21,7 +21,9 @@ public class BankAccountMenuTests {
 	@Test
 	public void testUserDeposit() {
 		BankAccount account = new BankAccount(0, "checking", "acc1");
-		BankAccountMenu menu = new BankAccountMenu(account, new AccountActivity());
+		AccountActivity activity = new AccountActivity();
+		activity.addAccount(account);
+		BankAccountMenu menu = new BankAccountMenu(account, activity);
 
 		menu.processDeposit(20);
 
@@ -31,7 +33,9 @@ public class BankAccountMenuTests {
 	@Test
 	public void testUserWithdrawal() {
 		BankAccount account = new BankAccount(0, "checking", "acc2");
-		BankAccountMenu menu = new BankAccountMenu(account, new AccountActivity());
+		AccountActivity activity = new AccountActivity();
+		activity.addAccount(account);
+		BankAccountMenu menu = new BankAccountMenu(account, activity);
 
 		menu.processDeposit(50);
 		menu.processWithdrawal(20);
@@ -68,7 +72,9 @@ public class BankAccountMenuTests {
 		PrintStream originalOutputStream = System.out;
 		System.setOut(new PrintStream(new ByteArrayOutputStream()));
 
-		BankAccountMenu menu = new BankAccountMenu(account, new AccountActivity());
+		AccountActivity activity = new AccountActivity();
+		activity.addAccount(account);
+		BankAccountMenu menu = new BankAccountMenu(account, activity);		
 		menu.processUserOptionInput(2);
 
 		System.setIn(originalInputStream);
@@ -90,7 +96,9 @@ public class BankAccountMenuTests {
 		PrintStream originalOutputStream = System.out;
 		System.setOut(new PrintStream(new ByteArrayOutputStream()));
 
-		BankAccountMenu menu = new BankAccountMenu(account, new AccountActivity());
+		AccountActivity activity = new AccountActivity();
+		activity.addAccount(account);
+		BankAccountMenu menu = new BankAccountMenu(account, activity);
 		menu.processUserOptionInput(3);
 
 		System.setIn(originalInputStream);

@@ -16,8 +16,7 @@ import java.util.List;
 
 public class MenuTests {
 	private Customer customer = new Customer("Erika"); 
-	private AccountActivity activity = new AccountActivity();
-	private Menu menu = new Menu(customer,activity);
+	private Menu menu = new Menu(customer);
 
 	@Test
 	public void testInvalidSelection() {
@@ -25,7 +24,7 @@ public class MenuTests {
 		System.setIn(new ByteArrayInputStream(input.getBytes()));
 
 		Customer customer = new Customer("Lila");
-		Menu menu = new Menu(customer,activity);
+		Menu menu = new Menu(customer);
 
 		Exception exception = assertThrows(InvalidMenuOptionException.class, () -> {
 			menu.getMenuOptionInput();
@@ -46,7 +45,7 @@ public class MenuTests {
 		System.setOut(new PrintStream(new ByteArrayOutputStream()));
 
 		Customer customer = new Customer("Lila");
-		Menu menu = new Menu(customer,activity);
+		Menu menu = new Menu(customer);
 		BankAccount account = menu.openAccount();
 
 		System.setIn(originalInputStream);
@@ -66,7 +65,7 @@ public class MenuTests {
 		System.setIn(testInputStream);
 
 		Customer newCustomer = new Customer("Lila");
-		Menu menu = new Menu(newCustomer,activity);
+		Menu menu = new Menu(newCustomer);
 		BankAccount account = menu.openAccount();
 
 		System.setIn(originalInputStream);
@@ -89,7 +88,7 @@ public class MenuTests {
 		System.setIn(new ByteArrayInputStream(input.getBytes()));
 
 		Customer newCustomer = new Customer("Lila");
-		Menu menu = new Menu(newCustomer,activity);
+		Menu menu = new Menu(newCustomer);
 		BankAccount account = menu.openAccount();
 		boolean result = menu.closeAccount();
 
@@ -103,7 +102,7 @@ public class MenuTests {
 		System.setIn(new ByteArrayInputStream(input.getBytes()));
 
 		Customer newCustomer = new Customer("Lila");
-		Menu menu = new Menu(newCustomer,activity);
+		Menu menu = new Menu(newCustomer);
 		BankAccount account = menu.openAccount();
 		boolean result = menu.closeAccount();
 
@@ -117,7 +116,7 @@ public class MenuTests {
 		System.setIn(new ByteArrayInputStream(input.getBytes()));
 
 		Customer newCustomer = new Customer("Lila");
-		Menu menu = new Menu(newCustomer,activity);
+		Menu menu = new Menu(newCustomer);
 
 		Exception exception = assertThrows(IllegalArgumentException.class, () -> {
 			menu.closeAccount();
@@ -132,7 +131,7 @@ public class MenuTests {
 		System.setIn(new ByteArrayInputStream(input.getBytes()));
 
 		Customer newCustomer = new Customer("Erika");
-		Menu newMenu = new Menu(newCustomer,activity);
+		Menu newMenu = new Menu(newCustomer);
 		BankAccount account1 = newMenu.openAccount();
 		BankAccount account2 = newMenu.openAccount();
 
@@ -152,7 +151,7 @@ public class MenuTests {
 		System.setIn(testInputStream);
 
 		Customer newCustomer = new Customer("Erika");
-		Menu newMenu = new Menu(newCustomer,activity);
+		Menu newMenu = new Menu(newCustomer);
 		BankAccount account1 = newMenu.openAccount();
 		BankAccount account2 = newMenu.openAccount();
 

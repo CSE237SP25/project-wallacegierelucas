@@ -1,2 +1,0 @@
-test_user,pw123,hometown,memphis
-test,new_pw,hometown,test
