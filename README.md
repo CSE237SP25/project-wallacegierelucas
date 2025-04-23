@@ -19,7 +19,6 @@ This iteration, we added functionality for a bank customer to:
 * customer can log out and another customer can log in
 * ability to store bank account information for each registered account
 
-
 Is there anything that you implemented but doesn't currently work?
 * Everything we implemented in Iteration 3 works. 
 
@@ -35,6 +34,7 @@ If you are using a PC, please use the following commands:
 
 ```bash 
 bash
+sed -i -e 's/\r$//' RunBankApp.sh
 chmod +x ./RunBankApp.sh
 ./RunBankApp.sh 
 ```

@@ -145,7 +145,7 @@ public class LoginMenu {
 		System.out.println("Choose a password: ");
 		String password = userInput.nextLine();
  
-		System.out.println("Set a security question (e.g pet's name/maiden name/home town");
+		System.out.println("Set a security question (e.g pet's name/maiden name/hometown): ");
 		String securityQuestion = userInput.nextLine();
 		
 		System.out.println("Answer to the security question: ");
