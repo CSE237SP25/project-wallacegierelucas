@@ -6,7 +6,7 @@ Team Members:
 * Ella Giere
 * Nicole Lucas
 
-# Iteration 2:
+# Iteration 3:
 
 What user stories were completed this iteration?
 
@@ -28,7 +28,6 @@ What commands are needed to compile and run your code from the command line (ple
 If you are using a Mac, please use the following commands: 
 
 ```bash 
-cd src
 chmod +x ./RunBankApp.sh
 ./RunBankApp
 ```
@@ -36,7 +35,6 @@ If you are using a PC, please use the following commands:
 
 ```bash 
 bash
-cd src
 chmod +x ./RunBankApp.sh
 ./RunBankApp.sh 
 ```
