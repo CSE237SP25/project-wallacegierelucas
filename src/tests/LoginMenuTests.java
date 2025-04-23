@@ -113,4 +113,5 @@ public class LoginMenuTests {
 		assertFalse(loginMenu.checkCredentials("test", "pw123"));
 		assertFalse(loginMenu.checkCredentials("test_user", "pw"));
 	}
+	
 }

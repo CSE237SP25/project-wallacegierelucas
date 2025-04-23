@@ -156,7 +156,6 @@ public class Menu {
 	public void manageAccount() {
 		if(accounts.size() > 0) {
 			BankAccount account = selectAccount();
-			//Note: modified this 
 			BankAccountMenu bankAccountMenu = new BankAccountMenu(account, activity);
 			bankAccountMenu.manageAccount();
 		}
