@@ -1,27 +1,24 @@
 package tests;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintStream;
+import java.io.*;
+import java.nio.file.*;
+import java.util.Scanner;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
+import bankapp.Customer;
 import bankapp.LoginMenu;
+import bankapp.Menu;
 
 public class LoginMenuTests {
 
-	@BeforeEach
-	public void clearUserFile() {
+	private static final String USERS_FILE = "users.txt";
+
+	public static void clearUserFile() {
 		try {
-			FileWriter writer = new FileWriter("users.txt", false);
+			FileWriter writer = new FileWriter(USERS_FILE, false);
 			writer.write("");
 			writer.close();
 		} catch (IOException e) {
@@ -29,88 +26,183 @@ public class LoginMenuTests {
 		}
 	}
 
+	@BeforeEach
+	public void clearFileBeforeEachTest() {
+		clearUserFile();
+	}
+
+	@AfterAll
+	public static void clearFileAfterAllTests() {
+		clearUserFile();
+	}
+
+	@AfterAll
+	public static void clearUserInfoFiles() {
+		File folder = new File("usersInfo");
+		if (folder.exists()) {
+			for (File file : folder.listFiles()) {
+		        if (!file.getName().equals(".gitkeep")) {
+		            file.delete();
+		        }
+			}
+		}
+	}
+
 	@Test
-	public void testRegister() {			    	    
-		String input = "test_user\npw123\n";
+	public void testRegister() {
+		String input = String.join("\n",
+				"test_user",        
+				"pw123",            
+				"pet's name?",     
+				"Fluffy",           
+				"yes"               
+				) + "\n";
 
-		InputStream originalInputStream = System.in;
-		InputStream testInputStream = new ByteArrayInputStream(input.getBytes());
-		System.setIn(testInputStream);
-
-		PrintStream originalOutputStream = System.out;
-		System.setOut(new PrintStream(new ByteArrayOutputStream()));
+		provideInput(input);
 
 		LoginMenu loginMenu = new LoginMenu();
 		String username = loginMenu.register();
 
-		System.setIn(originalInputStream);
-		System.setOut(originalOutputStream);
-
 		assertEquals("test_user", username);
+		assertTrue(userExistsInFile("test_user"));
 	}
 
 	@Test
 	public void testUserExists() {
-		String input = "test_user\npw123\n";
+		String input = String.join("\n",
+				"test_user",        
+				"pw123",            
+				"pet's name?",     
+				"Fluffy",           
+				"yes"               
+				) + "\n";
 
-		InputStream originalInputStream = System.in;
-		InputStream testInputStream = new ByteArrayInputStream(input.getBytes());
-		System.setIn(testInputStream);
-
-		PrintStream originalOutputStream = System.out;
-		System.setOut(new PrintStream(new ByteArrayOutputStream()));
+		provideInput(input);
 
 		LoginMenu loginMenu = new LoginMenu();
-		String username = loginMenu.register();
+		loginMenu.register();
 
-		System.setIn(originalInputStream);
-		System.setOut(originalOutputStream);
-
-		assertTrue(loginMenu.userExists(username));
-		assertFalse(loginMenu.userExists("test_user123"));
+		assertTrue(loginMenu.userExists("test_user"));
+		assertFalse(loginMenu.userExists("nonexistent_user"));
 	}
 
-	@Test 
+	@Test
 	public void testValidLogIn() {
-		String input = "test_user\npw123\ntest_user\npw123\n";
+		String input = String.join("\n",
+				"test_user",        
+				"pw123",            
+				"pet's name?",      
+				"Fluffy",           
+				"yes",              
+				"test_user",        
+				"pw123"             
+				) + "\n";
 
-		InputStream originalInputStream = System.in;
-		InputStream testInputStream = new ByteArrayInputStream(input.getBytes());
-		System.setIn(testInputStream);
-
-		PrintStream originalOutputStream = System.out;
-		System.setOut(new PrintStream(new ByteArrayOutputStream()));
+		provideInput(input);
 
 		LoginMenu loginMenu = new LoginMenu();
 		loginMenu.register();
 		String username = loginMenu.logIn();
-
-		System.setIn(originalInputStream);
-		System.setOut(originalOutputStream);
-
 
 		assertEquals("test_user", username);
 	}
 
 	@Test
 	public void testCheckCredentials() {
-		String input = "test_user\npw123\ntest_user\npw123\n";
+		String input = String.join("\n",
+				"test_user",      
+				"pw123",           
+				"pet's name?",      
+				"Fluffy",           
+				"yes"               
+				) + "\n";
 
-		InputStream originalInputStream = System.in;
-		InputStream testInputStream = new ByteArrayInputStream(input.getBytes());
-		System.setIn(testInputStream);
-
-		PrintStream originalOutputStream = System.out;
-		System.setOut(new PrintStream(new ByteArrayOutputStream()));
+		provideInput(input);
 
 		LoginMenu loginMenu = new LoginMenu();
 		loginMenu.register();
 
-		System.setIn(originalInputStream);
-		System.setOut(originalOutputStream);
-
 		assertTrue(loginMenu.checkCredentials("test_user", "pw123"));
-		assertFalse(loginMenu.checkCredentials("test", "pw123"));
-		assertFalse(loginMenu.checkCredentials("test_user", "pw"));
+		assertFalse(loginMenu.checkCredentials("test_user", "wrongpw"));
+		assertFalse(loginMenu.checkCredentials("nonexistent_user", "pw123"));
+	}
+
+	@Test
+	public void testResetPassword() {
+		String input = String.join("\n",
+				"test_user",        
+				"pw123",            
+				"pet's name?",      
+				"Fluffy",           
+				"yes",              
+				"test_user",        
+				"Fluffy",           
+				"newpw123"          
+				) + "\n";
+
+		provideInput(input);
+
+		LoginMenu loginMenu = new LoginMenu();
+		loginMenu.register();
+		loginMenu.resetPassword();
+
+		assertTrue(loginMenu.checkCredentials("test_user", "newpw123"));
+		assertFalse(loginMenu.checkCredentials("test_user", "pw123"));
+	}
+
+	@Test
+	public void testStoreAndRetrieveCustomerInfo() {
+		String input = "software engineer\n123 candy cane lane\n"+ "1\ncheck123\n50\n" + "2\nsave123\n500\n"; 
+		provideInput(input);
+
+		LoginMenu loginMenu = new LoginMenu();
+		String username = "test_user";
+		Customer customer = new Customer(username);
+		Menu menu = new Menu(customer);
+		menu.updateProfile();
+		menu.openAccount();
+		loginMenu.storeCustomerInfo(customer);
+		Customer retrievedCustomer = loginMenu.retrieveCustomerInfo(username);
+
+		assertNotNull(retrievedCustomer);
+		assertEquals(customer.toString(), retrievedCustomer.toString());
+	}
+
+	@Test
+	public void testRetrieveNewCustomerInfo() {
+		String input = "software engineer\n123 candy cane lane\n"+ "1\nsave123\n500\n"; 
+		provideInput(input);
+
+		LoginMenu loginMenu = new LoginMenu();
+		String username = "test_user";
+		Customer customer = new Customer(username);
+		Menu menu = new Menu(customer);
+		menu.updateProfile();
+		menu.openAccount();
+		Customer retrievedCustomer = loginMenu.retrieveCustomerInfo(username);
+		
+		assertNotNull(retrievedCustomer);
+		assertEquals(customer.getName(), retrievedCustomer.getName());
+		assertNotEquals(customer.toString(), retrievedCustomer.toString());
+	}
+	// Helper methods
+
+	private void provideInput(String data) {
+		InputStream testInput = new ByteArrayInputStream(data.getBytes());
+		System.setIn(testInput);
+	}
+
+	private boolean userExistsInFile(String username) {
+		try (Scanner scanner = new Scanner(new File("users.txt"))) {
+			while (scanner.hasNextLine()) {
+				String line = scanner.nextLine();
+				if (line.startsWith(username + ",")) {
+					return true;
+				}
+			}
+		} catch (IOException e) {
+			fail("IOException occurred: " + e.getMessage());
+		}
+		return false;
 	}
 }

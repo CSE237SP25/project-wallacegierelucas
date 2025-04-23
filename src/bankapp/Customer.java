@@ -1,16 +1,21 @@
 package bankapp;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Customer {
+public class Customer implements Serializable{
+	private static final long serialVersionUID = 1L;
+
 	private String name;
 	private List<BankAccount> accounts;
 	private CustomerProfile profile;
+	private AccountActivity activity;
 
 	public Customer(String name) {
 		this.name = name;
 		this.accounts = new ArrayList<>();
+		this.activity = new AccountActivity();
 	}
 
 	public List<BankAccount> getAccounts() {
@@ -26,6 +31,10 @@ public class Customer {
 
 	public void setProfile(CustomerProfile profile) {
 		this.profile = profile;
+	}
+	
+	public AccountActivity getActivity() {
+		return activity;
 	}
 
 	@Override
@@ -45,12 +54,6 @@ public class Customer {
 			}
 		}
 		return filtered;
-	}
-	public void addAccount(BankAccount account) {
-		accounts.add(account);
-	}
-	public void removeAccount(BankAccount account) {
-		accounts.remove(account);
 	}
 
 }

@@ -1,11 +1,14 @@
 package tests;
 import static org.junit.jupiter.api.Assertions.*;
 
+
 import org.junit.jupiter.api.*;
 
 import bankapp.BankAccount;
 import bankapp.Customer;
 import bankapp.Menu;
+import bankapp.Transaction;
+import bankapp.AccountActivity; 
 import exceptions.InsufficientFundsException;
 import exceptions.InvalidMenuOptionException;
 

@@ -3,10 +3,13 @@ package bankapp;
 import java.util.Scanner;
 
 import exceptions.InsufficientFundsException;
+
+import java.io.Serializable;
 import java.util.ArrayList; 
 import java.util.List;
 
-public class BankAccount {
+public class BankAccount implements Serializable{
+	private static final long serialVersionUID = 1L;
 
 	private double balance;
 	private String type;
@@ -17,6 +20,9 @@ public class BankAccount {
 	public BankAccount(double initialBalance, String type, String accountId) {
 		if (initialBalance < 0) {
 			throw new IllegalArgumentException("Initial balance cannot be negative.");
+		}
+		if(initialBalance > 5000){
+			throw new IllegalArgumentException("Deposit would exceed checking account limit of $5000.");
 		}
 		this.balance = initialBalance;
 		this.type = type;
@@ -32,6 +38,9 @@ public class BankAccount {
 	public void deposit(double amount) {
 		if(amount <= 0) {
 			throw new IllegalArgumentException("Must deposit a positive amount.");
+		}
+		if ("checking".equalsIgnoreCase(this.type) && (this.balance + amount > 5000)) {
+			throw new IllegalArgumentException("Deposit would exceed checking account limit of $5000.");
 		}
 		if (amount > 1000) {
 			Scanner userInputDeposit = new Scanner(System.in);
@@ -68,7 +77,6 @@ public class BankAccount {
 
 		this.balance -= amount;
 		transactionHistory.add(new Transaction("withdrawal", amount));
-
 	}
 
 	public double getCurrentBalance() {
