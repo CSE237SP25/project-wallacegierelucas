@@ -9,6 +9,7 @@ Team Members:
 # Iteration 2:
 
 What user stories were completed this iteration?
+
 This iteration, we added functionality for a bank customer to:
 * create a help/FAQ section for clarity
 * ability to reset passwords
