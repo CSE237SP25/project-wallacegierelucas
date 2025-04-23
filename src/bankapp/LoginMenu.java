@@ -1,7 +1,12 @@
 package bankapp;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Scanner;
 
 import exceptions.InvalidMenuOptionException;
@@ -13,6 +18,63 @@ public class LoginMenu {
 
 	public LoginMenu() {
 		this.userInput = new Scanner(System.in);
+	}
+
+	public void run() {
+		boolean exit = false;
+
+		while(!exit) {
+			String name = getUser();
+
+			if(name != null) {
+				Customer customer = retrieveCustomerInfo(name);
+				Menu menu = new Menu(customer);
+
+				boolean logOut = false;
+				while(!logOut) {
+					logOut = menu.run();
+					storeCustomerInfo(customer);
+				}
+
+				System.out.println(name + " was successfully logged out.");
+
+				exit = false;
+			}
+			else {
+				exit = true;
+			}
+		}
+
+		System.out.println("You have exited the program. Have a good day!");
+	}
+
+	public void storeCustomerInfo(Customer customer) {
+		try {
+			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("usersInfo/" + customer.getName() + ".ser"));
+			oos.writeObject(customer);
+			oos.close();
+		}
+		catch(Exception e) {
+			System.out.println("Error: " + e.getMessage());
+		}
+	}
+
+	public Customer retrieveCustomerInfo(String name) {
+		try {
+			ObjectInputStream ois = new ObjectInputStream(new FileInputStream("usersInfo/" + name + ".ser"));
+			Customer customer = (Customer) ois.readObject();
+			System.out.println("Welcome back, " + customer.getName() + "!");
+			ois.close();
+			return customer;
+		}
+		catch(FileNotFoundException e) {
+			return new Customer(name);
+		}
+		catch(Exception e) {
+			System.out.println("Error: " + e.getMessage());			
+		}
+
+		return null;
 	}
 
 	public String getUser() {
@@ -45,7 +107,8 @@ public class LoginMenu {
 		System.out.println("Welcome!");
 		System.out.println("1. Register");
 		System.out.println("2. Log In");
-		System.out.println("Choose an option (1 or 2): ");
+		System.out.println("3. Exit");
+		System.out.println("Choose an option (1-3): ");
 	}
 
 	public int getUserOptionInput() {
@@ -62,6 +125,9 @@ public class LoginMenu {
 		} 
 		else if(option == 2) {
 			return logIn();
+		}
+		else if(option == 3) {
+			return null;
 		}
 		else {
 			throw new InvalidMenuOptionException("Must enter a valid menu option.");
@@ -83,8 +149,27 @@ public class LoginMenu {
 		String securityQuestion = userInput.nextLine();
 		
 		System.out.println("Answer to the security question: ");
+
+		System.out.println("You entered:");
+		System.out.println("  Username: " + username);
+		System.out.println("  Password: " + password);
+		System.out.print("Does this look correct? (yes/no): ");
+		String confirmLogIn = userInput.nextLine().trim();
+
+		if (!confirmLogIn.equalsIgnoreCase("yes")) {
+			System.out.println("Okay, let’s start over.\n");
+			return register();            
+		}
+
+
+		//security question 
+		System.out.println("Set a security question (e.g What is your pet's name?: ");
+		String securityQuestion = userInput.nextLine();
+
+		System.out.println("Answer to the secruity question: ");
+    
 		String securityAnswer = userInput.nextLine(); 
-		
+
 		try {
 			FileWriter fileWriter = new FileWriter(LOGIN_FILE, true);
 			fileWriter.write(username + "," + password + "," + securityQuestion + "," + securityAnswer + "\n");
@@ -152,7 +237,7 @@ public class LoginMenu {
 
 		return false;
 	}
-	
+
 	public void resetPassword() {
 		System.out.println("Enter your username: ");
 		String username = userInput.nextLine();
@@ -202,7 +287,7 @@ public class LoginMenu {
 					}
 
 					updatedContent.append(username).append(",").append(newPassword).append(",")
-								  .append(question).append(",").append(answer).append("\n");
+					.append(question).append(",").append(answer).append("\n");
 					System.out.println("Password reset successful.");
 					resetSuccess = true;
 				} else {

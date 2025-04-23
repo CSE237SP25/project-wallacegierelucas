@@ -1,11 +1,11 @@
 package bankapp;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
 import java.util.Scanner;
 
+import exceptions.InsufficientFundsException;
 import exceptions.InvalidMenuOptionException;
 
 public class Menu {
@@ -14,11 +14,11 @@ public class Menu {
 	private Scanner scanner; 
 	private AccountActivity activity;
 
-	public Menu(Customer customer, AccountActivity activity) {
-		this.accounts = new ArrayList<>();
+	public Menu(Customer customer) {
+		this.accounts = customer.getAccounts();
 		this.customer = customer;
 		this.scanner = new Scanner(System.in);
-		this.activity = activity;
+		this.activity = customer.getActivity();
 	}
 
 	public BankAccount findAccount(String accountId) {
@@ -54,7 +54,7 @@ public class Menu {
 		System.out.println("Your " + accountType + " accounts:");
 		for (int i = 0; i < accounts.size(); i++) {
 			BankAccount account = accounts.get(i);
-			if(account.getType() == accountType) {
+			if(account.getType().equals(accountType)) {
 				System.out.println(accounts.get(i).toString());	
 			}
 		}
@@ -73,12 +73,10 @@ public class Menu {
 		scanner.nextLine();
 
 		BankAccount newAccount = new BankAccount(initialDeposit, type, accountId);
-	
-		
+
 		accounts.add(newAccount);
-		customer.addAccount(newAccount); 
 		activity.addAccount(newAccount);
-		
+
 		return newAccount;
 	}
 
@@ -119,7 +117,7 @@ public class Menu {
 				System.out.println("Cannot close account. Please withdraw all funds first.");
 				return false;
 			}
-			customer.removeAccount(account);
+
 			return accounts.remove(account);
 		}
 		else{
@@ -127,7 +125,7 @@ public class Menu {
 		}
 	}
 
-	public void transfer() {
+	public void transfer() throws InsufficientFundsException {
 		if(accounts.size() > 0){
 			System.out.println("Enter the id of the account to transfer money from:");
 			String transferFromId = scanner.nextLine();
@@ -144,9 +142,10 @@ public class Menu {
 			System.out.println("\nInitiating transfer of " + transferAmount + " from account " 
 					+ transferFromAccount + " to account " + transferToAccount);
 
-			transferFromAccount.withdraw(transferAmount);
-			transferToAccount.deposit(transferAmount);
-			System.out.println("Transfer completed successfully.");
+			 activity.transfer(
+			            transferFromId.trim(),
+			            transferToId.trim(),
+			            transferAmount); 
 		}
 		else{
 			throw new IllegalArgumentException("No accounts to manage.");
@@ -185,9 +184,9 @@ public class Menu {
 		System.out.println("6. View (or filter) transaction history");
 		System.out.println("7. Reset Password");
 		System.out.println("8. Help");
-		System.out.println("9. Exit");
+		System.out.println("9. Log Out");
 
-		System.out.println("Enter your selection (1-7):");
+		System.out.println("Enter your selection (1-9):");
 	}
 
 	public void viewTransactionHistory() {
@@ -224,30 +223,29 @@ public class Menu {
 	}
 
 	public static void showHelpMenu(Scanner scanner) {
-	    boolean viewingHelp = true;
+		boolean viewingHelp = true;
 
-	    while (viewingHelp) {
-	        System.out.println("\n--- HELP / FAQ ---");
-	        System.out.println("Q: How do I deposit money?");
-	        System.out.println("A: Choose option 4 from the menu to find accounts to manage. Find your account and enter the amount to deposit.");
-	        System.out.println();
-	        System.out.println("Q: What happens if I try to withdraw more than my balance?");
-	        System.out.println("A: The system will prevent overdrawing your account.");
-	        System.out.println();
-	        System.out.println("Q: What is considered a large deposit?");
-	        System.out.println("A: Any deposit over $1000 will prompt for confirmation.");
-	        System.out.println();
-	        System.out.println("Type 'back' to return to the main menu.");
+		while (viewingHelp) {
+			System.out.println("\n--- HELP / FAQ ---");
+			System.out.println("Q: How do I deposit money?");
+			System.out.println("A: Choose option 4 from the menu to find accounts to manage. Find your account and enter the amount to deposit.");
+			System.out.println();
+			System.out.println("Q: What happens if I try to withdraw more than my balance?");
+			System.out.println("A: The system will prevent overdrawing your account.");
+			System.out.println();
+			System.out.println("Q: What is considered a large deposit?");
+			System.out.println("A: Any deposit over $1000 will prompt for confirmation.");
+			System.out.println();
+			System.out.println("Type 'back' to return to the main menu.");
 
-	        String input = scanner.nextLine().trim().toLowerCase();
-	        if (input.equals("back")) {
-	            viewingHelp = false;
-	        } else {
-	            System.out.println("Invalid input. Type 'back' to go back.");
-	        }
-	    }
+			String input = scanner.nextLine().trim().toLowerCase();
+			if (input.equals("back")) {
+				viewingHelp = false;
+			} else {
+				System.out.println("Invalid input. Type 'back' to go back.");
+			}
+		}
 	}
-
 
 	public boolean getMenuOptionInput() {
 		int menuOptionSelection = scanner.nextInt();
@@ -271,9 +269,9 @@ public class Menu {
 		} else if (menuOptionSelection == 7) {
 			LoginMenu loginMenu = new LoginMenu();
 			loginMenu.resetPassword();
-    }
-    else if (menuOptionSelection == 8) { 
-      showHelpMenu(scanner);
+		}
+		else if (menuOptionSelection == 8) { 
+			showHelpMenu(scanner);
 		} else if (menuOptionSelection == 9) {
 			return true;
 		}else {

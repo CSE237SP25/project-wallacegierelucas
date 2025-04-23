@@ -1,12 +1,15 @@
 package bankapp;
 
+import java.io.Serializable;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import exceptions.InsufficientFundsException;
 
-public class AccountActivity {
-
-
+public class AccountActivity implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
 	private Map<String, BankAccount> unfrozenAccounts;
 	private Map<String, BankAccount> frozenAccounts;
 
@@ -57,8 +60,6 @@ public class AccountActivity {
 			System.out.println("Account " + accountId + " not found.");
 		}
 	}
-
-
 	public void withdraw(String accountId, double amount) {
 		if (frozenAccounts.containsKey(accountId)) {
 			System.out.println("Cannot withdraw from frozen account " + accountId + ".");
@@ -75,6 +76,28 @@ public class AccountActivity {
 		} else {
 			System.out.println("Account " + accountId + " not found.");
 		}
+	}
+	public void transfer(String fromAccountId, String toAccountId, double amount)
+	        throws InsufficientFundsException {
+	    if (frozenAccounts.containsKey(fromAccountId)) {
+	        System.out.println("Cannot transfer from frozen account " + fromAccountId + ".");
+	        return;
+	    }
+	    if (frozenAccounts.containsKey(toAccountId)) {
+	        System.out.println("Cannot transfer to frozen account " + toAccountId + ".");
+	        return;
+	    }
+	    BankAccount from = unfrozenAccounts.get(fromAccountId);
+	    BankAccount to   = unfrozenAccounts.get(toAccountId);
+	    if (from == null || to == null) {
+	        System.out.println("One or both accounts not found.");
+	        return;
+	    }
+	    from.withdraw(amount);    
+	    to.deposit(amount);
+	    System.out.println("Transferred $" + amount
+	        + " from account " + fromAccountId
+	        + " to account "   + toAccountId + ".");
 	}
 }
 

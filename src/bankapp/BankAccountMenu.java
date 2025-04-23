@@ -97,7 +97,7 @@ public class BankAccountMenu {
 	}
 
 	public void processWithdrawal(double amount) {
-		account.withdraw(amount);
+		activity.withdraw(account.getAccountId(), amount);
 	}
 
 	public void processCheckBalance() {
