@@ -149,6 +149,7 @@ public class LoginMenu {
 		String securityQuestion = userInput.nextLine();
 		
 		System.out.println("Answer to the security question: ");
+		String securityAnswer = userInput.nextLine();
 
 		System.out.println("You entered:");
 		System.out.println("  Username: " + username);
@@ -160,15 +161,7 @@ public class LoginMenu {
 			System.out.println("Okay, let’s start over.\n");
 			return register();            
 		}
-
-
-		//security question 
-		System.out.println("Set a security question (e.g What is your pet's name?: ");
-		String securityQuestion = userInput.nextLine();
-
-		System.out.println("Answer to the secruity question: ");
-    
-		String securityAnswer = userInput.nextLine(); 
+ 
 
 		try {
 			FileWriter fileWriter = new FileWriter(LOGIN_FILE, true);
