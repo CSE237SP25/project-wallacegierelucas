@@ -144,6 +144,11 @@ public class LoginMenu {
 
 		System.out.println("Choose a password: ");
 		String password = userInput.nextLine();
+ 
+		System.out.println("Set a security question (e.g pet's name/maiden name/home town");
+		String securityQuestion = userInput.nextLine();
+		
+		System.out.println("Answer to the security question: ");
 
 		System.out.println("You entered:");
 		System.out.println("  Username: " + username);
@@ -162,6 +167,7 @@ public class LoginMenu {
 		String securityQuestion = userInput.nextLine();
 
 		System.out.println("Answer to the secruity question: ");
+    
 		String securityAnswer = userInput.nextLine(); 
 
 		try {

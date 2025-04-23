@@ -199,4 +199,5 @@ public class LoginMenuTests {
 		assertEquals(customer.getName(), retrievedCustomer.getName());
 		assertNotEquals(customer.toString(), retrievedCustomer.toString());
 	}
+
 }
