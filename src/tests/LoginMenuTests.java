@@ -41,7 +41,9 @@ public class LoginMenuTests {
 		File folder = new File("usersInfo");
 		if (folder.exists()) {
 			for (File file : folder.listFiles()) {
-				file.delete();
+		        if (!file.getName().equals(".gitkeep")) {
+		            file.delete();
+		        }
 			}
 		}
 	}
